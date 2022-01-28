@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    tools:context=".Fragments.MonthlyFragment">
+
+    <ScrollView
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/horizontalMonthPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <ImageView
+                    android:id="@+id/prevMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="40dp"
+                    android:background="@drawable/prev"
+                    android:padding="5dp"
+                    android:src="@drawable/prev" />
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="December"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/nextMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="40dp"
+                    android:background="@drawable/next"
+                    android:padding="5dp"
+                    android:src="@drawable/next" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <LinearLayout
+                android:id="@+id/monthlyStatView"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/horizontalMonthPicker"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/monlthDays"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="4"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="6"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day13"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="13"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="16"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="17"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="19"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="21"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="22"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="24"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="25"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="26"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="27"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day28"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="28"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day29"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="29"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day30"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="30"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/day31"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="31"
+                        app:chipBackgroundColor="#3C1C1C1C" />
+
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/basicStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/monthlyStatView"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#191919"
+                    app:cardCornerRadius="9dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#191919"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="28dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="28dp"
+                        android:paddingBottom="5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/footprints" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:text="Steps"
+                                android:textColor="@color/teal_200"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/monthlySteps"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:text="2,480"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:backgroundTint="#191919"
+                    app:cardCornerRadius="9dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#191919"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/cal" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:text="Calories"
+                                android:textColor="@color/teal_200"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:text="22 KCal"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#191919"
+                    app:cardCornerRadius="9dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#191919"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/outline_moving_white_18" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:text="Distance"
+                                android:textColor="@color/teal_200"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:layout_marginBottom="3dp"
+                            android:text="2.2 Kms"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/basicStats"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:text="Monthly Stats"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/monthlyStatRv"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/txt1"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="60dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:scrollIndicators="none"
+                android:scrollbars="none"
+                tools:itemCount="3"
+                tools:listitem="@layout/stat_card" />
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

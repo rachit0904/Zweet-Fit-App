@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".Fragments.InfoFragment">
+
+    <ScrollView
+        android:nestedScrollingEnabled="false"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:textColor="@color/white"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="40dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="Event Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_gravity="start"
+                    android:layout_marginLeft="30dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Start Date"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1E88E5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/startDate"
+                        android:layout_marginTop="10dp"
+                        android:text="1 Jan 2022"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_gravity="end"
+                    android:layout_marginRight="40dp"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="End Date"
+                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textColor="#1E88E5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/endDate"
+                        android:layout_marginTop="10dp"
+                        android:text="3 Jan 2022"
+                        android:textSize="13sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <LinearLayout
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Duration: "
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:textColor="#1E88E5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/dur"
+                    android:layout_marginLeft="5dp"
+                    android:text="1 Day"
+                    android:textStyle="bold"
+                    android:textSize="13sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <TextView
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:text="Participants "
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="#1E88E5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/participantsRv"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="40dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/friendrequests_carditem"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"/>
+    </LinearLayout>
+</ScrollView>
+</FrameLayout>

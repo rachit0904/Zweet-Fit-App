@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/activity_ic.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/add_event.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/avatar_1.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/avatar_10.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/avatar_11.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/avatar_12.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/avatar_13.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/current_page.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/permission.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/unvisited_page.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/verified.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/activity_auth.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/activity_stat_data_test.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_auth.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_coin_history.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_edit_profile.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_home_fragment.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_otp.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_profile_page.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup__personal_details.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup_getstarted.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup_userstats.xml" value="0.20677083333333332" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

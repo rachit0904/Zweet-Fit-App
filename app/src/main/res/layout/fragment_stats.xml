@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".Fragments.StatsFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/statDuration"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/dailyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#6F2E2E2E"
+            android:text="D"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="3dp" />
+
+<!--        <View-->
+<!--            android:id="@+id/divider"-->
+<!--            android:layout_width="01dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:background="#AFAFAF"-->
+<!--            android:translationZ="20dp" />-->
+
+        <Button
+            android:id="@+id/weeklyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#6F2E2E2E"
+            android:text="W"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="3dp" />
+
+<!--        <View-->
+<!--            android:id="@+id/divider2"-->
+<!--            android:layout_width="01dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:background="#AFAFAF"-->
+<!--            android:translationZ="20dp" />-->
+
+        <Button
+            android:id="@+id/monthlyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#6F2E2E2E"
+            android:text="M"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="3dp" />
+
+<!--        <View-->
+<!--            android:id="@+id/divider3"-->
+<!--            android:layout_width="01dp"-->
+<!--            android:layout_height="20dp"-->
+<!--            android:background="#AFAFAF"-->
+<!--            android:translationZ="20dp" />-->
+
+        <Button
+            android:id="@+id/yearlyView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:backgroundTint="#6F2E2E2E"
+            android:text="Y"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:cornerRadius="3dp" />
+    </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/statView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/statDuration" />
+
+    </RelativeLayout>
+</FrameLayout>

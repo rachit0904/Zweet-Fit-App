@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:background="#000000"
+	tools:context=".Fragments.WeeklyStatView">
+
+	<ScrollView
+		android:scrollIndicators="none"
+		android:overScrollMode="never"
+		android:scrollbars="none"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent">
+			<androidx.coordinatorlayout.widget.CoordinatorLayout
+				android:id="@+id/horizontalWeekPicker"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="20dp">
+
+				<ImageView
+					android:id="@+id/prevWeek"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="start"
+					android:layout_marginLeft="40dp"
+					android:background="@drawable/prev"
+					android:padding="5dp"
+					android:src="@drawable/prev" />
+
+				<TextView
+					android:id="@+id/week"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center"
+					android:text="28 Nov - 4 Dec"
+					android:textAppearance="@style/TextAppearance.AppCompat.Large"
+					android:textColor="@color/white"
+					android:textSize="16sp"
+					android:textStyle="bold" />
+
+				<ImageView
+					android:id="@+id/nextWeek"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="end"
+					android:layout_marginRight="40dp"
+					android:background="@drawable/next"
+					android:padding="5dp"
+					android:src="@drawable/next" />
+			</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+			<com.jjoe64.graphview.GraphView
+				android:layout_marginTop="30dp"
+				android:id="@+id/weeklyGraphView"
+				android:layout_width="match_parent"
+				android:layout_height="200dip"
+				app:seriesType="bar"
+				android:layout_below="@id/horizontalWeekPicker" />
+				android:layout_marginLeft="30dp"
+				android:layout_marginTop="30dp"
+				android:layout_marginRight="30dp" />
+
+			<LinearLayout
+				android:id="@+id/basicStats"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/weeklyGraphView"
+				android:layout_marginTop="30dp"
+				android:gravity="center">
+
+				<androidx.cardview.widget.CardView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:backgroundTint="#191919"
+					app:cardCornerRadius="9dp">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:backgroundTint="#191919"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingLeft="28dp"
+						android:paddingTop="5dp"
+						android:paddingRight="28dp"
+						android:paddingBottom="5dp">
+
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:gravity="center">
+
+							<ImageView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:src="@drawable/footprints" />
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginLeft="3dp"
+								android:text="Steps"
+								android:textColor="@color/teal_200"
+								android:textStyle="bold" />
+						</LinearLayout>
+
+						<TextView
+							android:id="@+id/weeklySteps"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="3dp"
+							android:layout_marginBottom="3dp"
+							android:text="2,480"
+							android:textSize="10sp"
+							android:textStyle="bold" />
+					</LinearLayout>
+				</androidx.cardview.widget.CardView>
+
+				<androidx.cardview.widget.CardView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="15dp"
+					android:layout_marginRight="15dp"
+					android:backgroundTint="#191919"
+					app:cardCornerRadius="9dp">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:backgroundTint="#191919"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingLeft="15dp"
+						android:paddingTop="5dp"
+						android:paddingRight="15dp"
+						android:paddingBottom="5dp">
+
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:gravity="center">
+
+							<ImageView
+								android:layout_width="18dp"
+								android:layout_height="18dp"
+								android:src="@drawable/cal" />
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginLeft="3dp"
+								android:text="Calories"
+								android:textColor="@color/teal_200"
+								android:textStyle="bold" />
+						</LinearLayout>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="3dp"
+							android:layout_marginBottom="3dp"
+							android:text="22 KCal"
+							android:textSize="10sp"
+							android:textStyle="bold" />
+					</LinearLayout>
+				</androidx.cardview.widget.CardView>
+
+				<androidx.cardview.widget.CardView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:backgroundTint="#191919"
+					app:cardCornerRadius="9dp">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:backgroundTint="#191919"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingLeft="15dp"
+						android:paddingTop="5dp"
+						android:paddingRight="15dp"
+						android:paddingBottom="5dp">
+
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:gravity="center">
+
+							<ImageView
+								android:layout_width="20dp"
+								android:layout_height="20dp"
+								android:src="@drawable/outline_moving_white_18" />
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_marginLeft="3dp"
+								android:text="Distance"
+								android:textColor="@color/teal_200"
+								android:textStyle="bold" />
+						</LinearLayout>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="3dp"
+							android:layout_marginBottom="3dp"
+							android:text="2.2 Kms"
+							android:textSize="10sp"
+							android:textStyle="bold" />
+					</LinearLayout>
+				</androidx.cardview.widget.CardView>
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/txt1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/basicStats"
+				android:layout_marginLeft="30dp"
+				android:layout_marginTop="30dp"
+				android:text="Weekly Stats"
+				android:textAppearance="@style/TextAppearance.AppCompat.Large"
+				android:textColor="@color/white"
+				android:textSize="16sp"
+				android:textStyle="bold" />
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/weekyStatRv"
+				android:layout_width="match_parent"
+				android:layout_height="fill_parent"
+				android:layout_below="@id/txt1"
+				android:scrollbars="none"
+				android:layout_marginTop="20dp"
+				android:layout_marginBottom="60dp"
+				android:nestedScrollingEnabled="false"
+				android:overScrollMode="never"
+				android:scrollIndicators="none"
+				tools:itemCount="3"
+				tools:listitem="@layout/stat_card" />
+		</RelativeLayout>
+	</ScrollView>
+</FrameLayout>

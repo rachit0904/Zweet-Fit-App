@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "356976924445",
+    "project_id": "zweet-test-app",
+    "storage_bucket": "zweet-test-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356976924445:android:560caea48fc957cfac33f4",
+        "android_client_info": {
+          "package_name": "com.practise.zweet_fit_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356976924445-htgerb1pgikc6h2q1r8i38a71tsr5edr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.practise.zweet_fit_app",
+            "certificate_hash": "dcd675d46420c9671d4a44f91bed0a83282b5ee7"
+          }
+        },
+        {
+          "client_id": "356976924445-m1b9bdnsk5bnd4mfrtemo2rlkkb9l1gq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYzSm7gd2RlI2VDe5ZvNhoaXRu0o6BT0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356976924445-m1b9bdnsk5bnd4mfrtemo2rlkkb9l1gq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    tools:context=".Fragments.SearchFragment">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <androidx.appcompat.widget.SearchView
+          android:id="@+id/search"
+          android:layout_marginLeft="20dp"
+          android:layout_marginRight="20dp"
+          android:layout_marginBottom="20dp"
+          android:layout_marginTop="10dp"
+          android:focusedByDefault="true"
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          app:queryBackground="@android:color/transparent"
+          android:background="@drawable/roundercorner"
+          android:backgroundTint="@color/darkCardBackground"
+          android:gravity="center"
+          android:inputType="textCapSentences"
+          app:queryHint="Search Users" />
+
+      <androidx.recyclerview.widget.RecyclerView
+          android:id="@+id/searchedUsers"
+
+          tools:listitem="@layout/friendrequests_carditem"
+          tools:itemCount="3"
+          android:scrollbars="none"
+          android:overScrollMode="never"
+          android:layout_width="match_parent"
+          android:layout_height="fill_parent"
+          android:layout_below="@id/search" />
+
+  </RelativeLayout>
+</FrameLayout>

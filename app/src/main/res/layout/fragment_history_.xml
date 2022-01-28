@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".Fragments.History_Fragment">
+
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/parentRv"
+       android:scrollbars="none"
+       android:overScrollMode="never"
+       android:nestedScrollingEnabled="false"
+       tools:itemCount="2"
+       android:paddingTop="10dp"
+       android:paddingBottom="90dp"
+       tools:listitem="@layout/event_details_parentcard"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"/>
+
+</FrameLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".Activity.MainActivity">
+
+
+   <FrameLayout
+       android:id="@+id/frameLayout"
+       android:overScrollMode="never"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        app:layout_anchor="@id/frameLayout"
+        app:layout_anchorGravity="bottom"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0a0a0a"
+        android:elevation="10dp"
+        android:translationZ="@dimen/cardview_default_elevation"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorHeight="3dp"
+        android:focusable="false"
+        app:tabIndicatorFullWidth="false">
+
+        <com.google.android.material.tabs.TabItem
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_home_black_24dp"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/statTab"
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/stats_ic"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/activity_ic"
+             />
+
+        <com.google.android.material.tabs.TabItem
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/settings_ic"
+             />
+    </com.google.android.material.tabs.TabLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

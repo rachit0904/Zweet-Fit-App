@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Zweet-Fit-App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="signup_page_subtitle">We need certian permission to set up the application to provide a seemless and smooth experience for you.</string>
+    <string name="daily_counter">%1$s</string>
+    <string name="menu_transform">Transform</string>
+    <string name="menu_reflow">Reflow</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="lorem_ipsum_title">Lorem Ipsum"</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply placeholder text of the printing and
+        typesetting industry. Lorem Ipsum has been the industry\'s standard placeholder text ever
+        since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
+        type specimen book"
+    </string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="title_home">Home</string>
+    <string name="title_stats">Stats</string>
+    <string name="title_activity">Activity</string>
+    <string name="title_profile">Profile</string>
+    <string name="settings">Settings</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="premiumAddText">Walk earn coins and create events with friends and build a fit healthy community.</string>
+    <string name="enter_global_leaderboard_and_earn_extra_coins_on_when_you_level_up_every_time">Enter global leaderboard and earn \nextra coins on when you level up \nevery time</string>
+    <string name="get_notifications_and_remainders_to_achieve_targets">Get notifications and remainders to \nachieve targets</string>
+    <string name="set_goals_an_earn_coins_on_achieving_them">Set goals an earn coins on \n achieving them.</string>
+    <string name="challenge_friends_by_creating_remote_events_and_build_your_own_fit_community">Challenge friends by creating \nremote events and build your own \nfit community</string>
+    <string name="tnc">By clicking continue, you agree to our Terms of Use \n and acknowledge that you have read our Privacy Policy.</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="next">next</string>
+    <string name="date_of_birth">Date Of birth</string>
+    <string name="gender">gender</string>
+
+</resources>

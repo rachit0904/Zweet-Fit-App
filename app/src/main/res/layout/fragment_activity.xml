@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    tools:context=".Fragments.ActivityFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+   <androidx.coordinatorlayout.widget.CoordinatorLayout
+       android:id="@+id/friendsLayout"
+       android:layout_width="match_parent"
+       android:layout_height="80dp">
+<!--       <ImageView-->
+<!--           android:id="@+id/manageFriends"-->
+<!--           android:layout_marginTop="30dp"-->
+<!--           android:layout_marginRight="30dp"-->
+<!--           android:layout_gravity="end"-->
+<!--           android:src="@drawable/friends"-->
+<!--           android:layout_width="wrap_content"-->
+<!--           android:layout_height="wrap_content"/>-->
+   </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/eventTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/friendsLayout"
+            android:backgroundTint="#0a0a0a"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            app:tabIndicatorColor="#1976D2"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="3dp"
+            app:tabTextAppearance="@style/TextAppearance.AppCompat.Small">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Invitation" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="On-Going" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="History" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/activityViews"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/eventTabs"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </RelativeLayout>
+</FrameLayout>
