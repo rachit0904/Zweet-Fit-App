@@ -1,33 +1,23 @@
 package com.practise.zweet_fit_app.Activity;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.practise.zweet_fit_app.Fragments.ActivityFragment;
 import com.practise.zweet_fit_app.Fragments.SettingsFragment;
 import com.practise.zweet_fit_app.Fragments.StatsFragment;
 import com.practise.zweet_fit_app.Fragments.home_fragment;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Services.BrodcastReciver;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor preferences;
@@ -70,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        loadBroadcast();
 
     }
 
@@ -101,5 +92,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    void loadBroadcast() {
+        String BROADCAST = "com.practise.zweet_fit_app.android.action.broadcast";
+        IntentFilter intentFilter = new IntentFilter(BROADCAST);
+        BrodcastReciver reciver = new BrodcastReciver();
+        registerReceiver(reciver, intentFilter);
+        Intent intent = new Intent(BROADCAST);
+        sendBroadcast(intent);
+    }
 
 }
