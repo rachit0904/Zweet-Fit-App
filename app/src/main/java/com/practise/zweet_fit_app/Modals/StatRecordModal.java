@@ -10,6 +10,10 @@ public class StatRecordModal {
         this.streakAchieved = streakAchieved;
     }
 
+    public StatRecordModal() {
+
+    }
+
     public String getDate() {
         return date;
     }

@@ -83,14 +83,9 @@ public class EditProfile extends Fragment implements View.OnClickListener {
         target.setText(pref.getString("target",""));
         wt.setText(pref.getString("wt",""));
         ht.setText(pref.getString("ht",""));
-
-//        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("gender",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("wt",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("ht",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("target",""), Toast.LENGTH_SHORT).show();
-
+        if(!pref.getString("dp","").isEmpty()){
+            Picasso.get().load(pref.getString("dp","")).into(dp);
+        }
     }
 
 
@@ -100,12 +95,8 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             choosePicture();
         }
         if (view == save) {
-            progressBar.setVisibility(View.GONE);
-            Intent intent=new Intent(getActivity(), BlankActivity.class);
-            intent.putExtra("activity","profile");
-            startActivity(intent);
-            getActivity().finish();
-//            upload();
+            progressBar.setVisibility(View.VISIBLE);
+            upload();
         }
     }
 
@@ -122,15 +113,12 @@ public class EditProfile extends Fragment implements View.OnClickListener {
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             dp.setImageURI(imageUri);
-            preferences=pref.edit();
-            preferences.putString("dp", String.valueOf(imageUri));
-            preferences.apply();
         }
     }
 
     void upload() {
         StorageReference storageRef = storage.getReference();
-        StorageReference mountainImagesRef = storageRef.child("images/" + user.getUid() + ".jpg");
+        StorageReference mountainImagesRef = storageRef.child("images/" + pref.getString("id",name.getText().toString()) + ".jpg");
         Bitmap bitmap = ((BitmapDrawable) dp.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
@@ -153,6 +141,9 @@ public class EditProfile extends Fragment implements View.OnClickListener {
                         String url = task1.getResult().toString();
                         Log.e(TAG, "onComplete: " + url);
                         if (!url.trim().equals("")) {
+                            preferences=pref.edit();
+                            preferences.putString("dp",url);
+                            preferences.apply();
                             Picasso.get().load(url).into(dp);
                         }
                         progressBar.setVisibility(View.GONE);

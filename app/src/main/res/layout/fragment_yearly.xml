@@ -57,12 +57,13 @@
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/yearlyGraphView"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="200dip"
                 android:layout_below="@id/horizontalYearPicker"
-                android:layout_marginTop="30dp"
+                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="5dp" />
 
             <LinearLayout
                 android:id="@+id/basicStats"
@@ -221,7 +222,6 @@
             </LinearLayout>
 
 
-
             <TextView
                 android:id="@+id/txt1"
                 android:layout_width="wrap_content"
@@ -229,6 +229,7 @@
                 android:layout_below="@id/basicStats"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
                 android:text="Yearly Stats"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"

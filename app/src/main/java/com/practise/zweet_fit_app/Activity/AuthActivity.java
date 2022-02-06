@@ -6,11 +6,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -41,7 +45,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     Boolean flag1=false,flag2=false,flag3=false;
     private static final int RC_SIGN_IN = 1;
     private static final int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE=2;
-
+    SharedPreferences.Editor preferences;
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +73,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         installFit.setOnClickListener(this);
         allowPermissions.setOnClickListener(this);
         nextPage.setOnClickListener(this);
+        pref=getSharedPreferences("user data", Context.MODE_PRIVATE);
         check();
     }
 
     private void check() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(FirebaseAuth.getInstance().getCurrentUser()==null){
+        if(!pref.getString("id","").isEmpty()){
             signWithGoogle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.google_logo, 0, R.drawable.verified, 0);
             flag1=true;
         }
@@ -208,6 +213,9 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
+            preferences=pref.edit();
+            preferences.putString("id",result.getSignInAccount().getId());
+            preferences.apply();
             signWithGoogle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.google_logo, 0, R.drawable.verified, 0);
             flag1=true;
         }else{

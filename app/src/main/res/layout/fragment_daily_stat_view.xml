@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/horizontalDatePicker"
-            android:layout_marginTop="0dp">
+            android:layout_marginTop="20dp">
 
             <ProgressBar
                 android:id="@+id/progressBar2"
@@ -87,19 +87,20 @@
 
         <TextView
             android:id="@+id/stepsGoal"
-            android:textColor="@color/white"
-            android:text="Goal: 3000 steps"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/statProgressChart"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/statProgressChart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Goal: 3000 steps"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:id="@+id/basicStats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/stepsGoal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:gravity="center">
 
             <androidx.cardview.widget.CardView
@@ -140,6 +141,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/steps"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -190,6 +192,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/calorie"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -238,6 +241,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/dist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -254,7 +258,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/basicStats"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
             <TextView
@@ -279,16 +283,18 @@
                 app:trackColor="#202020" />
 
             <TextView
+                android:id="@+id/stepUpdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="40dp"
                 android:text="2400/3200 Steps"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/streakProgressStat"

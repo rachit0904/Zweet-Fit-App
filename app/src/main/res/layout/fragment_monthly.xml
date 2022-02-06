@@ -55,7 +55,7 @@
 
             <LinearLayout
                 android:id="@+id/monthlyStatView"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_below="@id/horizontalMonthPicker"
                 android:orientation="vertical"
                 android:gravity="center"
@@ -293,7 +293,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/monthlyStatView"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center">
 
                 <androidx.cardview.widget.CardView
@@ -385,6 +385,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/cal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
@@ -433,6 +434,7 @@
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/dist"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
@@ -445,6 +447,7 @@
             </LinearLayout>
 
             <TextView
+                android:visibility="invisible"
                 android:id="@+id/txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -459,6 +462,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/monthlyStatRv"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_below="@id/txt1"

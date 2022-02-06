@@ -30,7 +30,8 @@ import com.practise.zweet_fit_app.Fragments.home_fragment;
 import com.practise.zweet_fit_app.R;
 
 public class MainActivity extends AppCompatActivity {
-
+    SharedPreferences.Editor preferences;
+    SharedPreferences pref;
     TabLayout tabLayout;
     private static final int MOVING_AVERAGE_WINDOW_SIZE = 30;
     public static final String TAG = "com.zweet.fitnessapplication";
@@ -43,7 +44,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tabLayout = findViewById(R.id.tabLayout);
-        addFragment(new home_fragment());
+        try {
+            if(getIntent().getStringExtra("frag").isEmpty()) {
+                addFragment(new home_fragment());
+            }else{
+                addFragment(new StatsFragment());
+                tabLayout.selectTab(tabLayout.getTabAt(2));
+            }
+        }catch (Exception e){
+            addFragment(new home_fragment());
+        }
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

@@ -20,13 +20,16 @@
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/activity_stat_data_test.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_auth.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_coin_history.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_daily_stat_view.xml" value="0.22" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_edit_profile.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_home_fragment.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_monthly.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_otp.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_profile_page.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup__personal_details.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup_getstarted.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_signup_userstats.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/layout/fragment_yearly.xml" value="0.20677083333333332" />
       </map>
     </option>
   </component>

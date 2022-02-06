@@ -76,15 +76,11 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     ImageView searchUsers;
     TextView steps;
     ProgressBar progressBar;
-    SharedPreferences.Editor preferences;
-    SharedPreferences pref;
-    EventBus bus;
-    long numSteps = 0;
-    float Calories = 0;
-    float Distance = 0;
-    long target = 0;
     TextView distance, calories, streakProgressPcnt;
     TextView userName;
+    SharedPreferences.Editor preferences;
+    SharedPreferences pref;
+    long numSteps = 0;
     FirebaseAuth firebaseAuth;
     FirebaseUser currentuser;
     public static final String TAG = "MainActivity_History";
@@ -93,11 +89,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_PERMISSIONS = 200;
     GoogleApiClient fitApiClient;
     private String daily_steps = "0";
-    private String daily_cal = "0";
-    private String daily_dist = "0";
     private static List<Step_Item> stepsData = new ArrayList<>();
-    private static List<Step_Item> calData = new ArrayList<>();
-    private static List<Step_Item> distData = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -128,11 +120,15 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         GrpEventsHomepageAdapter adapter = new GrpEventsHomepageAdapter(getContext(), getGrpEvents());
         recyclerView.setAdapter(adapter);
         setData();
+        FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }
 
     private void setData() {
         userName.setText(pref.getString("name",""));
+        if(!pref.getString("dp","").isEmpty()){
+            Picasso.get().load(pref.getString("dp","")).into(userImg);
+        }
 //        Picasso.get().load().centerInside().into(userImg);
 //        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
@@ -244,7 +240,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     }
 
     //build client for the fit history access
-    private void buildClient() {
+    private void buildClient()  {
         fitApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(Fitness.HISTORY_API)
                 .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
@@ -286,26 +282,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         fitApiClient.connect();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_OAUTH) {
-            Log.e(TAG, "Auth request processed ");
-            authInProgress = false;
-            if (resultCode == Activity.RESULT_OK) {
-                Log.e(TAG, "result ok" );
-                Toast.makeText(getContext(),"success", Toast.LENGTH_SHORT).show();
-                if (!fitApiClient.isConnecting() && !fitApiClient.isConnected()) {
-                    fitApiClient.connect();
-                }
-            }
-            else {
-                Toast.makeText(getContext(),"failed", Toast.LENGTH_SHORT).show();
-                Log.e(TAG,"Auth failure!");
-            }
-        }
-    }
-
     //check if app has the history access permissions, if not then request them
     void check_permission(){
         String [] permissions = {Manifest.permission.ACTIVITY_RECOGNITION};
@@ -328,6 +304,26 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             }
             else {
                 Log.e(TAG, "Permission is denied");
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_OAUTH) {
+            Log.e(TAG, "Auth request processed ");
+            authInProgress = false;
+            if (resultCode == Activity.RESULT_OK) {
+                Log.e(TAG, "result ok" );
+                Toast.makeText(getContext(),"success", Toast.LENGTH_SHORT).show();
+                if (!fitApiClient.isConnecting() && !fitApiClient.isConnected()) {
+                    fitApiClient.connect();
+                }
+            }
+            else {
+                Toast.makeText(getContext(),"failed", Toast.LENGTH_SHORT).show();
+                Log.e(TAG,"Auth failure!");
             }
         }
     }
@@ -371,12 +367,17 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         Float s=Float.valueOf(daily_steps);
         Float t= Float.valueOf(pref.getString("target",""));
         progressBar.setProgress((int) Math.ceil((s/t)*100),true);
-        streakProgressPcnt.setText(String.valueOf((int) Math.ceil((s/t)*100))+"%");
         preferences=pref.edit();
         preferences.putString("steps",daily_steps);
         preferences.putString("cal", String.valueOf(cal));
         preferences.putString("dist", String.valueOf(dist));
-        preferences.putString("progress",String.valueOf((int) Math.ceil((s/t)*100)));
+        if(((int) Math.ceil((s / t) * 100))<100) {
+            streakProgressPcnt.setText(new StringBuilder().append(String.valueOf((int) Math.ceil((s / t) * 100))).append("%").toString());
+            preferences.putString("progress",String.valueOf((int) Math.ceil((s/t)*100)));
+        }else{
+            streakProgressPcnt.setText("100%");
+            preferences.putString("progress","100");
+        }
         preferences.apply();
     }
 
@@ -481,12 +482,4 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
-    public void callServer() {
-        //retrive data from server
-        //save data to prefrence manager
-//        then
-//        saveToRealm();
-
-    }
 }

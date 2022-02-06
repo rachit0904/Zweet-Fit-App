@@ -73,6 +73,9 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
         calories.setText(pref.getString("cal",""));
         distance.setText(pref.getString("dist",""));
         coins.setText("0");
+        if(!pref.getString("dp","").isEmpty()){
+            Picasso.get().load(pref.getString("dp","")).into(userImg);
+        }
 //        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
 //        Toast.makeText(getActivity(), pref.getString("gender",""), Toast.LENGTH_SHORT).show();
