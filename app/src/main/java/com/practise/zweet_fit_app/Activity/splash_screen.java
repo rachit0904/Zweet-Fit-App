@@ -1,15 +1,15 @@
 package com.practise.zweet_fit_app.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -21,10 +21,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataType;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Services.BrodcastReciver;
 
 public class splash_screen extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -70,15 +70,17 @@ public class splash_screen extends AppCompatActivity {
                 if(GoogleSignIn.hasPermissions(account,fitnessOptions)){
                     flag2=true;
                 }
-                if(flag1 && flag2 && flag3){
+                if (flag1 && flag2 && flag3) {
                     intent = new Intent(splash_screen.this, MainActivity.class);
-                }else {
+                } else {
                     intent = new Intent(splash_screen.this, AuthActivity.class);
                 }
                 startActivity(intent);
                 finish();
             }
         }, 2800);
+
+
     }
 
     @Override
@@ -91,20 +93,22 @@ public class splash_screen extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==RC_SIGN_IN){
+        if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
-        if(requestCode==GOOGLE_FIT_PERMISSIONS_REQUEST_CODE){
-            flag2=true;
+        if (requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
+            flag2 = true;
         }
     }
 
-    private void handleSignInResult(GoogleSignInResult result){
-        if(result.isSuccess()){
-            flag1=true;
-        }else{
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            flag1 = true;
+        } else {
         }
     }
+
+
 
 }
