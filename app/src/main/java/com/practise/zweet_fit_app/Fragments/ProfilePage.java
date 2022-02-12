@@ -72,7 +72,7 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
         steps.setText(pref.getString("steps",""));
         calories.setText(pref.getString("cal",""));
         distance.setText(pref.getString("dist",""));
-        coins.setText("0");
+        coins.setText(pref.getString("coins","0"));
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(userImg);
         }

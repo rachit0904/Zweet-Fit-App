@@ -33,13 +33,15 @@ public class StatViewCardAdapter extends RecyclerView.Adapter<StatViewCardAdapte
     @Override
     public void onBindViewHolder(@NonNull StatViewCardAdapter.ViewHolder holder, int position) {
         StatRecordModal modal=statRecordModalList.get(position);
-         {
-            holder.date.setText(modal.getDate());
-            holder.steps.setText(modal.getSteps() + " Steps");
-            if (modal.getStreakAchieved()) {
-                holder.streatStatus.setVisibility(View.VISIBLE);
-            } else {
-                holder.streatStatus.setVisibility(View.INVISIBLE);
+        {
+            {
+                holder.date.setText(modal.getDate());
+                holder.steps.setText(modal.getSteps() + " Steps");
+                if (modal.getStreakAchieved()) {
+                    holder.streatStatus.setVisibility(View.VISIBLE);
+                } else {
+                    holder.streatStatus.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }

@@ -7,6 +7,6 @@ import android.content.Intent;
 public class BrodcastReciver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        context.startForegroundService(new Intent(context, ForegroundService.class));
+        context.startService(new Intent(context, ForegroundService.class));
     }
 }

@@ -39,5 +39,7 @@
     <string name="next">next</string>
     <string name="date_of_birth">Date Of birth</string>
     <string name="gender">gender</string>
+    <string name="channel_name">DailyGoalAchieved</string>
+    <string name="channel_description">alert user wheather they have achieved daily target or not</string>
 
 </resources>

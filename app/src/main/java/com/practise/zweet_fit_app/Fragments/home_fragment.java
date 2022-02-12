@@ -4,12 +4,17 @@ package com.practise.zweet_fit_app.Fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +29,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -52,6 +59,7 @@ import com.practise.zweet_fit_app.Activity.StatData_TestActivity;
 import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +67,10 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.DateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,17 +82,23 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class home_fragment extends Fragment implements View.OnClickListener {
     List<GrpEventsModal> grpEventsModalList = new ArrayList<>();
     ProgressBar streakProgressBar;
-    TextView streakPercent;
+    TextView streakPercent,goalAchieved;
     CardView streakCard, premiumCard;
     CircleImageView userImg;
     ImageView searchUsers;
+    ImageView d1,d2,d3,d4,d5,d6,d7;
     TextView steps;
+    DataReadRequest readRequest ;
     ProgressBar progressBar;
     TextView distance, calories, streakProgressPcnt;
     TextView userName;
+    int streaks=0;
+    String CHANNEL_ID="1";
+    String notificationId="101";
     SharedPreferences.Editor preferences;
     SharedPreferences pref;
     long numSteps = 0;
+    Boolean flag=false;
     FirebaseAuth firebaseAuth;
     FirebaseUser currentuser;
     public static final String TAG = "MainActivity_History";
@@ -88,6 +106,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     public static final int REQUEST_OAUTH = 100;
     public static final int REQUEST_PERMISSIONS = 200;
     GoogleApiClient fitApiClient;
+    LocalDate date=LocalDate.now();
     private String daily_steps = "0";
     private static List<Step_Item> stepsData = new ArrayList<>();
 
@@ -107,6 +126,10 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         distance = view.findViewById(R.id.distance);
         calories = view.findViewById(R.id.calories);
         progressBar = view.findViewById(R.id.progressBar);
+        goalAchieved=view.findViewById(R.id.goalAchieved);
+        d1=view.findViewById(R.id.monStreakStat);d2=view.findViewById(R.id.tuesStreakStat);d3=view.findViewById(R.id.wedStreakStat);
+        d4=view.findViewById(R.id.thursStreakStat);d5=view.findViewById(R.id.friStreakStat);d6=view.findViewById(R.id.satStreakStat);
+        d7=view.findViewById(R.id.sunStreakStat);
         searchUsers.setOnClickListener(this);
         userImg.setOnClickListener(this);
         premiumCard.setOnClickListener(this);
@@ -119,9 +142,44 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         recyclerView.setHasFixedSize(true);
         GrpEventsHomepageAdapter adapter = new GrpEventsHomepageAdapter(getContext(), getGrpEvents());
         recyclerView.setAdapter(adapter);
+        buildClient();
+        readRequest = getDataRequestForWeeks(date.toString(),date.plusDays(1).toString());
+        request_data();
         setData();
+        getStreakStatus();
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
+    }
+
+    private void saveData() {
+        ServerRequests requests=new ServerRequests();
+//        requests.addUsers(
+//                "1","rachit","09-04-2000","75","168","8000",
+//                "4","false","10","1","1","9637216675","abc"
+//        );
+        requests.addUsers(
+                pref.getString("id",""),pref.getString("name",""),pref.getString("dob",""),
+                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target",""),String.valueOf(streaks),
+                "subscriber",pref.getString("coins",""),"1",
+                "80","",pref.getString("dp","")
+        );
+
+    }
+
+    private void getStreakStatus() {
+        LocalDate start = date;
+        while (start.getDayOfWeek() != DayOfWeek.MONDAY) {
+            start = start.minusDays(1);
+        }
+        LocalDate end = date;
+        while (end.getDayOfWeek() != DayOfWeek.SUNDAY) {
+            end = end.plusDays(1);
+        }
+        buildClient();
+        readRequest=getDataRequestForWeeks(start.toString(),end.toString());
+        request_data();
+
+
     }
 
     private void setData() {
@@ -129,13 +187,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(userImg);
         }
-//        Picasso.get().load().centerInside().into(userImg);
-//        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("gender",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("wt",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("ht",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("target",""), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -157,39 +208,8 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         currentuser = firebaseAuth.getCurrentUser();
     }
 
-    @SuppressLint("DefaultLocale")
-    private void updateCalories() {
-
-    }
 
 
-    float streak = 0;
-
-    private void UpdateStreak() {
-        if (streak > 100) {
-            streakProgressPcnt.setText("100%");
-        } else {
-            streakProgressPcnt.setText(Math.round(streak) + "%");
-        }
-
-        progressBar.setProgress(Math.round(streak));
-    }
-
-    private void UpdateDistance() {
-
-    }
-
-    private void UpdateSteps() {
-        steps.setText(String.valueOf(numSteps));
-    }
-
-
-    private void update() {
-        UpdateDistance();
-        UpdateStreak();
-        updateCalories();
-        UpdateSteps();
-    }
 
     private List<GrpEventsModal> getGrpEvents() {
         for (int i = 0; i < 3; i++) {
@@ -247,7 +267,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onConnected(@Nullable Bundle bundle) {
                         Log.e(TAG,"APP connected to fit");
-                        request_data();
                     }
 
                     @Override
@@ -330,17 +349,13 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
 
     //create request to retrieve step history for specific weeks
-    public static DataReadRequest getDataRequestForWeeks(int weeks){
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.WEEK_OF_YEAR, -1 * weeks);
-        long startTime = cal.getTimeInMillis();
+    public static DataReadRequest getDataRequestForWeeks(String startDate,String endDate){
+        long start= LocalDateTime.of(Integer.parseInt(startDate.split("-")[0]),Integer.parseInt(startDate.split("-")[1]),Integer.parseInt(startDate.split("-")[2]), 0,0).toEpochSecond(ZoneOffset.UTC);
+        long end=LocalDateTime.of(Integer.parseInt(endDate.split("-")[0]),Integer.parseInt(endDate.split("-")[1]),Integer.parseInt(endDate.split("-")[2]),0,0).toEpochSecond(ZoneOffset.UTC);
 
         java.text.DateFormat dateFormat = DateFormat.getDateInstance();
-        Log.e(TAG, "Range Start: " + dateFormat.format(startTime));
-        Log.e(TAG, "Range End: " + dateFormat.format(endTime));
+        Log.e(TAG, "Range Start: " +(startDate));
+        Log.e(TAG, "Range End: " + (endDate));
 
         final DataSource ds = new DataSource.Builder()
                 .setAppPackageName("com.google.android.gms")
@@ -352,7 +367,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         DataReadRequest readRequest = new DataReadRequest.Builder()
                 .aggregate(ds,DataType.TYPE_STEP_COUNT_DELTA)
                 .bucketByTime(1, TimeUnit.DAYS)
-                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .setTimeRange(start, end, TimeUnit.SECONDS)
                 .build();
 
         return readRequest;
@@ -379,32 +394,143 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             preferences.putString("progress","100");
         }
         preferences.apply();
+        checkTarget(daily_steps,pref.getString("target",""));
+        setStreakCardData();
+        saveData();
     }
 
-    class RetrsieveStepsCurrentDate extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            DailyTotalResult result = Fitness.HistoryApi.readDailyTotal(fitApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(30, TimeUnit.SECONDS);
-            if (result.getStatus().isSuccess()) {
-                Log.e(TAG, "Daily success!");
-                DataSet dataset = result.getTotal();
-                for (DataPoint dp : dataset.getDataPoints()) {
-                    for (Field field : dp.getDataType().getFields()) {
-                        if (field.getName().equals("steps")) {
-                            daily_steps = dp.getValue(field).toString();
-                            Log.e(TAG, "Steps " + daily_steps);
-                        }
-                    }
-                }
+    private void setStreakCardData() {
+        streaks=0;
+        if(stepsData.size()>1){
+            for(int i=0;i<stepsData.size();i++){
+                Step_Item data=stepsData.get(i);
+                updateDayStreak(i+1,data.getData());
             }
-            return null;
         }
+        goalAchieved.setText(String.valueOf(streaks).concat("/7 Goals"));
+    }
 
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            update_daily_counter();
+    private void updateDayStreak(int day, String data) {
+        boolean streakAchieved= Integer.parseInt(data) >= Integer.parseInt(pref.getString("target", ""));
+        switch(day){
+            case 1:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d1.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d1.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 2:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d2.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d2.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 3:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d3.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d3.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 4:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d4.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d4.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 5:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d5.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d5.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 6:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d6.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d6.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+            case 7:{
+                Log.i(String.valueOf(day),data+","+streakAchieved+","+pref.getString("target",""));
+                if(streakAchieved){
+                    d7.setImageDrawable(getResources().getDrawable(R.drawable.done));
+                    streaks++;
+                }else{
+                    d7.setImageDrawable(getResources().getDrawable(R.drawable.inprogress));
+                }
+                break;
+            }
+        }
+    }
+
+    private void checkTarget(String daily_steps, String target) {
+        if(Integer.parseInt(daily_steps)>=Integer.parseInt(target) && !flag)
+        {
+            creditCoins(10);
+            sendNotification();
+            flag=true;
+        }
+    }
+
+    private void creditCoins(int coins) {
+        preferences=pref.edit();
+        int c=Integer.parseInt(pref.getString("coins","0"))+coins;
+        preferences.putString("coins",String.valueOf(c));
+        preferences.apply();
+    }
+
+    private void sendNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(),CHANNEL_ID)
+                .setSmallIcon(R.drawable.footprints)
+                .setContentTitle("Congratulations!")
+                .setContentText("You Achieved your daily goal...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("You Achieved your daily goal..."))
+                .setOnlyAlertOnce(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        createNotificationChannel();
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(Integer.parseInt(notificationId), builder.build());
+
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 
@@ -419,8 +545,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            DataReadRequest readRequest = getDataRequestForWeeks(2);
             DataReadResult dataReadResult = Fitness.HistoryApi.readData(fitApiClient, readRequest).await(30, TimeUnit.SECONDS);
             if (dataReadResult.getBuckets().size() > 0) {
                 Log.e("History", "Number of buckets: " + dataReadResult.getBuckets().size());
@@ -468,16 +592,12 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             long ts =dataSet.getDataPoints().get(0).getStartTime(TimeUnit.MILLISECONDS);
             String date = dateFormat.format(ts);
             Step_Item new_item = new Step_Item(date,nSteps+"",ts);
-
+            Log.i(date,String.valueOf(nSteps));
             if(stepsData.contains(new_item)){
                 int item_index = stepsData.indexOf(new_item);
                 Step_Item temp_item = stepsData.get(item_index);
-                int steps = nSteps + Integer.parseInt(temp_item.getData());
-                new_item = new Step_Item(date,steps+"",ts);
                 stepsData.remove(item_index);
-
             }
-
             stepsData.add(new_item);
         }
     }

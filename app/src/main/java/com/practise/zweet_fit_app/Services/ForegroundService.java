@@ -31,7 +31,7 @@ public class ForegroundService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    final static int Duration = 10 * 60 * 1000;
+    final static int Duration = 10  * 1000;
     SharedPreferences.Editor preferences;
     SharedPreferences pref;
     boolean isFirstNotificatio = true;

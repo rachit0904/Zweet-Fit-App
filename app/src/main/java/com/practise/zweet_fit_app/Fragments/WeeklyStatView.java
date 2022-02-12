@@ -61,6 +61,7 @@ import java.util.concurrent.TimeUnit;
 
 public class  WeeklyStatView extends Fragment implements View.OnClickListener {
     List<StatRecordModal> statRecordModalList=new ArrayList<>();
+    List<StatRecordModal> graphDataList=new ArrayList<>();
     BarGraphSeries<DataPoint> barGraphSeries;
     TextView steps,week,dist,cal;
     ImageView prevWeek,nextWeek;
@@ -292,12 +293,14 @@ public class  WeeklyStatView extends Fragment implements View.OnClickListener {
             Log.i("date:",date);
             Log.i("steps:", String.valueOf(nSteps));
             weeklySteps+=nSteps;
-            StatRecordModal statRecordModal=new StatRecordModal(
-              date,
-              String.valueOf(nSteps),
-                    (nSteps>=Integer.parseInt(pref.getString("target","")))
-            );
-            statRecordModalList.add(statRecordModal);
+            if(nSteps!=0) {
+                StatRecordModal statRecordModal = new StatRecordModal(
+                        date,
+                        String.valueOf(nSteps),
+                        (nSteps >= Integer.parseInt(pref.getString("target", "")))
+                );
+                statRecordModalList.add(statRecordModal);
+            }
             if(stepsData.contains(new_item)){
                 int item_index = stepsData.indexOf(new_item);
                 Step_Item temp_item = stepsData.get(item_index);
@@ -310,14 +313,12 @@ public class  WeeklyStatView extends Fragment implements View.OnClickListener {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private void update_daily_counter(){
         steps.setText(String.valueOf(weeklySteps));
         int calories= (int) Math.ceil((weeklySteps*0.04258));
         cal.setText(getString(R.string.daily_counter, String.valueOf(calories).concat(" cal")));
         int distance=  (int) Math.ceil(weeklySteps/1312.33595801);
         dist.setText(getString(R.string.daily_counter, String.valueOf(distance).concat(" Kms")));
-        statViewCardAdapter.notifyDataSetChanged();
         DataPoint[] data=new DataPoint[statRecordModalList.size()];
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(dates);
@@ -326,29 +327,29 @@ public class  WeeklyStatView extends Fragment implements View.OnClickListener {
         graph.getGridLabelRenderer().setNumHorizontalLabels(7);
         graph.getGridLabelRenderer().setNumVerticalLabels(5);
         graph.removeAllSeries();
-        if(statRecordModalList.size()<7){
-            for(int i=statRecordModalList.size();i<7;i++){
+        statViewCardAdapter.notifyDataSetChanged();
+        graphDataList=statRecordModalList;
+        if(graphDataList.size()<7){
+            for(int i=graphDataList.size();i<7;i++){
                 StatRecordModal modal=new StatRecordModal();
-                if(!statRecordModalList.contains(datesOfWeek.get(i))) {
-                    modal.setDate(dates[i]);
-                    modal.setSteps("0");
-                    modal.setStreakAchieved(false);
-                    statRecordModalList.add(modal);
+                {
+                    if (!graphDataList.contains(datesOfWeek.get(i))) {
+                        modal.setDate(dates[i]);
+                        modal.setSteps("0");
+                        modal.setStreakAchieved(false);
+                        graphDataList.add(modal);
+                    }
                 }
             }
         }
         barGraphSeries = new BarGraphSeries<DataPoint>(new DataPoint[]{
-                new DataPoint(1, Integer.parseInt((statRecordModalList.get(0).getSteps()))),
-                new DataPoint(2, Integer.parseInt((statRecordModalList.get(1).getSteps()))),
-                new DataPoint(3, Integer.parseInt((statRecordModalList.get(1).getSteps()))),
-//                new DataPoint(4, 0),
-//                new DataPoint(5, 0),
-//                new DataPoint(6, 0),
-//                new DataPoint(7, 0)
-                new DataPoint(4, Integer.parseInt((statRecordModalList.get(3).getSteps()))),
-                new DataPoint(5, Integer.parseInt((statRecordModalList.get(4).getSteps()))),
-                new DataPoint(6, Integer.parseInt((statRecordModalList.get(5).getSteps()))),
-                new DataPoint(7, Integer.parseInt((statRecordModalList.get(6).getSteps())))
+                new DataPoint(0, Integer.parseInt((graphDataList.get(0).getSteps()))),
+                new DataPoint(1, Integer.parseInt((graphDataList.get(1).getSteps()))),
+                new DataPoint(2, Integer.parseInt((graphDataList.get(1).getSteps()))),
+                new DataPoint(3, Integer.parseInt((graphDataList.get(3).getSteps()))),
+                new DataPoint(4, Integer.parseInt((graphDataList.get(4).getSteps()))),
+                new DataPoint(5, Integer.parseInt((graphDataList.get(5).getSteps()))),
+                new DataPoint(6, Integer.parseInt((graphDataList.get(6).getSteps())))
         });
         graph.addSeries(barGraphSeries);
         graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
@@ -357,11 +358,6 @@ public class  WeeklyStatView extends Fragment implements View.OnClickListener {
         barGraphSeries.setDataWidth(0.3);
         barGraphSeries.setDrawValuesOnTop(true);
         barGraphSeries.setAnimated(true);
-//        int i=0;
-//        for(StatRecordModal modal:statRecordModalList){
-//            data[i]=new DataPoint((i), Integer.parseInt(modal.getSteps()));
-//            i++;
-//        }
     }
 
     @Override

@@ -67,6 +67,7 @@
 
             <LinearLayout
                 android:id="@+id/basicStats"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/yearlyGraphView"
@@ -224,6 +225,7 @@
 
             <TextView
                 android:id="@+id/txt1"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/basicStats"
@@ -235,6 +237,17 @@
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/noData"
+                android:layout_centerHorizontal="true"
+                android:textSize="16sp"
+                android:layout_marginTop="220dp"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:text="No Steps Data for this year!"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/yearlyStatRv"
