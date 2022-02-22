@@ -13,6 +13,7 @@ import com.practise.zweet_fit_app.Fragments.GroupEventsFragment;
 import com.practise.zweet_fit_app.Fragments.ManageFriendsFragment;
 import com.practise.zweet_fit_app.Fragments.ProfilePage;
 import com.practise.zweet_fit_app.Fragments.SearchFragment;
+import com.practise.zweet_fit_app.Fragments.SettingsFragment;
 import com.practise.zweet_fit_app.Fragments.Subs_Details_Page;
 import com.practise.zweet_fit_app.Fragments.login;
 import com.practise.zweet_fit_app.Fragments.otp;
@@ -59,6 +60,10 @@ public class BlankActivity extends AppCompatActivity {
             }
             case "profile":{
                 addFragment(new ProfilePage());
+                break;
+            }
+            case "settings":{
+                addFragment(new SettingsFragment());
                 break;
             }
             case "coin transactions":{

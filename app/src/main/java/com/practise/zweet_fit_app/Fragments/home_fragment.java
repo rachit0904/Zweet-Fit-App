@@ -396,12 +396,12 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         preferences.apply();
         checkTarget(daily_steps,pref.getString("target",""));
         setStreakCardData();
-        saveData();
+//        saveData();
     }
 
     private void setStreakCardData() {
         streaks=0;
-        if(stepsData.size()>1){
+        if(stepsData.size()>=1){
             for(int i=0;i<stepsData.size();i++){
                 Step_Item data=stepsData.get(i);
                 updateDayStreak(i+1,data.getData());
@@ -487,11 +487,14 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     }
 
     private void checkTarget(String daily_steps, String target) {
-        if(Integer.parseInt(daily_steps)>=Integer.parseInt(target) && !flag)
+        if(Integer.parseInt(daily_steps)>=Integer.parseInt(target) &&!
+                pref.getString("last notified","").equalsIgnoreCase(LocalDate.now().toString()))
         {
             creditCoins(10);
             sendNotification();
-            flag=true;
+            preferences=pref.edit();
+            preferences.putString("last notified",LocalDate.now().toString());
+            preferences.apply();
         }
     }
 

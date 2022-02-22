@@ -39,7 +39,7 @@
             android:paddingBottom="10dp"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:layout_marginBottom="140dp"
+            android:layout_marginBottom="80dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:textColor="@color/white"

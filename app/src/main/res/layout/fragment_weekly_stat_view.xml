@@ -58,12 +58,9 @@
 				android:layout_marginTop="30dp"
 				android:id="@+id/weeklyGraphView"
 				android:layout_width="match_parent"
-				android:layout_height="200dip"
+				android:layout_height="250dip"
 				app:seriesType="bar"
 				android:layout_below="@id/horizontalWeekPicker" />
-				android:layout_marginLeft="30dp"
-				android:layout_marginTop="30dp"
-				android:layout_marginRight="30dp" />
 
 			<LinearLayout
 				android:id="@+id/basicStats"

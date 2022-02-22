@@ -23,13 +23,40 @@
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/editWeightLayout"
+            android:id="@+id/editUsnameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:layout_marginTop="50dp"
+            android:hint="\@username">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_usname"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="end"
+            android:textColor="#7CB342"
+            android:visibility="invisible"
+            android:text="username available!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editWeightLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="25dp"
             android:hint="Weight (Kg)">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_Weight"
@@ -38,14 +65,18 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <LinearLayout
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginTop="45dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editHeightLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="60pt"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginTop="40dp"
             android:hint="Height (cms)">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_Height"
@@ -57,11 +88,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editTargetLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="60pt"
+            android:layout_marginLeft="34dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="32dp"
             android:hint="Target">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_Target"
@@ -70,13 +99,17 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        </LinearLayout>
+
+
+
         <Button
             android:id="@+id/next"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="40dp"
             android:layout_marginRight="30dp"
             android:paddingLeft="40dp"
             android:paddingTop="15dp"

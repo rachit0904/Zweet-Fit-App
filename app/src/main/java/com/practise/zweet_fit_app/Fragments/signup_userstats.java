@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -21,8 +23,9 @@ import com.practise.zweet_fit_app.R;
 public class signup_userstats extends Fragment {
 
     Button submit;
-    TextInputEditText edit_Weight, edit_Height, edit_Target;
+    TextInputEditText edit_Weight, edit_Height, edit_Target,edit_usname;
     SharedPreferences.Editor preferences;
+    TextView status;
     SharedPreferences pref;
 
     @Override
@@ -32,13 +35,33 @@ public class signup_userstats extends Fragment {
         edit_Weight = view.findViewById(R.id.edit_Weight);
         edit_Height = view.findViewById(R.id.edit_Height);
         edit_Target = view.findViewById(R.id.edit_Target);
+        edit_usname = view.findViewById(R.id.edit_usname);
+        status = view.findViewById(R.id.status);
         submit=view.findViewById(R.id.next);
         UsersDataModal dataModal=new UsersDataModal();
+
+        edit_usname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!view.hasFocus()){
+                    status.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(view==submit) {
+                    pref= getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+                    preferences=pref.edit();
+                    String username=edit_usname.getText().toString();
+                    if(!username.isEmpty()){
+                        validateUsername(username);
+                        preferences.putString("usname",username);
+                    }else{
+                        Toast.makeText(getContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
+                    }
                     if (!edit_Height.getText().toString().isEmpty()) {
                         dataModal.setHeight(edit_Height.getText().toString());
                     }
@@ -46,12 +69,14 @@ public class signup_userstats extends Fragment {
                         dataModal.setWeight(edit_Weight.getText().toString());
                     }
                     if(!edit_Target.getText().toString().isEmpty()){
-                        dataModal.setTarget(edit_Target.getText().toString());
+                        if(Integer.parseInt(edit_Target.getText().toString())<750){
+                            Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            dataModal.setTarget(edit_Target.getText().toString());
+                        }
                     }
                     Intent intent=new Intent(getActivity(), SignUp.class);
                     intent.putExtra("fragment","get started");
-                    pref= getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
-                    preferences=pref.edit();
                     preferences.putString("wt",dataModal.getWeight());
                     preferences.putString("ht",dataModal.getHeight());
                     preferences.putString("target",dataModal.getTarget());
@@ -65,5 +90,9 @@ public class signup_userstats extends Fragment {
 
 
         return view;
+    }
+
+    private void validateUsername(String username) {
+
     }
 }

@@ -254,14 +254,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_below="@id/txt1"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="60dp"
                 android:nestedScrollingEnabled="false"
                 android:overScrollMode="never"
                 android:scrollIndicators="none"
                 android:scrollbars="none"
                 tools:itemCount="3"
-                tools:listitem="@layout/stat_card" />
+                tools:listitem="@layout/yearlyview_card" />
 
         </RelativeLayout>
     </ScrollView>

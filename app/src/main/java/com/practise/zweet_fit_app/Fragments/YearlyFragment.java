@@ -39,7 +39,9 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.practise.zweet_fit_app.Adapters.StatViewCardAdapter;
+import com.practise.zweet_fit_app.Adapters.YearlyStatAdapter;
 import com.practise.zweet_fit_app.Modals.StatRecordModal;
+import com.practise.zweet_fit_app.Modals.YearlyRecordModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Util.Step_Item;
 
@@ -77,9 +79,11 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
     int netSteps=0;
     RecyclerView recyclerView;
     List<String> mths=new ArrayList<>();
-    StatViewCardAdapter statViewCardAdapter;
+//    StatViewCardAdapter statViewCardAdapter;
+//    List<StatRecordModal> statRecordModalList=new ArrayList<>();
+    YearlyStatAdapter yearlyStatAdapter;
+    ArrayList<YearlyRecordModal> yearlyRecordModalList=new ArrayList<>();
     String months[]={"January","February","March","April","May","June","July","August","September","October","November","December"};
-    List<StatRecordModal> statRecordModalList=new ArrayList<>();
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_yearly,container,false);
@@ -96,8 +100,9 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
         mths.add("Jan");mths.add("Feb");mths.add("Mar");mths.add("Apr");mths.add("May");mths.add("Jun");mths.add("Jul");
         mths.add("Aug");mths.add("Sep");mths.add("Oct");mths.add("Nov");mths.add("Dec");
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), GridLayoutManager.VERTICAL,false));
-        statViewCardAdapter=new StatViewCardAdapter(statRecordModalList);
-        recyclerView.setAdapter(statViewCardAdapter);
+//        statViewCardAdapter=new StatViewCardAdapter(statRecordModalList);
+        yearlyStatAdapter=new YearlyStatAdapter(yearlyRecordModalList);
+        recyclerView.setAdapter(yearlyStatAdapter);
         recyclerView.setHasFixedSize(true);
         setDate(date);
         return view;
@@ -105,8 +110,10 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
 
     public void setDate(LocalDate date) {
         this.date=date;
-        statRecordModalList.clear();
-        statViewCardAdapter.notifyDataSetChanged();
+//        statRecordModalList.clear();
+//        statViewCardAdapter.notifyDataSetChanged();
+        yearlyRecordModalList.clear();
+        yearlyStatAdapter.notifyDataSetChanged();
         year.setText(date.toString().split("-")[0]);
         buildClient();
         String startDate=LocalDate.of(date.getYear(), Month.JANUARY,1).toString();
@@ -262,19 +269,34 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
 
     @SuppressLint("NotifyDataSetChanged")
     private void setYearlyStats() {
-        statRecordModalList.clear();
+//        statRecordModalList.clear();
+        yearlyRecordModalList.clear();
         for (Map.Entry mapElement : mSteps.entrySet()) {
             String month = (String)mapElement.getKey();
             String steps = String.valueOf(mapElement.getValue());
+            float step= (float)Integer.valueOf(steps)/1000;
+            int calories=0;
+            int distance=0;
+            if(step>0) {
+                calories = (int) Math.ceil((step * 0.04258));
+                distance = (int) Math.ceil(step / 1312.33595801);
+            }
             if(Integer.parseInt(steps)!=0) {
-                StatRecordModal modal = new StatRecordModal(
-                        month,
-                        steps,
-                        false);
-                statRecordModalList.add(modal);
+                YearlyRecordModal recordModal=new YearlyRecordModal();
+                recordModal.setMonthName(month);
+                recordModal.setSteps(String.format("%.02f",(float)Integer.valueOf(steps)/1000));
+                recordModal.setCal(String.format("%.02f",(float)calories));
+                recordModal.setDist(String.format("%.02f",(float)distance));
+                yearlyRecordModalList.add(recordModal);
+//                StatRecordModal modal = new StatRecordModal(
+//                        month,
+//                        steps,
+//                        false);
+//                statRecordModalList.add(modal);
             }
         }
-        statViewCardAdapter.notifyDataSetChanged();
+        yearlyStatAdapter.notifyDataSetChanged();
+//        statViewCardAdapter.notifyDataSetChanged();
     }
 
     //Update the data List object with the steps values retrieved from the Fit History API

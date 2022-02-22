@@ -50,6 +50,7 @@ public class signup_getstarted extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;

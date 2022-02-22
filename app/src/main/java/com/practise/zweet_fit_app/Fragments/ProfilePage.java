@@ -26,11 +26,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfilePage extends Fragment implements View.OnClickListener {
-    CoordinatorLayout logout;
+    CoordinatorLayout settings;
     CardView coinTransactionsCard;
-
     ImageView manageFriends;
-    TextView editProfile, name, coins, steps, calories, distance, target_text, weight_text;
+    TextView editProfile, name, coins, steps, calories, distance, target_text, weight_text,username;
     CircleImageView userImg;
     ProgressBar progressBar3;
     SharedPreferences.Editor preferences;
@@ -39,11 +38,12 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_page, container, false);
-        logout = view.findViewById(R.id.logout);
         manageFriends = view.findViewById(R.id.manageFriends);
         editProfile = view.findViewById(R.id.edit_profile);
         coinTransactionsCard = view.findViewById(R.id.coinsTransactions);
+        settings=view.findViewById(R.id.settings);
         userImg = view.findViewById(R.id.userImg);
+        username = view.findViewById(R.id.usname);
         name = view.findViewById(R.id.textView);
         coins = view.findViewById(R.id.coins);
         steps = view.findViewById(R.id.steps);
@@ -53,8 +53,8 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
         weight_text = view.findViewById(R.id.weight_text);
         progressBar3 = view.findViewById(R.id.progressBar3);
         pref= getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
-        logout.setOnClickListener(this);
         editProfile.setOnClickListener(this);
+        settings.setOnClickListener(this);
         manageFriends.setOnClickListener(this);
         coinTransactionsCard.setOnClickListener(this);
         setData();
@@ -66,6 +66,7 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
 
     private void setData() {
         name.setText(pref.getString("name",""));
+        username.setText(new StringBuilder().append("@").append(pref.getString("usname", "")).toString());
         target_text.setText(pref.getString("target","")+" steps");
         weight_text.setText(pref.getString("wt","")+" Kg");
         progressBar3.setProgress(Integer.parseInt(pref.getString("progress","")),true);
@@ -87,18 +88,15 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(view==logout){
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            mAuth.signOut();
-            Intent intent = new Intent(getActivity(), BlankActivity.class);
-            intent.putExtra("activity", "login");
+        if(view == settings){
+            Intent intent=new Intent(getContext(), BlankActivity.class);
+            intent.putExtra("activity","settings");
             startActivity(intent);
         }
         if(view==editProfile){
             Intent intent=new Intent(getContext(), BlankActivity.class);
             intent.putExtra("activity","edit profile");
             startActivity(intent);
-            getActivity().finish();
         }
         if(view==coinTransactionsCard){
             Intent intent=new Intent(getContext(), BlankActivity.class);

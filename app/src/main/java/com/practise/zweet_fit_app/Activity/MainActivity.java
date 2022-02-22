@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.tabs.TabLayout;
 import com.practise.zweet_fit_app.Fragments.ActivityFragment;
+import com.practise.zweet_fit_app.Fragments.ProfilePage;
 import com.practise.zweet_fit_app.Fragments.SettingsFragment;
 import com.practise.zweet_fit_app.Fragments.StatsFragment;
 import com.practise.zweet_fit_app.Fragments.home_fragment;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case 4: {
-                addFragment(new SettingsFragment());
+                addFragment(new ProfilePage());
                 break;
             }
         }

@@ -63,6 +63,7 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
     final String streakAchievedCode="#8053F00F";
     final String defaultDayColorCode="#3C1C1C1C";
     Float steps=Float.valueOf(0);
+    int s=0;
     TextView monthlySteps,month,cal,dist;
     ImageView prevMonth,nextMonth;
     ChipGroup days;
@@ -448,7 +449,7 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
         protected void onPreExecute() {
             super.onPreExecute();
             //clear the previous data
-            steps=Float.valueOf(0);
+            s=0;
             stepsData = new ArrayList<>();
         }
 
@@ -479,20 +480,21 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setData() {
-        monthlySteps.setText(String.valueOf(steps));
+        Float steps=(float)s/1000;
+        monthlySteps.setText(String.format("%.02f",steps) + "K Steps");
+        steps= (float) s;
         int calories=0;
         int distance=0;
         if(steps>0) {
             calories = (int) Math.ceil((steps * 0.04258));
             distance = (int) Math.ceil(steps / 1312.33595801);
         }
-        cal.setText(String.valueOf(calories));
-        dist.setText(String.valueOf(distance));
+        cal.setText(String.valueOf(calories).length()>3 ? String.format("%.02f Kcal",(float)calories/1000) : String.format("%d Kcal",calories));
+        dist.setText(String.valueOf(distance).concat(" Kms"));
     }
 
 
     private void update_daily_counter(){
-
     }
 
     //Update the data List object with the steps values retrieved from the Fit History API
@@ -504,10 +506,11 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
             long ts =dataSet.getDataPoints().get(0).getStartTime(TimeUnit.MILLISECONDS);
             this.steps= Float.valueOf(nSteps);
             String date = dateFormat.format(ts);
-            steps+=nSteps;
+            s+=nSteps;
             Step_Item new_item = new Step_Item(date,nSteps+"",ts);
             Log.i("date:",date);
             Log.i("steps:", String.valueOf(nSteps));
+            Log.i("monthly steps", String.valueOf(s));
             setDayChipColor(Integer.parseInt(
                     date.split("-")[0]),
                     (nSteps> Integer.parseInt(pref.getString("target",""))) ? streakAchievedCode : defaultDayColorCode

@@ -58,8 +58,8 @@
             android:padding="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:icon="@drawable/settings_ic"
-             />
+            android:icon="@drawable/profile"
+            />
     </com.google.android.material.tabs.TabLayout>
 
 
