@@ -63,7 +63,7 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
     final String streakAchievedCode="#8053F00F";
     final String defaultDayColorCode="#3C1C1C1C";
     Float steps=Float.valueOf(0);
-    int s=0;
+    int s=0,cnt=0;
     TextView monthlySteps,month,cal,dist;
     ImageView prevMonth,nextMonth;
     ChipGroup days;
@@ -450,6 +450,7 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
             super.onPreExecute();
             //clear the previous data
             s=0;
+            cnt=0;
             stepsData = new ArrayList<>();
         }
 
@@ -480,16 +481,16 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setData() {
-        Float steps=(float)s/1000;
+        Float steps=(float)s/(1000);
         monthlySteps.setText(String.format("%.02f",steps) + "K Steps");
-        steps= (float) s;
+        steps= (float) s/cnt;
         int calories=0;
         int distance=0;
         if(steps>0) {
             calories = (int) Math.ceil((steps * 0.04258));
             distance = (int) Math.ceil(steps / 1312.33595801);
         }
-        cal.setText(String.valueOf(calories).length()>3 ? String.format("%.02f Kcal",(float)calories/1000) : String.format("%d Kcal",calories));
+        cal.setText(String.valueOf(calories).length()>3 ? String.format("%.02f Kcal",(float)calories) : String.format("%d Kcal",calories));
         dist.setText(String.valueOf(distance).concat(" Kms"));
     }
 
@@ -507,6 +508,7 @@ public class MonthlyFragment extends Fragment implements View.OnClickListener {
             this.steps= Float.valueOf(nSteps);
             String date = dateFormat.format(ts);
             s+=nSteps;
+            cnt++;
             Step_Item new_item = new Step_Item(date,nSteps+"",ts);
             Log.i("date:",date);
             Log.i("steps:", String.valueOf(nSteps));

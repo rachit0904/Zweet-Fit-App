@@ -148,6 +148,7 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             preferences.putString("name", name.getText().toString());
             preferences.putString("dob", dob.getText().toString());
             preferences.putString("target", target.getText().toString());
+            preferences.putString("usname",username.getText().toString());
             preferences.putString("wt", wt.getText().toString());
             preferences.putString("ht", ht.getText().toString());
             preferences.apply();

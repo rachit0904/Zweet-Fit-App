@@ -51,6 +51,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import java.time.chrono.Chronology;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -274,7 +275,7 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
         for (Map.Entry mapElement : mSteps.entrySet()) {
             String month = (String)mapElement.getKey();
             String steps = String.valueOf(mapElement.getValue());
-            float step= (float)Integer.valueOf(steps)/1000;
+            float step= (float)Integer.valueOf(steps);
             int calories=0;
             int distance=0;
             if(step>0) {
@@ -284,7 +285,7 @@ public class YearlyFragment extends Fragment implements View.OnClickListener {
             if(Integer.parseInt(steps)!=0) {
                 YearlyRecordModal recordModal=new YearlyRecordModal();
                 recordModal.setMonthName(month);
-                recordModal.setSteps(String.format("%.02f",(float)Integer.valueOf(steps)/1000));
+                recordModal.setSteps(String.format("%.02f K",(float)Integer.valueOf(steps)/(1000)));
                 recordModal.setCal(String.format("%.02f",(float)calories));
                 recordModal.setDist(String.format("%.02f",(float)distance));
                 yearlyRecordModalList.add(recordModal);

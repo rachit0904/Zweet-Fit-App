@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:text="Avg. Steps"
+                        android:text="Steps"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <ImageView
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:text="Avg. Cal"
+                        android:text="Cal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <ImageView
@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <TextView
-                        android:text="Avg. Dist."
+                        android:text="Dist."
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <ImageView

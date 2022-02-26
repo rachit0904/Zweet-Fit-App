@@ -220,6 +220,7 @@ public class DailyStatView extends Fragment implements View.OnClickListener {
             super.onPreExecute();
             //clear the previous data
             stepsData = new ArrayList<>();
+            steps=Float.valueOf(0);
         }
 
         @Override
@@ -249,7 +250,6 @@ public class DailyStatView extends Fragment implements View.OnClickListener {
     }
 
     private void setData() {
-
         step.setText(String.valueOf(steps));
         int calories=0;
         int distance=0;
@@ -277,7 +277,6 @@ public class DailyStatView extends Fragment implements View.OnClickListener {
 
     //Update the data List object with the steps values retrieved from the Fit History API
     private void updateDataList(DataSet dataSet) {
-
         DateFormat dateFormat = DateFormat.getDateInstance();
         if(dataSet.getDataPoints().size() > 0){
             int nSteps = dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
@@ -293,9 +292,7 @@ public class DailyStatView extends Fragment implements View.OnClickListener {
                 int steps = nSteps + Integer.parseInt(temp_item.getData());
                 new_item = new Step_Item(date,steps+"",ts);
                 stepsData.remove(item_index);
-
             }
-
             stepsData.add(new_item);
         }
     }
