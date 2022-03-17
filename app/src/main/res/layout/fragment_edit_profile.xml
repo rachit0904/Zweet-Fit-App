@@ -111,7 +111,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginTop="25dp"
-                android:hint="\@username">
+                android:hint="username">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_usname"
                     android:inputType="text"

@@ -147,23 +147,20 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         request_data();
         setData();
         getStreakStatus();
+        saveData();
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }
 
     private void saveData() {
         ServerRequests requests=new ServerRequests();
-//        requests.addUsers(
-//                "1","rachit","09-04-2000","75","168","8000",
-//                "4","false","10","1","1","9637216675","abc"
-//        );
-        requests.addUsers(
-                pref.getString("id",""),pref.getString("name",""),pref.getString("dob",""),
-                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target",""),String.valueOf(streaks),
-                "subscriber",pref.getString("coins",""),"1",
-                "80","",pref.getString("dp","")
+        requests.updateUsers(
+                pref.getString("id","0"),pref.getString("name",""),pref.getString("dob",""),
+                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target","750"),
+                String.valueOf(streaks),
+                "true",pref.getString("coins","0"),"1",
+                "80","0",pref.getString("dp","")
         );
-
     }
 
     private void getStreakStatus() {

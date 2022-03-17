@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.practise.zweet_fit_app.Activity.SignUp;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Server.ServerRequests;
 
 
 public class signup_userstats extends Fragment {
@@ -81,7 +82,7 @@ public class signup_userstats extends Fragment {
                     preferences.putString("ht",dataModal.getHeight());
                     preferences.putString("target",dataModal.getTarget());
                     preferences.apply();
-
+                    createUser(pref);
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -90,6 +91,17 @@ public class signup_userstats extends Fragment {
 
 
         return view;
+    }
+
+    private void createUser(SharedPreferences pref) {
+        ServerRequests request=new ServerRequests();
+        request.addUsers(
+                pref.getString("id",""),pref.getString("name",""),pref.getString("dob",""),
+                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target",""),
+                "0",
+                "true",pref.getString("coins",""),"1",
+                "80","",pref.getString("dp","")
+        );
     }
 
     private void validateUsername(String username) {

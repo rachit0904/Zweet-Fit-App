@@ -133,22 +133,20 @@ public class EditProfile extends Fragment implements View.OnClickListener {
         }
         if (view == uploadPic) {
             choosePicture();
+            upload();
         }
         if (view == save) {
             progressBar.setVisibility(View.VISIBLE);
-            upload();
+            saveData();
         }
     }
 
     private void saveData() {
-        if(Integer.parseInt(target.getText().toString())<750){
-            Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
-        }else {
             preferences = pref.edit();
             preferences.putString("name", name.getText().toString());
             preferences.putString("dob", dob.getText().toString());
-            preferences.putString("target", target.getText().toString());
             preferences.putString("usname",username.getText().toString());
+            preferences.putString("target", target.getText().toString());
             preferences.putString("wt", wt.getText().toString());
             preferences.putString("ht", ht.getText().toString());
             preferences.apply();
@@ -157,7 +155,6 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             intent.putExtra("activity","profile");
             startActivity(intent);
             getActivity().finish();
-        }
     }
 
     private void choosePicture() {
