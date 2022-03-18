@@ -82,7 +82,7 @@ public class signup_userstats extends Fragment {
                     preferences.putString("ht",dataModal.getHeight());
                     preferences.putString("target",dataModal.getTarget());
                     preferences.apply();
-                    createUser(pref);
+//                    createUser(pref);
                     startActivity(intent);
                     getActivity().finish();
                 }
