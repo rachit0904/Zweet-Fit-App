@@ -147,7 +147,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         request_data();
         setData();
         getStreakStatus();
-        saveData();
+//        saveData();
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }

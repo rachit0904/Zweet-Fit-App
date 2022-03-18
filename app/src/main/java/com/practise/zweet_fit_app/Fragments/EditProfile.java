@@ -133,11 +133,10 @@ public class EditProfile extends Fragment implements View.OnClickListener {
         }
         if (view == uploadPic) {
             choosePicture();
-            upload();
         }
         if (view == save) {
             progressBar.setVisibility(View.VISIBLE);
-            saveData();
+            upload();
         }
     }
 
@@ -202,6 +201,7 @@ public class EditProfile extends Fragment implements View.OnClickListener {
                             preferences.putString("dp",url);
                             preferences.apply();
                             Picasso.get().load(url).into(dp);
+                            Toast.makeText(getContext(),"uploaded:"+ url, Toast.LENGTH_SHORT).show();
                         }
                         saveData();
                     }
