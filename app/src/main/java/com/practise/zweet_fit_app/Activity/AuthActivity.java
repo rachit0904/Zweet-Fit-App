@@ -129,7 +129,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 case 2:{
                     Snackbar.make(nextPage,"Fit not Installed! Please Install to continue..",Snackbar.LENGTH_SHORT).show();
-
                     break;
                 }
                 case 3:{

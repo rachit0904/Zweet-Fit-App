@@ -79,6 +79,4 @@ public class BlankActivity extends AppCompatActivity {
         transaction.replace(R.id.blank_activity_frame, fragment);
         transaction.commit();
     }
-
-
 }
