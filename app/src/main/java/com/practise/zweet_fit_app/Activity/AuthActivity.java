@@ -110,13 +110,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             seekPermissions();
         }
         if(view==nextPage){
-//            checkStep(flag1,1);
-//            checkStep(flag2, 2);
-//            checkStep(flag3, 3);
-//            Intent intent=new Intent(AuthActivity.this,SignUp.class);
-//            intent.putExtra("fragment","personal details");
-//            startActivity(intent);
-//            finish();
             check();
         }
     }
