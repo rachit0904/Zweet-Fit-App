@@ -17,36 +17,40 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <TextView
-        android:textColor="@color/white"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="40dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Event Stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
         <TextView
-            android:textColor="#1E88E5"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="My Progress"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginTop="40dp"
+            android:text="Event Stats"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:text="My Progress"
+            android:textColor="#1E88E5"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="35dp"
+            android:orientation="horizontal">
+
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_marginLeft="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp">
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     android:layout_width="141dp"
@@ -71,23 +75,27 @@
                     app:layout_constraintStart_toStartOf="@+id/progressBar"
                     app:layout_constraintTop_toTopOf="@+id/progressBar" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <LinearLayout
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/linearLayout"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
+
                     <ImageView
-                        android:layout_marginTop="2dp"
-                        android:layout_marginRight="10dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/footprints"/>
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/footprints" />
+
                     <TextView
                         android:id="@+id/steps"
                         android:layout_width="wrap_content"
@@ -95,17 +103,20 @@
                         android:text="2,400 Steps"
                         android:textColor="@color/white" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/linearLayout2"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/cal"/>
+                        android:src="@drawable/cal" />
+
                     <TextView
                         android:id="@+id/cal"
                         android:layout_width="wrap_content"
@@ -113,17 +124,20 @@
                         android:text="24 KCal"
                         android:textColor="@color/white" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/linearLayout3"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_vertical">
+
                     <ImageView
-                        android:layout_marginRight="10dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/map"/>
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/map" />
+
                     <TextView
                         android:id="@+id/dist"
                         android:layout_width="wrap_content"
@@ -133,70 +147,67 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:textColor="#1E88E5"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:text="Users Steps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.jjoe64.graphview.GraphView
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="320dp"
-            android:layout_height="200dp"/>
 
         <TextView
-            android:textColor="#1E88E5"
+            android:id="@+id/Rewards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
+            android:textColor="#1E88E5"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Current Lead"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="Event Rewards" />
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:padding="18dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="35dp"
+            app:cardBackgroundColor="#020202">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/userImg"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/dp"/>
-                    <TextView
-                        android:id="@+id/name"
-                        android:textColor="@color/white"
-                        android:layout_marginLeft="20dp"
-                        android:text="Rachit Singh"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/more"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-                        android:visibility="visible"
-                        android:src="@drawable/more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_gift" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="10dp"
+                        android:textSize="18dp"
+                        android:text="Event Target" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="12dp"
+                        android:text="Event Reward"
+                        android:textSize="18dp" />
                 </LinearLayout>
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
     </ScrollView>
 

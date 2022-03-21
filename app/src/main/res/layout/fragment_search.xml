@@ -30,13 +30,14 @@
       <androidx.recyclerview.widget.RecyclerView
           android:id="@+id/searchedUsers"
 
-          tools:listitem="@layout/friendrequests_carditem"
-          tools:itemCount="3"
-          android:scrollbars="none"
-          android:overScrollMode="never"
           android:layout_width="match_parent"
           android:layout_height="fill_parent"
-          android:layout_below="@id/search" />
+          android:layout_below="@id/search"
+          android:layout_marginTop="53dp"
+          android:overScrollMode="never"
+          android:scrollbars="none"
+          tools:itemCount="3"
+          tools:listitem="@layout/friendrequests_carditem" />
 
   </RelativeLayout>
 </FrameLayout>
