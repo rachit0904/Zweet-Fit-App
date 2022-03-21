@@ -220,6 +220,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             flag1=true;
         }else{
             Snackbar.make(signWithGoogle,"Sign in attempt failed!",Snackbar.LENGTH_SHORT).show();
+            Log.i("result",result.getStatus().getStatusMessage());
         }
     }
 
