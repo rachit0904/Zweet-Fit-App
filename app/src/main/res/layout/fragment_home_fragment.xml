@@ -51,7 +51,7 @@
                     app:tint="@color/white" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/hintbutton"
                     android:layout_width="28dp"
                     android:layout_height="30dp"
                     android:layout_gravity="end|center_vertical"
