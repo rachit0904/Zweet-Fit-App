@@ -14,15 +14,18 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -60,6 +64,7 @@ import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.Activity.StatData_TestActivity;
 import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
+import com.practise.zweet_fit_app.PagerAdapter.ActivityHintsViewPagerAdapter;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.practise.zweet_fit_app.Util.Step_Item;
@@ -247,8 +252,35 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             startActivity(intent);
         }
         if(v == hintbutton){
-           setFragment(new activity_hints_popup());
+            assert v != null;
+            showPopup(v);
         }
+    }
+
+    public void showPopup(View anchorView) {
+
+        View popupView = getLayoutInflater().inflate(R.layout.fragment_activity_hints_popup, null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewPager.LayoutParams.WRAP_CONTENT, ViewPager.LayoutParams.WRAP_CONTENT);
+        ViewPager hintpopup;
+        TabLayout activityTabs;
+
+        hintpopup=popupView.findViewById(R.id.hintpopup);
+        activityTabs=popupView.findViewById(R.id.eventTabs);
+        ActivityHintsViewPagerAdapter adapter=new ActivityHintsViewPagerAdapter(getChildFragmentManager(),activityTabs.getTabCount());
+        hintpopup.setAdapter(adapter);
+        activityTabs.setupWithViewPager(hintpopup);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+        int location[] = new int[2];
+        anchorView.getLocationOnScreen(location);
+
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                location[0], location[1] + anchorView.getHeight());
+
     }
 
     private void setFragment(Fragment fragment) {
