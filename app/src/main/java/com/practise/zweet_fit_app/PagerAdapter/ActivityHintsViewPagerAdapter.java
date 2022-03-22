@@ -14,9 +14,10 @@ import com.practise.zweet_fit_app.Fragments.invitation_Fragment;
 import com.practise.zweet_fit_app.Fragments.stephint;
 
 public class ActivityHintsViewPagerAdapter extends FragmentPagerAdapter {
-
-    public ActivityHintsViewPagerAdapter(@NonNull FragmentManager childFragmentManager) {
+    private final int noftabs;
+    public ActivityHintsViewPagerAdapter(@NonNull FragmentManager childFragmentManager, int tabs) {
         super(childFragmentManager);
+        this.noftabs = tabs;
     }
 
     @Nullable
@@ -39,6 +40,6 @@ public class ActivityHintsViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return noftabs;
     }
 }
