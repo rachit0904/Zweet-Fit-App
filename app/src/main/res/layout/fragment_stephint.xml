@@ -18,7 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/footprints" />
+            android:src="@drawable/steps" />
 
         <TextView
             android:id="@+id/steptexthint"

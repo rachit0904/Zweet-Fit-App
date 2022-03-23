@@ -260,9 +260,11 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             dialog.setCancelable(true);
             dialog.show();
             Button nxt = hint.findViewById(R.id.Next1);
+
             nxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    final boolean[] c2 = {false};
                     getActivity().getFragmentManager().popBackStack();
                     AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
                     View hint=getLayoutInflater().inflate(R.layout.fragment_coinhint,null);
@@ -274,6 +276,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                     nxt2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            final boolean[] c1 = {false};
                             getActivity().getFragmentManager().popBackStack();
                             AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
                             View hint=getLayoutInflater().inflate(R.layout.fragment_levelhint,null);
@@ -285,12 +288,21 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                             cls.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    getActivity().getFragmentManager().popBackStackImmediate();
+                                    c1[0] =true;
+                                    c2[0] =true;
                                     dialog.dismiss();
                                 }
                             });
+                            if(c1[0] == true)
+                            {
+                                dialog.dismiss();
+                            }
                         }
                     });
+                    if(c2[0]==true)
+                    {
+                        dialog.dismiss();
+                    }
                 }
             });
         }
