@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#0B0B0B"
+    android:backgroundTint="#070707"
     tools:context=".Fragments.activity_hints_popup">
 
     <LinearLayout
@@ -17,9 +19,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/friendsLayout"
+            android:background="#0B0B0B"
             android:backgroundTint="#0a0a0a"
             android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:focusableInTouchMode="false"
+            app:tabIndicatorColor="#0B0B0B">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

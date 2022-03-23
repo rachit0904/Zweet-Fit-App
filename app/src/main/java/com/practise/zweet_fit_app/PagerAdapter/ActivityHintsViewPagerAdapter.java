@@ -7,10 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.practise.zweet_fit_app.Fragments.Coinhint;
-import com.practise.zweet_fit_app.Fragments.History_Fragment;
 import com.practise.zweet_fit_app.Fragments.LevelhintFragment;
-import com.practise.zweet_fit_app.Fragments.Ongoing_Fragment;
-import com.practise.zweet_fit_app.Fragments.invitation_Fragment;
 import com.practise.zweet_fit_app.Fragments.stephint;
 
 public class ActivityHintsViewPagerAdapter extends FragmentPagerAdapter {

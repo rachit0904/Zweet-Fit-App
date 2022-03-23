@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -252,35 +253,47 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             startActivity(intent);
         }
         if(v == hintbutton){
-            assert v != null;
-            showPopup(v);
+            AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
+            View hint=getLayoutInflater().inflate(R.layout.fragment_stephint,null);
+            addhintdialog.setView(hint);
+            AlertDialog dialog=addhintdialog.create();
+            dialog.setCancelable(true);
+            dialog.show();
+            Button nxt = hint.findViewById(R.id.Next1);
+            nxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getActivity().getFragmentManager().popBackStack();
+                    AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
+                    View hint=getLayoutInflater().inflate(R.layout.fragment_coinhint,null);
+                    addhintdialog.setView(hint);
+                    AlertDialog dialog=addhintdialog.create();
+                    dialog.setCancelable(false);
+                    dialog.show();
+                    Button nxt2 = hint.findViewById(R.id.Next2);
+                    nxt2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            getActivity().getFragmentManager().popBackStack();
+                            AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
+                            View hint=getLayoutInflater().inflate(R.layout.fragment_levelhint,null);
+                            addhintdialog.setView(hint);
+                            AlertDialog dialog=addhintdialog.create();
+                            dialog.setCancelable(false);
+                            dialog.show();
+                            Button cls = hint.findViewById(R.id.Closebtn);
+                            cls.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    getActivity().getFragmentManager().popBackStackImmediate();
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
-    }
-
-    public void showPopup(View anchorView) {
-
-        View popupView = getLayoutInflater().inflate(R.layout.fragment_activity_hints_popup, null);
-
-        PopupWindow popupWindow = new PopupWindow(popupView,
-                ViewPager.LayoutParams.WRAP_CONTENT, ViewPager.LayoutParams.WRAP_CONTENT);
-        ViewPager hintpopup;
-        TabLayout activityTabs;
-
-        hintpopup=popupView.findViewById(R.id.hintpopup);
-        activityTabs=popupView.findViewById(R.id.eventTabs);
-        ActivityHintsViewPagerAdapter adapter=new ActivityHintsViewPagerAdapter(getChildFragmentManager(),activityTabs.getTabCount());
-        hintpopup.setAdapter(adapter);
-        activityTabs.setupWithViewPager(hintpopup);
-
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable());
-
-        int location[] = new int[2];
-        anchorView.getLocationOnScreen(location);
-
-        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
-                location[0], location[1] + anchorView.getHeight());
-
     }
 
     private void setFragment(Fragment fragment) {

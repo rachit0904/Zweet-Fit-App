@@ -11,12 +11,14 @@
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/drawable/progress_event_circle.xml" value="0.115" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_auth.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_blank.xml" value="0.1578125" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_hints.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_hints_popup.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_main.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_splash_screen.xml" value="0.1578125" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/add_events_dialog.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/event_details_parentcard.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_activity.xml" value="0.1578125" />
-        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_activity_hints_popup.xml" value="0.1" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_activity_hints_popup.xml" value="0.22" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_coinhint.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_daily_stat_view.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_event_leaderboard.xml" value="0.14666666666666667" />
@@ -28,7 +30,7 @@
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_home_fragment.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_info.xml" value="0.22" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_invitation_.xml" value="0.1578125" />
-        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_levelhint.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_levelhint.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_manage_friends.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_monthly.xml" value="0.1578125" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_ongoing_.xml" value="0.1578125" />
