@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.practise.zweet_fit_app.Adapters.EventParentAdapter;
 import com.practise.zweet_fit_app.Modals.EventCardModal;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Friend_Event_List extends Fragment {
+    TextView friendname;
     RecyclerView recyclerView;
     List<EventCardModal> eventCardModalList=new ArrayList<>();
     @Override
@@ -26,6 +28,8 @@ public class Friend_Event_List extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_friend__event__list, container, false);
         recyclerView=view.findViewById(R.id.friend_event_rv);
+        friendname = view.findViewById(R.id.FriendsName);
+        friendname.setText("Palash" + " - Events");
         recyclerView.setHasFixedSize(true);
         eventCardModalList.clear();
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false));

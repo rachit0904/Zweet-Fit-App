@@ -13,18 +13,18 @@
 
       <androidx.appcompat.widget.SearchView
           android:id="@+id/search"
-          android:layout_marginLeft="20dp"
-          android:layout_marginRight="20dp"
-          android:layout_marginBottom="20dp"
-          android:layout_marginTop="10dp"
-          android:focusedByDefault="true"
           android:layout_width="match_parent"
           android:layout_height="40dp"
-          app:queryBackground="@android:color/transparent"
+          android:layout_marginLeft="20dp"
+          android:layout_marginTop="10dp"
+          android:layout_marginRight="20dp"
+          android:layout_marginBottom="20dp"
           android:background="@drawable/roundercorner"
           android:backgroundTint="@color/darkCardBackground"
+          android:focusedByDefault="true"
           android:gravity="center"
           android:inputType="textCapSentences"
+          app:queryBackground="@android:color/transparent"
           app:queryHint="Search Users" />
 
       <androidx.recyclerview.widget.RecyclerView

@@ -38,12 +38,12 @@ public class friend_profile extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_profile, container, false);
         add_remove = view.findViewById(R.id.add_remove_user);
-//        editProfile = view.findViewById(R.id.edit_profile);
-//        coinTransactionsCard = view.findViewById(R.id.coinsTransactions);
         events=view.findViewById(R.id.events);
         userImg = view.findViewById(R.id.userImg);
         username = view.findViewById(R.id.usname);
         name = view.findViewById(R.id.textView);
+        add_user = view.findViewById(R.id.add_user_img);
+        remove_user = view.findViewById(R.id.remove_user_img);
         coins = view.findViewById(R.id.coins);
         steps = view.findViewById(R.id.steps);
         calories = view.findViewById(R.id.calories);
@@ -76,13 +76,6 @@ public class friend_profile extends Fragment implements View.OnClickListener {
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(userImg);
         }
-//        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("gender",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("wt",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("ht",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("target",""), Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -92,27 +85,18 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             intent.putExtra("activity","events");
             startActivity(intent);
         }
-//        if(view==editProfile){
-//            Intent intent=new Intent(getContext(), BlankActivity.class);
-//            intent.putExtra("activity","edit profile");
-//            startActivity(intent);
-//        }
-//        if(view==coinTransactionsCard){
-//            Intent intent=new Intent(getContext(), BlankActivity.class);
-//            intent.putExtra("activity","coin transactions");
-//            startActivity(intent);
-//        }
-        if(view==add_remove){
-            if(add_user.getVisibility()==View.GONE)
-            {
-                add_user.setVisibility(View.VISIBLE);
-                remove_user.setVisibility(View.GONE);
-            }
-            else
-            {
-                add_user.setVisibility(View.GONE);
-                remove_user.setVisibility(View.VISIBLE);
-            }
+        if(view == add_remove){
+            // TODO - ICONS NOT DISPLAYED
+//            if(add_user.getVisibility()==View.GONE)
+//            {
+//                add_user.setVisibility(View.VISIBLE);
+//                remove_user.setVisibility(View.GONE);
+//            }
+//            else
+//            {
+//                add_user.setVisibility(View.GONE);
+//                remove_user.setVisibility(View.VISIBLE);
+//            }
         }
     }
 }
