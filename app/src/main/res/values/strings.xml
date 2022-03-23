@@ -41,5 +41,8 @@
     <string name="gender">gender</string>
     <string name="channel_name">DailyGoalAchieved</string>
     <string name="channel_description">alert user wheather they have achieved daily target or not</string>
+    <string name="Steps_string">We use a combination of Location Access and Body Sensors to Accurately Track Your Steps.</string>
+    <string name="coin_string">For every event won or completing the daily target our premium subscribers get coins, which they can further use to get exciting rewards.</string>
+    <string name="level_hint">For every event won, our premium subscribers get points, and these points help them to LEVEL UP !</string>
 
 </resources>

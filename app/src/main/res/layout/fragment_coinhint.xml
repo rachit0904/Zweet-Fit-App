@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000814"
     tools:context=".Fragments.Coinhint">
 
@@ -10,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:background="#000814"
         android:orientation="vertical">
 
@@ -25,16 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="@string/lorem_ipsum" />
+            android:gravity="center"
+            android:text="@string/coin_string"
+            android:textSize="18sp"
+            android:textStyle="italic" />
 
         <Button
             android:id="@+id/Next2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Next" />
+            android:layout_marginTop="15dp"
+            android:text="Next"
+            app:cornerRadius="20dp"/>
 
     </LinearLayout>
 

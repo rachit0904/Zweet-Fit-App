@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:background="#000814"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#000814">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#000814"
         android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:orientation="vertical"
         app:cardCornerRadius="15dp">
 
@@ -24,17 +27,19 @@
             android:id="@+id/steptexthint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/lorem_ipsum" />
+            android:gravity="center"
+            android:text="@string/Steps_string"
+            android:textSize="18sp"
+            android:textStyle="italic" />
 
         <Button
             android:id="@+id/Next1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Next" />
+            android:layout_marginTop="15dp"
+            android:text="Next"
+            app:cornerRadius="20dp" />
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</FrameLayout>

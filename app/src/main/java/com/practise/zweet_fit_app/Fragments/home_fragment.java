@@ -2,7 +2,6 @@ package com.practise.zweet_fit_app.Fragments;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
@@ -13,20 +12,15 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +37,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -62,17 +55,13 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
-import com.practise.zweet_fit_app.Activity.StatData_TestActivity;
 import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
-import com.practise.zweet_fit_app.PagerAdapter.ActivityHintsViewPagerAdapter;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.DateFormat;
 import java.time.DayOfWeek;
@@ -80,8 +69,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -260,49 +247,34 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             dialog.setCancelable(true);
             dialog.show();
             Button nxt = hint.findViewById(R.id.Next1);
-
             nxt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    final boolean[] c2 = {false};
-                    getActivity().getFragmentManager().popBackStack();
-                    AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
                     View hint=getLayoutInflater().inflate(R.layout.fragment_coinhint,null);
                     addhintdialog.setView(hint);
-                    AlertDialog dialog=addhintdialog.create();
-                    dialog.setCancelable(false);
-                    dialog.show();
+                    AlertDialog dialog2=addhintdialog.create();
+                    dialog2.setCancelable(false);
+                    dialog2.show();
                     Button nxt2 = hint.findViewById(R.id.Next2);
                     nxt2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            final boolean[] c1 = {false};
-                            getActivity().getFragmentManager().popBackStack();
-                            AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
                             View hint=getLayoutInflater().inflate(R.layout.fragment_levelhint,null);
                             addhintdialog.setView(hint);
-                            AlertDialog dialog=addhintdialog.create();
-                            dialog.setCancelable(false);
-                            dialog.show();
+                            AlertDialog dialog3=addhintdialog.create();
+                            dialog3.setCancelable(false);
+                            dialog3.show();
                             Button cls = hint.findViewById(R.id.Closebtn);
                             cls.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    c1[0] =true;
-                                    c2[0] =true;
                                     dialog.dismiss();
+                                    dialog2.dismiss();
+                                    dialog3.dismiss();
                                 }
                             });
-                            if(c1[0] == true)
-                            {
-                                dialog.dismiss();
-                            }
                         }
                     });
-                    if(c2[0]==true)
-                    {
-                        dialog.dismiss();
-                    }
                 }
             });
         }
