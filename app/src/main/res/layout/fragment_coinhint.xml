@@ -5,6 +5,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#000814"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
     tools:context=".Fragments.Coinhint">
 
     <LinearLayout
@@ -27,8 +29,10 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
+            android:gravity="start"
+            android:paddingLeft="5dp"
             android:text="@string/coin_string"
             android:textSize="18sp"
             android:textStyle="italic" />

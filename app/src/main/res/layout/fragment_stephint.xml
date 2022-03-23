@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
     android:background="#000814">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="8dp"
         android:background="#000814"
         android:gravity="center"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:orientation="vertical"
         app:cardCornerRadius="15dp">
 
@@ -27,8 +29,10 @@
             android:id="@+id/steptexthint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
+            android:gravity="start"
+            android:paddingStart="5dp"
             android:text="@string/Steps_string"
             android:textSize="18sp"
             android:textStyle="italic" />

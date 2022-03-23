@@ -38,8 +38,8 @@ public class friend_profile extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_profile, container, false);
         add_remove = view.findViewById(R.id.add_remove_user);
-        editProfile = view.findViewById(R.id.edit_profile);
-        coinTransactionsCard = view.findViewById(R.id.coinsTransactions);
+//        editProfile = view.findViewById(R.id.edit_profile);
+//        coinTransactionsCard = view.findViewById(R.id.coinsTransactions);
         events=view.findViewById(R.id.events);
         userImg = view.findViewById(R.id.userImg);
         username = view.findViewById(R.id.usname);
@@ -52,10 +52,10 @@ public class friend_profile extends Fragment implements View.OnClickListener {
         weight_text = view.findViewById(R.id.weight_text);
         progressBar3 = view.findViewById(R.id.progressBar3);
         pref= getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
-        editProfile.setOnClickListener(this);
+//        editProfile.setOnClickListener(this);
         events.setOnClickListener(this);
         add_remove.setOnClickListener(this);
-        coinTransactionsCard.setOnClickListener(this);
+//        coinTransactionsCard.setOnClickListener(this);
         setData();
         String coins = "0";
 //        progressBar3.setProgress(Integer.parseInt(numSteps)/Integer.parseInt(target)*100);
@@ -89,19 +89,19 @@ public class friend_profile extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         if(view == events){
             Intent intent=new Intent(getContext(), BlankActivity.class);
-            intent.putExtra("activity","settings");
+            intent.putExtra("activity","events");
             startActivity(intent);
         }
-        if(view==editProfile){
-            Intent intent=new Intent(getContext(), BlankActivity.class);
-            intent.putExtra("activity","edit profile");
-            startActivity(intent);
-        }
-        if(view==coinTransactionsCard){
-            Intent intent=new Intent(getContext(), BlankActivity.class);
-            intent.putExtra("activity","coin transactions");
-            startActivity(intent);
-        }
+//        if(view==editProfile){
+//            Intent intent=new Intent(getContext(), BlankActivity.class);
+//            intent.putExtra("activity","edit profile");
+//            startActivity(intent);
+//        }
+//        if(view==coinTransactionsCard){
+//            Intent intent=new Intent(getContext(), BlankActivity.class);
+//            intent.putExtra("activity","coin transactions");
+//            startActivity(intent);
+//        }
         if(view==add_remove){
             if(add_user.getVisibility()==View.GONE)
             {

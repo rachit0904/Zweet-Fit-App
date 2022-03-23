@@ -30,6 +30,8 @@ public class SearchFragment extends Fragment {
         searchView = view.findViewById(R.id.search);
         searchedUsers=view.findViewById(R.id.searchedUsers);
         searchedUsers.setHasFixedSize(true);
+//        usersDataModalList.add("123455", "345", "Rachit", "true", "12", "5000", "200", "50", "9000", "2", "100", "100", "Male", "3", "50", "2", "Premium", "29-11-2002", "12");
+        // uid,imagePath, name, isFriend, cardType, steps, calories, distance, target, streak, height, weight, gender, ranking, coins, level, subscription, dob,date;
         searchedUsers.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         FriendsCardAdapter adapter=new FriendsCardAdapter(usersDataModalList);
         searchedUsers.setAdapter(adapter);

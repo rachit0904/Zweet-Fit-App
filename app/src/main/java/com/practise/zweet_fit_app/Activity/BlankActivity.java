@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.practise.zweet_fit_app.Fragments.CoinHistory;
 import com.practise.zweet_fit_app.Fragments.EditProfile;
+import com.practise.zweet_fit_app.Fragments.Friend_Event_List;
 import com.practise.zweet_fit_app.Fragments.GroupEventsFragment;
 import com.practise.zweet_fit_app.Fragments.ManageFriendsFragment;
 import com.practise.zweet_fit_app.Fragments.ProfilePage;
@@ -68,6 +69,10 @@ public class BlankActivity extends AppCompatActivity {
             }
             case "coin transactions":{
                 addFragment(new CoinHistory());
+                break;
+            }
+            case "events":{
+                addFragment(new Friend_Event_List());
                 break;
             }
         }

@@ -3,8 +3,7 @@ package com.practise.zweet_fit_app.Modals;
 
 public class UsersDataModal {
 
-    String uid,imagePath, name, isFriend, cardType,
-            steps, calories, distance, target, streak, height, weight, gender, ranking, coins, level, subscription, dob,date;
+    String uid,imagePath, name, isFriend, cardType, steps, calories, distance, target, streak, height, weight, gender, ranking, coins, level, subscription, dob,date;
 
     public String getUid() {
         return uid;
