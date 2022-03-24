@@ -40,12 +40,17 @@ public class SearchFragment extends Fragment {
         usersDataModalList2.add(obj1);
         usersDataModalList2.add(obj2);
         searchedUsers.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        FriendsCardAdapter adapter=new FriendsCardAdapter(usersDataModalList);
+        FriendsCardAdapter adapter=new FriendsCardAdapter(usersDataModalList, requireContext());
         searchedUsers.setAdapter(adapter);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 usersDataModalList.clear();
+//                if (!query.isEmpty())
+//                {
+//                    searchUser(query);
+//                    adapter.notifyDataSetChanged();
+//                }
                 searchUser(query);
                 adapter.notifyDataSetChanged();
                 return false;
@@ -53,8 +58,15 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String user) {
-                usersDataModalList.clear();
-                searchUser(user);
+                if (user.isEmpty())
+                {
+                    usersDataModalList.clear();
+                }
+                else
+                {
+                    usersDataModalList.clear();
+                    searchUser(user);
+                }
                 adapter.notifyDataSetChanged();
                 return false;
             }

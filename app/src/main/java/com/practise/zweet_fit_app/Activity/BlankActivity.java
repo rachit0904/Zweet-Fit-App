@@ -16,6 +16,7 @@ import com.practise.zweet_fit_app.Fragments.ProfilePage;
 import com.practise.zweet_fit_app.Fragments.SearchFragment;
 import com.practise.zweet_fit_app.Fragments.SettingsFragment;
 import com.practise.zweet_fit_app.Fragments.Subs_Details_Page;
+import com.practise.zweet_fit_app.Fragments.friend_profile;
 import com.practise.zweet_fit_app.Fragments.login;
 import com.practise.zweet_fit_app.Fragments.otp;
 import com.practise.zweet_fit_app.R;
@@ -73,6 +74,10 @@ public class BlankActivity extends AppCompatActivity {
             }
             case "events":{
                 addFragment(new Friend_Event_List());
+                break;
+            }
+            case "friend profile":{
+                addFragment(new friend_profile());
                 break;
             }
         }

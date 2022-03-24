@@ -26,7 +26,7 @@ public class FriendsList extends Fragment {
         friends =view.findViewById(R.id.friends);
         friends.setHasFixedSize(true);
         friends.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        FriendsCardAdapter adapter=new FriendsCardAdapter(getFriends());
+        FriendsCardAdapter adapter=new FriendsCardAdapter(getFriends(), requireContext());
         friends.setAdapter(adapter);
         return view;
     }
