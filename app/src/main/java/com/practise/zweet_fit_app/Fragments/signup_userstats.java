@@ -82,7 +82,7 @@ public class signup_userstats extends Fragment {
                     preferences.putString("ht",dataModal.getHeight());
                     preferences.putString("target",dataModal.getTarget());
                     preferences.apply();
-//                    createUser(pref);
+                    createUser(pref);
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -95,12 +95,20 @@ public class signup_userstats extends Fragment {
 
     private void createUser(SharedPreferences pref) {
         ServerRequests request=new ServerRequests();
-        request.addUsers(
-                pref.getString("id",""),pref.getString("name",""),pref.getString("dob",""),
-                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target",""),
+        request.updateUsers(
+                pref.getString("id",""),
+                pref.getString("name",""),
+                pref.getString("dob",""),
+                pref.getString("wt",""),
+                pref.getString("ht", ""),
+                pref.getString("target",""),
                 "0",
-                "true",pref.getString("coins",""),"1",
-                "80","",pref.getString("dp","")
+                "true",
+                pref.getString("coins",""),
+                "1",
+                "80",
+                "",
+                pref.getString("dp","")
         );
     }
 

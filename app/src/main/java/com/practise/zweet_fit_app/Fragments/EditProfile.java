@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.squareup.picasso.Picasso;
 
 
@@ -107,6 +108,9 @@ public class EditProfile extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(view==back){
+            Intent intent=new Intent(getActivity(), BlankActivity.class);
+            intent.putExtra("activity","profile");
+            startActivity(intent);
             getActivity().finish();
         }
         if(view == dob){
@@ -149,11 +153,33 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             preferences.putString("wt", wt.getText().toString());
             preferences.putString("ht", ht.getText().toString());
             preferences.apply();
-            progressBar.setVisibility(View.GONE);
-            Intent intent=new Intent(getActivity(), BlankActivity.class);
-            intent.putExtra("activity","profile");
-            startActivity(intent);
-            getActivity().finish();
+            if(saveToDb()) {
+                progressBar.setVisibility(View.GONE);
+                Intent intent = new Intent(getActivity(), BlankActivity.class);
+                intent.putExtra("activity", "profile");
+                startActivity(intent);
+                getActivity().finish();
+            }
+    }
+
+    private boolean saveToDb() {
+        ServerRequests request=new ServerRequests();
+        request.updateUsers(
+                pref.getString("id",""),
+                pref.getString("name",""),
+                pref.getString("dob",""),
+                pref.getString("wt",""),
+                pref.getString("ht", ""),
+                pref.getString("target",""),
+                "0",
+                "true",
+                pref.getString("coins",""),
+                "1",
+                "80",
+                "",
+                pref.getString("dp","")
+        );
+        return true;
     }
 
     private void choosePicture() {
@@ -201,7 +227,7 @@ public class EditProfile extends Fragment implements View.OnClickListener {
                             preferences.putString("dp",url);
                             preferences.apply();
                             Picasso.get().load(url).into(dp);
-                            Toast.makeText(getContext(),"uploaded:"+ url, Toast.LENGTH_SHORT).show();
+
                         }
                         saveData();
                     }

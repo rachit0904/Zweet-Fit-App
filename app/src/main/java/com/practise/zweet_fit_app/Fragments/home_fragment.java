@@ -38,6 +38,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -59,9 +64,15 @@ import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
+import com.practise.zweet_fit_app.Util.Constant;
 import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import java.text.DateFormat;
 import java.time.DayOfWeek;
@@ -69,10 +80,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class home_fragment extends Fragment implements View.OnClickListener {
     List<GrpEventsModal> grpEventsModalList = new ArrayList<>();
@@ -144,20 +166,76 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         request_data();
         setData();
         getStreakStatus();
-//        saveData();
+        saveData();
+
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }
 
+    private void loadUser(String id) {
+        ServerRequests request=new ServerRequests();
+        Log.i("users_data",request.checkServer());
+    }
+
+//    {
+//        OkHttpClient client = new OkHttpClient().newBuilder()
+//                .build();
+//        MediaType mediaType = MediaType.parse("text/plain");
+//        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//                .addFormDataPart("uid","4")
+//                .addFormDataPart("name","jay")
+//                .addFormDataPart("dob","29-6-2001")
+//                .addFormDataPart("weight","65")
+//                .addFormDataPart("height","160")
+//                .addFormDataPart("target","4000")
+//                .addFormDataPart("streak","10")
+//                .addFormDataPart("subscription","true")
+//                .addFormDataPart("coins","30")
+//                .addFormDataPart("level","1")
+//                .addFormDataPart("win_rate","0")
+//                .addFormDataPart("mobile","0")
+//                .addFormDataPart("dp_url","null")
+//                .build();
+//        Request request = new Request.Builder()
+//                .url(Constant.ServerUrl+"/updateUsers")
+//                .method("POST", body)
+//                .addHeader("key", Constant.SeverApiKey)
+//                .build();
+//        Response response = client.newCall(request).execute();
+//    }
+
     private void saveData() {
-        ServerRequests requests=new ServerRequests();
-        requests.updateUsers(
-                pref.getString("id","0"),pref.getString("name",""),pref.getString("dob",""),
-                pref.getString("wt",""),pref.getString("ht",""),pref.getString("target","750"),
-                String.valueOf(streaks),
-                "true",pref.getString("coins","0"),"1",
-                "80","0",pref.getString("dp","")
-        );
+        String url = Constant.ServerUrl+"/updateUsers";
+        OkHttpClient client = new OkHttpClient();
+        //header
+        RequestBody formBody = new FormBody.Builder()
+                .add("key","MyApiKEy")
+                .build();
+        //form-body
+        RequestBody body = new FormBody.Builder()
+                .add("uid",  pref.getString("id",""))
+                .add("name",  pref.getString("name",""))
+                .add("dob",  pref.getString("dob",""))
+                .add("weight",  pref.getString("wt",""))
+                .add("height",  pref.getString("ht",""))
+                .add("streak", "0")
+                .add("target",  pref.getString("target","750"))
+                .add("subscription", "false")
+                .add("coins",  pref.getString("coins","0"))
+                .add("level",  "1")
+                .add("win_rate", "")
+                .add("mobile", "")
+                .add("dp_url",  pref.getString("dp","")).build();
+        okhttp3.Request request = new Request.Builder()
+                .url(url)
+                .addHeader("key","MyApiKEy")
+                .post(body)
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void getStreakStatus() {
@@ -223,6 +301,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             Intent intent = new Intent(getActivity(), BlankActivity.class);
             intent.putExtra("activity", "profile");
             startActivity(intent);
+//            getActivity().finish();
         }
         if (v == streakPercent || v == streakProgressBar || v == streakCard) {
             setFragment(new StatsFragment());
