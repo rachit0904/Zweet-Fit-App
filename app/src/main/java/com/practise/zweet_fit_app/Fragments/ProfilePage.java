@@ -97,6 +97,7 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
             Intent intent=new Intent(getContext(), BlankActivity.class);
             intent.putExtra("activity","edit profile");
             startActivity(intent);
+            getActivity().finish();
         }
         if(view==coinTransactionsCard){
             Intent intent=new Intent(getContext(), BlankActivity.class);

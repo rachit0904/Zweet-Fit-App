@@ -13,7 +13,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class Constant {
-    public static String ServerUrl = "http://35.207.247.18:3578";
+    public static String ServerUrl = "http://35.207.233.155:3578";
+    public static String SeverApiKey = "MyApiKEy";
     public static String Shared_userdata = "zweet_userdata";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
