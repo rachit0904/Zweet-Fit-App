@@ -78,9 +78,7 @@ public class splash_screen extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 2800);
-
-
+        }, 1000);
     }
 
     @Override

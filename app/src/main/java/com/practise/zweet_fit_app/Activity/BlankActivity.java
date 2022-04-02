@@ -9,12 +9,14 @@ import android.os.Bundle;
 
 import com.practise.zweet_fit_app.Fragments.CoinHistory;
 import com.practise.zweet_fit_app.Fragments.EditProfile;
+import com.practise.zweet_fit_app.Fragments.Friend_Event_List;
 import com.practise.zweet_fit_app.Fragments.GroupEventsFragment;
 import com.practise.zweet_fit_app.Fragments.ManageFriendsFragment;
 import com.practise.zweet_fit_app.Fragments.ProfilePage;
 import com.practise.zweet_fit_app.Fragments.SearchFragment;
 import com.practise.zweet_fit_app.Fragments.SettingsFragment;
 import com.practise.zweet_fit_app.Fragments.Subs_Details_Page;
+import com.practise.zweet_fit_app.Fragments.friend_profile;
 import com.practise.zweet_fit_app.Fragments.login;
 import com.practise.zweet_fit_app.Fragments.otp;
 import com.practise.zweet_fit_app.R;
@@ -70,6 +72,14 @@ public class BlankActivity extends AppCompatActivity {
                 addFragment(new CoinHistory());
                 break;
             }
+            case "events":{
+                addFragment(new Friend_Event_List());
+                break;
+            }
+            case "friend profile":{
+                addFragment(new friend_profile());
+                break;
+            }
         }
     }
 
@@ -79,6 +89,4 @@ public class BlankActivity extends AppCompatActivity {
         transaction.replace(R.id.blank_activity_frame, fragment);
         transaction.commit();
     }
-
-
 }

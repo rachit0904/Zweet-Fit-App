@@ -44,13 +44,14 @@
                 android:src="@drawable/reject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
             <ImageView
                 android:id="@+id/more"
-                android:layout_marginLeft="30dp"
-                android:visibility="gone"
-                android:src="@drawable/more"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:src="@drawable/more"
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

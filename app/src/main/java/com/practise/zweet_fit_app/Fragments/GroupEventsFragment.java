@@ -56,6 +56,5 @@ public class GroupEventsFragment extends Fragment {
         if(getActivity().getIntent().getStringExtra("status").equals("finished"))
             status.setText("Event Ended!");
         target.setText("Goal: "+getActivity().getIntent().getStringExtra("target")+" steps");
-
     }
 }

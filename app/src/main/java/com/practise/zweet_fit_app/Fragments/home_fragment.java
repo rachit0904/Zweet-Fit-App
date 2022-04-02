@@ -2,17 +2,16 @@ package com.practise.zweet_fit_app.Fragments;
 
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -60,7 +60,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
-import com.practise.zweet_fit_app.Activity.StatData_TestActivity;
 import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
@@ -69,12 +68,12 @@ import com.practise.zweet_fit_app.Util.Constant;
 import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
 import java.text.DateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -103,7 +102,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     TextView streakPercent,goalAchieved;
     CardView streakCard, premiumCard;
     CircleImageView userImg;
-    ImageView searchUsers;
+    ImageView searchUsers, hintbutton;
     ImageView d1,d2,d3,d4,d5,d6,d7;
     TextView steps;
     DataReadRequest readRequest ;
@@ -143,6 +142,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         premiumCard = view.findViewById(R.id.PremiumAdCard);
         distance = view.findViewById(R.id.distance);
         calories = view.findViewById(R.id.calories);
+        hintbutton = view.findViewById(R.id.hintbutton);
         progressBar = view.findViewById(R.id.progressBar);
         goalAchieved=view.findViewById(R.id.goalAchieved);
         d1=view.findViewById(R.id.monStreakStat);d2=view.findViewById(R.id.tuesStreakStat);d3=view.findViewById(R.id.wedStreakStat);
@@ -150,6 +150,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         d7=view.findViewById(R.id.sunStreakStat);
         searchUsers.setOnClickListener(this);
         userImg.setOnClickListener(this);
+        hintbutton.setOnClickListener(this);
         premiumCard.setOnClickListener(this);
         streakPercent.setOnClickListener(this);
         streakProgressBar.setOnClickListener(this);
@@ -317,6 +318,45 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             intent.putExtra("activity", "search user");
             startActivity(intent);
         }
+        if(v == hintbutton){
+            AlertDialog.Builder addhintdialog=new AlertDialog.Builder(getContext());
+            View hint=getLayoutInflater().inflate(R.layout.fragment_stephint,null);
+            addhintdialog.setView(hint);
+            AlertDialog dialog=addhintdialog.create();
+            dialog.setCancelable(true);
+            dialog.show();
+            Button nxt = hint.findViewById(R.id.Next1);
+            nxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    View hint=getLayoutInflater().inflate(R.layout.fragment_coinhint,null);
+                    addhintdialog.setView(hint);
+                    AlertDialog dialog2=addhintdialog.create();
+                    dialog2.setCancelable(false);
+                    dialog2.show();
+                    Button nxt2 = hint.findViewById(R.id.Next2);
+                    nxt2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            View hint=getLayoutInflater().inflate(R.layout.fragment_levelhint,null);
+                            addhintdialog.setView(hint);
+                            AlertDialog dialog3=addhintdialog.create();
+                            dialog3.setCancelable(false);
+                            dialog3.show();
+                            Button cls = hint.findViewById(R.id.Closebtn);
+                            cls.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.dismiss();
+                                    dialog2.dismiss();
+                                    dialog3.dismiss();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void setFragment(Fragment fragment) {
@@ -418,7 +458,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
 
     //create request to retrieve step history for specific weeks
     public static DataReadRequest getDataRequestForWeeks(String startDate,String endDate){
@@ -657,7 +696,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     //Update the data List object with the steps values retrieved from the Fit History API
     private static void updateDataList(DataSet dataSet) {
 
@@ -677,4 +715,26 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
+        alert.setTitle("How Do We Calculate Steps");
+        alert.setMessage("Message");
+
+        alert.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
+                alert.setTitle("How Do We Distribute Coins");
+                alert.setMessage("Message");
+
+                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//                        setFragment(CoinHistory);
+                    }
+                });
+                alert.show();
+            }
+        });
+
+        alert.show();
+    }
 }

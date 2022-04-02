@@ -1,5 +1,7 @@
 package com.practise.zweet_fit_app.Adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.practise.zweet_fit_app.Activity.BlankActivity;
+import com.practise.zweet_fit_app.Fragments.StatsFragment;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
 
@@ -18,9 +24,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.ViewHolder> {
     List<UsersDataModal> usersList;
+    private Context cnt;
 
-    public FriendsCardAdapter(List<UsersDataModal> usersList) {
+    public FriendsCardAdapter(List<UsersDataModal> usersList, Context context) {
         this.usersList = usersList;
+        this.cnt=context;
     }
 
     @NonNull
@@ -59,6 +67,7 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             more=itemView.findViewById(R.id.more);
             accept.setOnClickListener(this);
             decline.setOnClickListener(this);
+            more.setOnClickListener(this);
         }
 
         @Override
@@ -70,6 +79,12 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             if(view==decline){
                 usersList.remove(getAdapterPosition());
                 notifyDataSetChanged();
+            }
+            if(view==more)
+            {
+                Intent intent = new Intent(cnt,BlankActivity.class);
+                intent.putExtra("activity", "friend profile");
+                cnt.startActivity(intent);
             }
         }
     }
