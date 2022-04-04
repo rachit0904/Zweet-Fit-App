@@ -42,6 +42,11 @@ import com.google.firebase.storage.UploadTask;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
 
 
@@ -50,6 +55,7 @@ import java.time.LocalDate;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MultipartBody;
 
 public class EditProfile extends Fragment implements View.OnClickListener {
     TextInputEditText name,  target, wt, ht,username;

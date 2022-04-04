@@ -38,11 +38,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+//import com.android.volley.AuthFailureError;
+//import com.android.volley.RequestQueue;
+//import com.android.volley.VolleyError;
+//import com.android.volley.toolbox.JsonObjectRequest;
+//import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -69,6 +69,7 @@ import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,6 +84,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -177,33 +179,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         Log.i("users_data",request.checkServer());
     }
 
-//    {
-//        OkHttpClient client = new OkHttpClient().newBuilder()
-//                .build();
-//        MediaType mediaType = MediaType.parse("text/plain");
-//        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                .addFormDataPart("uid","4")
-//                .addFormDataPart("name","jay")
-//                .addFormDataPart("dob","29-6-2001")
-//                .addFormDataPart("weight","65")
-//                .addFormDataPart("height","160")
-//                .addFormDataPart("target","4000")
-//                .addFormDataPart("streak","10")
-//                .addFormDataPart("subscription","true")
-//                .addFormDataPart("coins","30")
-//                .addFormDataPart("level","1")
-//                .addFormDataPart("win_rate","0")
-//                .addFormDataPart("mobile","0")
-//                .addFormDataPart("dp_url","null")
-//                .build();
-//        Request request = new Request.Builder()
-//                .url(Constant.ServerUrl+"/updateUsers")
-//                .method("POST", body)
-//                .addHeader("key", Constant.SeverApiKey)
-//                .build();
-//        Response response = client.newCall(request).execute();
-//    }
-
     private void saveData() {
         String url = Constant.ServerUrl+"/updateUsers";
         OkHttpClient client = new OkHttpClient();
@@ -280,16 +255,44 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         currentuser = firebaseAuth.getCurrentUser();
     }
 
-
-
-
     private List<GrpEventsModal> getGrpEvents() {
-        for (int i = 0; i < 3; i++) {
-            GrpEventsModal modal = new GrpEventsModal(
-                    "1", "Daily Group Event- " + (i + 1), "2",
-                    "5", "3", "30",
-                    "1 Day", "8000", "", "ongoing");
-            grpEventsModalList.add(modal);
+        try {
+            String url = Constant.ServerUrl+"/select?table=events";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=events")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            for (int i = 0; i < Jarray.length(); i++) {
+                JSONObject object = Jarray.getJSONObject(i);
+                String title = object.get("title").toString();
+                String st = object.get("status").toString();
+                String dur = object.get("duration").toString();
+                String target = object.get("target").toString();
+                String ent_coin = object.get("entry_coin").toString();
+                if(st.equals("2"))
+                {
+                    GrpEventsModal modal = new GrpEventsModal(
+                            "1", title + (i + 1), "2",
+                            "5", "3", ent_coin, dur, target, "", "ongoing");
+                    grpEventsModalList.add(modal);
+                }
+                Log.d("Tag", st);
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Log.d("Error2", e.toString());
         }
         return grpEventsModalList;
     }
