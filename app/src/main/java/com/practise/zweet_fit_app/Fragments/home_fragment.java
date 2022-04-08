@@ -257,11 +257,11 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
     private List<GrpEventsModal> getGrpEvents() {
         try {
-            String url = Constant.ServerUrl+"/select?table=events";
+            String url = Constant.ServerUrl+"/select?table=group_event";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=events")
+                    .url("http://35.207.233.155:3578/select?table=group_event")
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
@@ -274,18 +274,19 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             String respo = response.body().string();
             JSONObject Jobject = new JSONObject(respo);
             JSONArray Jarray = Jobject.getJSONArray("data");
+            Log.d("Tag", Jarray.toString());
             for (int i = 0; i < Jarray.length(); i++) {
                 JSONObject object = Jarray.getJSONObject(i);
                 String title = object.get("title").toString();
                 String st = object.get("status").toString();
                 String dur = object.get("duration").toString();
-                String target = object.get("target").toString();
-                String ent_coin = object.get("entry_coin").toString();
-                if(st.equals("2"))
+                String parti = object.get("participates").toString();
+                String ent_coin = object.get("EntryCoin").toString();
+                if(st.equals("0"))
                 {
                     GrpEventsModal modal = new GrpEventsModal(
                             "1", title + (i + 1), "2",
-                            "5", "3", ent_coin, dur, target, "", "ongoing");
+                            "5", "3", ent_coin, dur, "", parti, "ongoing");
                     grpEventsModalList.add(modal);
                 }
                 Log.d("Tag", st);

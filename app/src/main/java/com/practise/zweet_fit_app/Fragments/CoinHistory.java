@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,22 @@ import com.practise.zweet_fit_app.Adapters.CoinTransactionParentAdapter;
 import com.practise.zweet_fit_app.Modals.CoinTransactionChildModal;
 import com.practise.zweet_fit_app.Modals.CoinTransactionParentModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 
 public class CoinHistory extends Fragment {
@@ -36,37 +50,69 @@ public class CoinHistory extends Fragment {
     }
 
     private List<CoinTransactionParentModal> getTransactions() {
-        CoinTransactionParentModal modal=new CoinTransactionParentModal();
-        List<CoinTransactionChildModal> childModalList=new ArrayList<>();
-        modal.setDate("1 Dec 2021");
-        CoinTransactionChildModal childModal=new CoinTransactionChildModal();
-        childModal.setCoins("+20");
-        childModal.setSource("Daily Group Event");
-        childModalList.add(childModal);
-        CoinTransactionChildModal childModal2=new CoinTransactionChildModal();
-        childModal2.setCoins("-5");
-        childModal2.setSource("Peer Event Entry Fee");
-        childModalList.add(childModal2);
-        modal.setChildModalList(childModalList);
-        coinTransactionParentModalList.add(modal);
-        CoinTransactionParentModal modal2=new CoinTransactionParentModal();
-        List<CoinTransactionChildModal> childModalList2=new ArrayList<>();
-        modal2.setDate("3 Dec 2021");
-        CoinTransactionChildModal childModal3=new CoinTransactionChildModal();
-        childModal3.setCoins("-10");
-        childModal3.setSource("Daily Group Event");
-        childModalList2.add(childModal3);
-        CoinTransactionChildModal childModal4=new CoinTransactionChildModal();
-        childModal4.setCoins("+15");
-        childModal4.setSource("Peer Event Prize");
-        childModalList2.add(childModal4);
-        CoinTransactionChildModal childModal5=new CoinTransactionChildModal();
-        childModal5.setCoins("+15");
-        childModal5.setSource("User Referal");
-        childModalList2.add(childModal5);
-        modal2.setChildModalList(childModalList2);
-        coinTransactionParentModalList.add(modal2);
+        try {
+            String url = Constant.ServerUrl+"/select?table=coin_history";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            okhttp3.Request request = new okhttp3.Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=coin_history")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            okhttp3.Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            String dts[] = new String[Jarray.length()];
+            for (int i = 0; i < Jarray.length(); i++) {
+                List<CoinTransactionChildModal> childModalList=new ArrayList<>();
+                JSONObject object = Jarray.getJSONObject(i);
+                dts[i] = object.get("date").toString();
+                Date dt = new SimpleDateFormat("dd/MM/yyyy").parse(dts[i]);
+                dts[i]=dt.toString();
+                dts[i]=dts[i].substring(8, 10) + " " + dts[i].substring(4, 7) + " " + dts[i].substring(30, 34);
+                CoinTransactionParentModal modal=new CoinTransactionParentModal();
+                modal.setDate(dts[i]);
+                for(int k=i;k<Jarray.length();k++)
+                {
+                    JSONObject object2 = Jarray.getJSONObject(k);
+                    String tempdate = object2.get("date").toString();
+                    String src = object2.get("source").toString();
+                    String coin = object2.get("amount").toString();
+                    Date dtst = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+                    tempdate=dtst.toString();
+                    tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
+                    if(tempdate.equals(dts[i]))
+                    {
+                        CoinTransactionChildModal childModal2=new CoinTransactionChildModal();
+                        childModal2.setCoins(coin);
+                        childModal2.setSource(src);
+                        childModalList.add(childModal2);
+                    }
+                    else
+                    {
+                        if(i<Jarray.length())
+                        {
+                            i=(k-1);
+                        }
+                        break;
+                    }
+                }
+                modal.setChildModalList(childModalList);
+                coinTransactionParentModalList.add(modal);
+                if(i==(Jarray.length()-2))
+                {
+                    break;
+                }
+            }
+        } catch (JSONException | IOException | ParseException e) {
+            e.printStackTrace();
+        }
         return coinTransactionParentModalList;
-
     }
 }

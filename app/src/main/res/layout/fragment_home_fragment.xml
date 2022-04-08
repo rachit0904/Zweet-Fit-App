@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="39dp"
                 android:layout_marginTop="30dp"
-                android:text="On-Goining group event"
+                android:text="On-Going group event"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
