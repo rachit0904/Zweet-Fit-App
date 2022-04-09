@@ -282,14 +282,18 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                 String dur = object.get("duration").toString();
                 String parti = object.get("participates").toString();
                 String ent_coin = object.get("EntryCoin").toString();
-                if(st.equals("0"))
+                String minp = object.get("minP").toString();
+                String maxp = object.get("maxP").toString();
+                String target = object.get("target").toString();
+                String level = object.get("levelUp").toString();
+                String gid = object.get("id").toString();
+                if(st.equals("2"))
                 {
                     GrpEventsModal modal = new GrpEventsModal(
-                            "1", title + (i + 1), "2",
-                            "5", "3", ent_coin, dur, "", parti, "ongoing");
+                            gid, title, minp,
+                            maxp, level, ent_coin, dur, target, parti, "ongoing");
                     grpEventsModalList.add(modal);
                 }
-                Log.d("Tag", st);
             }
         } catch (JSONException | IOException e) {
             e.printStackTrace();

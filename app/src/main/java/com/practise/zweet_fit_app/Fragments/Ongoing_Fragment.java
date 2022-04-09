@@ -106,6 +106,7 @@ public class Ongoing_Fragment extends Fragment {
                     String dur2 = object.get("duration").toString();
                     String target = object.get("target").toString();
                     String ent_coin = object.get("entry_coin").toString();
+                    String eid = object.get("eid").toString();
                     String tempdate = dur2.split("-")[0];
                     Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
                     tempdate=dts.toString();
@@ -115,8 +116,8 @@ public class Ongoing_Fragment extends Fragment {
                         if(tempdate.equals(date[i]))
                         {
                             GrpEventsModal modal = new GrpEventsModal(
-                                    "1", title + (i + 1), "2",
-                                    "5", "3", ent_coin, dur, target, "", "ongoing");
+                                    "1", title, "2",
+                                    "5", "3", ent_coin, tempdate, target, "", "ongoing");
                             grpEventsModalList.add(modal);
                             fdate=tempdate;
                         }
@@ -158,6 +159,8 @@ public class Ongoing_Fragment extends Fragment {
                     String minp = object.get("minP").toString();
                     String maxp = object.get("maxP").toString();
                     String target = object.get("target").toString();
+                    String eid = object.get("id").toString();
+                    String level = object.get("levelUp").toString();
                     String tempdate = dur2.split("-")[0];
                     Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
                     tempdate=dts.toString();
@@ -167,8 +170,8 @@ public class Ongoing_Fragment extends Fragment {
                         if(tempdate.equals(date[i]))
                         {
                             GrpEventsModal modal = new GrpEventsModal(
-                                    "1", title + (i + 1), minp,
-                                    maxp, "3", ent_coin, dur, target, parti, "ongoing");
+                                    eid, title, minp,
+                                    maxp, level, ent_coin, tempdate, target, parti, "ongoing");
                             grpEventsModalList.add(modal);
                             fdate2=tempdate;
                         }

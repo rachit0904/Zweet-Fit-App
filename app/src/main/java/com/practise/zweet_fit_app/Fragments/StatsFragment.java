@@ -93,6 +93,4 @@ public class StatsFragment extends Fragment implements View.OnClickListener {
         transaction.replace(R.id.statView, fragment);
         transaction.commit();
     }
-
-
 }
