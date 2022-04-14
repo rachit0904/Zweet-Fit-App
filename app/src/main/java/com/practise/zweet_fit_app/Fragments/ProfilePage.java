@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -18,8 +20,21 @@ import androidx.fragment.app.Fragment;
 
 import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.R;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import com.practise.zweet_fit_app.Util.Constant;
 import com.squareup.picasso.Picasso;
 
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -76,13 +91,36 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(userImg);
         }
-//        Toast.makeText(getActivity(), pref.getString("name",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("dob",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("gender",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("wt",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("ht",""), Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getActivity(), pref.getString("target",""), Toast.LENGTH_SHORT).show();
+        getData();
+    }
 
+    private void getData() {
+        try {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value=" + pref.getString("id",""))
+                    .method("GET", null)
+                    .addHeader("key", "MyApiKEy")
+                    .build();
+            Response response=null;
+            try {
+               response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String data=response.body().string();
+            Log.i("response",data);
+            JSONObject object=new JSONObject(data);
+            JSONArray userData=object.getJSONArray("data");
+            for(int i=0;i<userData.length();i++){
+                JSONObject obj=userData.getJSONObject(i);
+                Log.i("name",obj.getString("name"));
+            }
+
+        }catch (IOException | JSONException e){
+            e.printStackTrace();
+        }
     }
 
     @Override

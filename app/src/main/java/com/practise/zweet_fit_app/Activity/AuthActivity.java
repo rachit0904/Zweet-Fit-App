@@ -215,6 +215,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             preferences=pref.edit();
             preferences.putString("id",result.getSignInAccount().getId());
             preferences.apply();
+            Log.d("result","id saved");
             signWithGoogle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.google_logo, 0, R.drawable.verified, 0);
             flag1=true;
         }else{

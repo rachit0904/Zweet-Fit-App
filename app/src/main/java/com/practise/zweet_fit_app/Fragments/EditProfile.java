@@ -46,10 +46,17 @@ import com.squareup.picasso.Picasso;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EditProfile extends Fragment implements View.OnClickListener {
     TextInputEditText name,  target, wt, ht,username;
@@ -153,7 +160,8 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             preferences.putString("wt", wt.getText().toString());
             preferences.putString("ht", ht.getText().toString());
             preferences.apply();
-            if(saveToDb()) {
+//            if(saveToDb())
+            {
                 progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(getActivity(), BlankActivity.class);
                 intent.putExtra("activity", "profile");
@@ -163,22 +171,37 @@ public class EditProfile extends Fragment implements View.OnClickListener {
     }
 
     private boolean saveToDb() {
-        ServerRequests request=new ServerRequests();
-        request.updateUsers(
-                pref.getString("id",""),
-                pref.getString("name",""),
-                pref.getString("dob",""),
-                pref.getString("wt",""),
-                pref.getString("ht", ""),
-                pref.getString("target",""),
-                "0",
-                "true",
-                pref.getString("coins",""),
-                "1",
-                "80",
-                "",
-                pref.getString("dp","")
-        );
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",pref.getString("id","1"))
+                .addFormDataPart("name",pref.getString("name","test user"))
+                .addFormDataPart("username",pref.getString("usname",""))
+                .addFormDataPart("dob",pref.getString("dob","09-04-2001"))
+                .addFormDataPart("weight",pref.getString("wt","0"))
+                .addFormDataPart("height",pref.getString("ht","0"))
+                .addFormDataPart("target",pref.getString("target","1000"))
+                .addFormDataPart("streak","0")
+
+                .addFormDataPart("subscription","true")
+                .addFormDataPart("coins",pref.getString("coins","0"))
+                .addFormDataPart("points","0")
+                .addFormDataPart("level","1")
+                .addFormDataPart("win_rate","0")
+                .addFormDataPart("mobile","0")
+                .addFormDataPart("dp_url",pref.getString("dp",""))
+                .build();
+        Request request = new Request.Builder()
+                .url("http://35.207.233.155:3578/updateUsers")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

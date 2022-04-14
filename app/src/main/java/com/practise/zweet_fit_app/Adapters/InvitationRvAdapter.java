@@ -1,6 +1,9 @@
 package com.practise.zweet_fit_app.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.practise.zweet_fit_app.Modals.InviteCardModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
 
 
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapter.ViewHolder> {
     List<InviteCardModal> inviteCardModalList;
@@ -38,7 +49,7 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         InviteCardModal  modal=inviteCardModalList.get(position);
         holder.eventName.setText(modal.getEventName());
-        holder.sender.setText(modal.getInviteFrom());
+        holder.sender.setText("from " + modal.getInviteFrom());
     }
 
     @Override
@@ -59,19 +70,65 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
             reject.setOnClickListener(this);
         }
 
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         public void onClick(View view) {
-            InviteCardModal cardModal=inviteCardModalList.get(getAdapterPosition());
             if(view==accept){
-                Snackbar.make(view, cardModal.getEventName()+" from "+cardModal.getInviteFrom()+" accepted!", Snackbar.LENGTH_SHORT).show();
-                inviteCardModalList.remove(getAdapterPosition());
+                requestToDb(view, Constant.ServerUrl,"/acceptinvite",getAdapterPosition());
                 notifyDataSetChanged();
             }
             if(view==reject){
-                Snackbar.make(view, cardModal.getEventName()+" event declined!", Snackbar.LENGTH_SHORT).show();
-                inviteCardModalList.remove(getAdapterPosition());
+                requestToDb(view, Constant.ServerUrl,"/removeInvitation",getAdapterPosition());
                 notifyDataSetChanged();
             }
         }
+    }
+
+    private void requestToDb(View view, String serverUrl, String endpt,int pos) {
+        String eid=inviteCardModalList.get(pos).geteId();
+        String rid=inviteCardModalList.get(pos).getRid();
+        String id=inviteCardModalList.get(pos).getSid();
+        try {
+            switch (endpt) {
+                case "/acceptinvite": {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("rid", rid)
+                            .addFormDataPart("eid", eid)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(serverUrl+"/acceptinvite")
+                            .method("POST", body)
+                            .addHeader("key", "MyApiKEy")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String data=response.body().string();
+                    Log.i("accept invite",data);
+                }
+                case "/removeInvitation": {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("id",id)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url(serverUrl+"/removeInvitation")
+                            .method("POST", body)
+                            .addHeader("key", "MyApiKEy")
+                            .build();
+                    Response response = client.newCall(request).execute();
+                    String data=response.body().string();
+                    Log.i("accept invite",data);
+                    break;
+                }
+
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        inviteCardModalList.remove(pos);
     }
 }

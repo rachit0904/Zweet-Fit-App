@@ -1,12 +1,34 @@
 package com.practise.zweet_fit_app.Modals;
 
 public class InviteCardModal {
-    String eId,eventName,inviteFrom;
+    String eId,eventName,inviteFrom,rid,sid;
 
-    public InviteCardModal(String eId, String eventName, String inviteFrom) {
+    public InviteCardModal(String eId, String eventName, String inviteFrom, String rid, String sid) {
         this.eId = eId;
         this.eventName = eventName;
         this.inviteFrom = inviteFrom;
+        this.rid = rid;
+        this.sid = sid;
+    }
+
+    public InviteCardModal() {
+
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getRid() {
+        return rid;
+    }
+
+    public void setRid(String rid) {
+        this.rid = rid;
     }
 
     public String geteId() {

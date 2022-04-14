@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,18 @@ import com.practise.zweet_fit_app.Activity.SignUp;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class signup_userstats extends Fragment {
@@ -54,35 +67,39 @@ public class signup_userstats extends Fragment {
             @Override
             public void onClick(View view) {
                 if(view==submit) {
-                    pref= getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
-                    preferences=pref.edit();
-                    String username=edit_usname.getText().toString();
-                    if(!username.isEmpty()){
-                        validateUsername(username);
-                        preferences.putString("usname",username);
-                    }else{
-                        Toast.makeText(getContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
-                    }
-                    if (!edit_Height.getText().toString().isEmpty()) {
-                        dataModal.setHeight(edit_Height.getText().toString());
-                    }
-                    if(!edit_Weight.getText().toString().isEmpty()){
-                        dataModal.setWeight(edit_Weight.getText().toString());
-                    }
-                    if(!edit_Target.getText().toString().isEmpty()){
-                        if(Integer.parseInt(edit_Target.getText().toString())<750){
-                            Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
-                        }else {
-                            dataModal.setTarget(edit_Target.getText().toString());
+                    try {
+                        pref = getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+                        preferences = pref.edit();
+                        String username = edit_usname.getText().toString();
+                        if (!username.isEmpty()) {
+                            validateUsername(username);
+                            preferences.putString("usname", username);
+                        } else {
+                            Toast.makeText(getContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
                         }
+                        if (!edit_Height.getText().toString().isEmpty()) {
+                            dataModal.setHeight(edit_Height.getText().toString());
+                        }
+                        if (!edit_Weight.getText().toString().isEmpty()) {
+                            dataModal.setWeight(edit_Weight.getText().toString());
+                        }
+                        if (!edit_Target.getText().toString().isEmpty()) {
+                            if (Integer.parseInt(edit_Target.getText().toString()) < 750) {
+                                Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                dataModal.setTarget(edit_Target.getText().toString());
+                            }
+                        }
+                        preferences.putString("wt", dataModal.getWeight());
+                        preferences.putString("ht", dataModal.getHeight());
+                        preferences.putString("target", dataModal.getTarget());
+                        preferences.apply();
+//                        createUser(pref);
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    Intent intent=new Intent(getActivity(), SignUp.class);
-                    intent.putExtra("fragment","get started");
-                    preferences.putString("wt",dataModal.getWeight());
-                    preferences.putString("ht",dataModal.getHeight());
-                    preferences.putString("target",dataModal.getTarget());
-                    preferences.apply();
-                    createUser(pref);
+                    Intent intent = new Intent(getActivity(), SignUp.class);
+                    intent.putExtra("fragment", "get started");
                     startActivity(intent);
                     getActivity().finish();
                 }
@@ -94,22 +111,43 @@ public class signup_userstats extends Fragment {
     }
 
     private void createUser(SharedPreferences pref) {
-        ServerRequests request=new ServerRequests();
-        request.updateUsers(
-                pref.getString("id",""),
-                pref.getString("name",""),
-                pref.getString("dob",""),
-                pref.getString("wt",""),
-                pref.getString("ht", ""),
-                pref.getString("target",""),
-                "0",
-                "true",
-                pref.getString("coins",""),
-                "1",
-                "80",
-                "",
-                pref.getString("dp","")
-        );
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",pref.getString("id","1"))
+                .addFormDataPart("username",pref.getString("usname",""))
+                .addFormDataPart("name",pref.getString("name","test user"))
+                .addFormDataPart("dob",pref.getString("dob","09-04-2001"))
+                .addFormDataPart("weight",pref.getString("wt","0"))
+                .addFormDataPart("height",pref.getString("ht","0"))
+                .addFormDataPart("target",pref.getString("target","1000"))
+                .addFormDataPart("streak","0")
+                .addFormDataPart("steps","0")
+                .addFormDataPart("subscription","true")
+                .addFormDataPart("coins","0")
+                .addFormDataPart("points","0")
+                .addFormDataPart("level","1")
+                .addFormDataPart("win_rate","0")
+                .addFormDataPart("mobile","0")
+                .addFormDataPart("dp_url","")
+                .build();
+        Request request = new Request.Builder()
+                .url("http://35.207.233.155:3578/updateUsers")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject object=new JSONObject(data);
+            Log.i("response",data);
+            if(object.getString("status").equals("200")){
+
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void validateUsername(String username) {

@@ -4,10 +4,16 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="@dimen/cardview_compat_inset_shadow"
+    app:cardCornerRadius="10dp"
+    android:layout_marginBottom="5dp"
     android:backgroundTint="#D20E0E0E">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:padding="18dp"
+        android:id="@+id/cardItem"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout

@@ -166,8 +166,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         request_data();
         setData();
         getStreakStatus();
-        saveData();
-
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }
@@ -177,65 +175,34 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         Log.i("users_data",request.checkServer());
     }
 
-//    {
-//        OkHttpClient client = new OkHttpClient().newBuilder()
-//                .build();
-//        MediaType mediaType = MediaType.parse("text/plain");
-//        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                .addFormDataPart("uid","4")
-//                .addFormDataPart("name","jay")
-//                .addFormDataPart("dob","29-6-2001")
-//                .addFormDataPart("weight","65")
-//                .addFormDataPart("height","160")
-//                .addFormDataPart("target","4000")
-//                .addFormDataPart("streak","10")
-//                .addFormDataPart("subscription","true")
-//                .addFormDataPart("coins","30")
-//                .addFormDataPart("level","1")
-//                .addFormDataPart("win_rate","0")
-//                .addFormDataPart("mobile","0")
-//                .addFormDataPart("dp_url","null")
-//                .build();
-//        Request request = new Request.Builder()
-//                .url(Constant.ServerUrl+"/updateUsers")
-//                .method("POST", body)
-//                .addHeader("key", Constant.SeverApiKey)
-//                .build();
-//        Response response = client.newCall(request).execute();
-//    }
-
-    private void saveData() {
-        String url = Constant.ServerUrl+"/updateUsers";
-        OkHttpClient client = new OkHttpClient();
-        //header
-        RequestBody formBody = new FormBody.Builder()
-                .add("key","MyApiKEy")
+    private void saveData() throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        //form-body
-        RequestBody body = new FormBody.Builder()
-                .add("uid",  pref.getString("id",""))
-                .add("name",  pref.getString("name",""))
-                .add("dob",  pref.getString("dob",""))
-                .add("weight",  pref.getString("wt",""))
-                .add("height",  pref.getString("ht",""))
-                .add("streak", "0")
-                .add("target",  pref.getString("target","750"))
-                .add("subscription", "false")
-                .add("coins",  pref.getString("coins","0"))
-                .add("level",  "1")
-                .add("win_rate", "")
-                .add("mobile", "")
-                .add("dp_url",  pref.getString("dp","")).build();
-        okhttp3.Request request = new Request.Builder()
-                .url(url)
-                .addHeader("key","MyApiKEy")
-                .post(body)
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",pref.getString("id","1"))
+                .addFormDataPart("username",pref.getString("usname",""))
+                .addFormDataPart("name",pref.getString("name","test user"))
+                .addFormDataPart("dob",pref.getString("dob","09-04-2001"))
+                .addFormDataPart("weight",pref.getString("wt","0"))
+                .addFormDataPart("height",pref.getString("ht","0"))
+                .addFormDataPart("target",pref.getString("target","1000"))
+                .addFormDataPart("streak","0")
+                .addFormDataPart("steps",daily_steps)
+                .addFormDataPart("subscription","true")
+                .addFormDataPart("coins",pref.getString("coins","0"))
+                .addFormDataPart("points","0")
+                .addFormDataPart("level","1")
+                .addFormDataPart("win_rate","0")
+                .addFormDataPart("mobile","0")
+                .addFormDataPart("dp_url",pref.getString("dp",""))
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Request request = new Request.Builder()
+                .url("http://35.207.233.155:3578/updateUsers")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        Response response = client.newCall(request).execute();
     }
 
     private void getStreakStatus() {
@@ -333,6 +300,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                     addhintdialog.setView(hint);
                     AlertDialog dialog2=addhintdialog.create();
                     dialog2.setCancelable(false);
+                    dialog.dismiss();
                     dialog2.show();
                     Button nxt2 = hint.findViewById(R.id.Next2);
                     nxt2.setOnClickListener(new View.OnClickListener() {
@@ -342,13 +310,12 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                             addhintdialog.setView(hint);
                             AlertDialog dialog3=addhintdialog.create();
                             dialog3.setCancelable(false);
+                            dialog2.dismiss();
                             dialog3.show();
                             Button cls = hint.findViewById(R.id.Closebtn);
                             cls.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    dialog.dismiss();
-                                    dialog2.dismiss();
                                     dialog3.dismiss();
                                 }
                             });
@@ -368,7 +335,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
 
     private void request_data(){
         new RetriveSteps().execute();
-        //new RetrieveStepsCurrentDate().execute();
     }
 
     //build client for the fit history access
@@ -485,29 +451,38 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     }
 
     private void update_daily_counter(){
-        steps.setText(getString(R.string.daily_counter, daily_steps));
-        int cal= (int) Math.ceil((Integer.parseInt(daily_steps)*0.04258));
-        calories.setText(getString(R.string.daily_counter, String.valueOf(cal)));
-        int dist=  (int) Math.ceil(Integer.parseInt(daily_steps)/1312.33595801);
-        distance.setText(getString(R.string.daily_counter, String.valueOf(dist)));
-        Float s=Float.valueOf(daily_steps);
-        Float t= Float.valueOf(pref.getString("target",""));
-        progressBar.setProgress((int) Math.ceil((s/t)*100),true);
         preferences=pref.edit();
-        preferences.putString("steps",daily_steps);
-        preferences.putString("cal", String.valueOf(cal));
-        preferences.putString("dist", String.valueOf(dist));
-        if(((int) Math.ceil((s / t) * 100))<100) {
-            streakProgressPcnt.setText(new StringBuilder().append(String.valueOf((int) Math.ceil((s / t) * 100))).append("%").toString());
-            preferences.putString("progress",String.valueOf((int) Math.ceil((s/t)*100)));
-        }else{
-            streakProgressPcnt.setText("100%");
-            preferences.putString("progress","100");
+        if(!daily_steps.equals("0")) {
+            preferences.putString("steps", daily_steps);
+            preferences.apply();
+            steps.setText(getString(R.string.daily_counter, daily_steps));
+            int cal = (int) Math.ceil((Integer.parseInt(daily_steps) * 0.04258));
+            calories.setText(getString(R.string.daily_counter, String.valueOf(cal)));
+            int dist = (int) Math.ceil(Integer.parseInt(daily_steps) / 1312.33595801);
+            distance.setText(getString(R.string.daily_counter, String.valueOf(dist)));
+            Float s = Float.valueOf(daily_steps);
+            Float t = Float.valueOf(pref.getString("target", ""));
+            progressBar.setProgress((int) Math.ceil((s / t) * 100), true);
+            preferences = pref.edit();
+            preferences.putString("steps", daily_steps);
+            preferences.putString("cal", String.valueOf(cal));
+            preferences.putString("dist", String.valueOf(dist));
+            if (((int) Math.ceil((s / t) * 100)) < 100) {
+                streakProgressPcnt.setText(new StringBuilder().append(String.valueOf((int) Math.ceil((s / t) * 100))).append("%").toString());
+                preferences.putString("progress", String.valueOf((int) Math.ceil((s / t) * 100)));
+            } else {
+                streakProgressPcnt.setText("100%");
+                preferences.putString("progress", "100");
+            }
+            preferences.apply();
+            checkTarget(daily_steps, pref.getString("target", ""));
+            setStreakCardData();
+            try {
+                saveData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        preferences.apply();
-        checkTarget(daily_steps,pref.getString("target",""));
-        setStreakCardData();
-//        saveData();
     }
 
     private void setStreakCardData() {
@@ -614,6 +589,25 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         int c=Integer.parseInt(pref.getString("coins","0"))+coins;
         preferences.putString("coins",String.valueOf(c));
         preferences.apply();
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("amount","10")
+                .addFormDataPart("eid","0")
+                .addFormDataPart("source","daily target")
+                .addFormDataPart("uid",pref.getString("id",""))
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/addCoin")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void sendNotification() {
@@ -713,28 +707,5 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             }
             stepsData.add(new_item);
         }
-    }
-
-    public void onBackPressed() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
-        alert.setTitle("How Do We Calculate Steps");
-        alert.setMessage("Message");
-
-        alert.setPositiveButton("Next", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(requireContext());
-                alert.setTitle("How Do We Distribute Coins");
-                alert.setMessage("Message");
-
-                alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        setFragment(CoinHistory);
-                    }
-                });
-                alert.show();
-            }
-        });
-
-        alert.show();
     }
 }

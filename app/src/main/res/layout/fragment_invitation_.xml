@@ -18,6 +18,8 @@
             android:layout_height="fill_parent"
             android:overScrollMode="never"
             android:scrollbars="none"
+            tools:itemCount="3"
+            tools:listitem="@layout/invitation_card"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

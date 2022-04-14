@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:cardElevation="@dimen/cardview_compat_inset_shadow"
     android:backgroundTint="#CE000000">
 
@@ -16,35 +17,44 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:text="Create an Event"
+            android:text="Create New Event"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20sp" />
 
-        <Spinner
-            android:id="@+id/eventType"
-            android:layout_below="@id/title"
-            android:padding="20dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/event_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="26dp"
+            android:hint="Event Name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:capitalize="characters"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            android:layout_below="@id/eventType"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_title"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editTargetLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:hint="Steps Target">
 
@@ -59,10 +69,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editCoinsLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="100dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:hint="Coins">
+                android:layout_marginLeft="20dp"
+                android:hint="Entry Coins">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_Coin"
@@ -76,56 +86,56 @@
 
         <LinearLayout
             android:id="@+id/ll2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:layout_below="@id/ll"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editDurationLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="150dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:hint="Duration (Hrs)">
+                android:hint="Start Date">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_Duration"
+                    android:id="@+id/edit_sDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:capitalize="characters"
-                    android:inputType="number" />
+                    android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editPointsLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="100dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:hint="Points">
+                android:layout_marginLeft="20dp"
+                android:hint="End Date">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_Points"
+                    android:id="@+id/edit_eDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:capitalize="characters"
-                    android:inputType="number" />
+                    android:inputType="date" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <Spinner
             android:id="@+id/selectFriend"
-            android:layout_below="@id/ll2"
-            android:padding="20dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="65dp"
+            android:padding="20dp" />
 
         <Button
             android:id="@+id/host"

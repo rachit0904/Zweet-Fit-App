@@ -11,6 +11,10 @@ public class EventCardModal {
         this.grpEventsModalList = grpEventsModalList;
     }
 
+    public EventCardModal() {
+
+    }
+
     public String getDate() {
         return date;
     }

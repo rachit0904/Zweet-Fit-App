@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,7 @@ public class Signup_PersonalDetails extends Fragment implements View.OnClickList
                 preferences.putString("name", dataModal.getName());
                 preferences.putString("gender", dataModal.getGender());
                 preferences.apply();
+                Log.d("result","pd saved");
                 startActivity(intent);
                 getActivity().finish();
             }
