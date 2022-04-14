@@ -51,7 +51,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         TextView name, steps, lvl, coins, rank;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.participantLevel);
+            name = itemView.findViewById(R.id.participantName);
             steps = itemView.findViewById(R.id.participantSteps);
             lvl = itemView.findViewById(R.id.participantLevel);
             coins = itemView.findViewById(R.id.coins);

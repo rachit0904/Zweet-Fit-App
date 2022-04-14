@@ -49,7 +49,7 @@ public class EventLeaderboardFragment extends Fragment {
         try {
             String url = Constant.ServerUrl + "/select?table=leaderboard";
             String grpid = getActivity().getIntent().getStringExtra("id");
-            String users = Constant.ServerUrl + "/select?table=users";
+            String url2 = Constant.ServerUrl + "/select?table=users";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             OkHttpClient client2 = new OkHttpClient().newBuilder()
@@ -84,14 +84,16 @@ public class EventLeaderboardFragment extends Fragment {
                 String w1 = object.get("w1").toString();
                 String w2 = object.get("w2").toString();
                 String w3 = object.get("w3").toString();
-                if (grpid == eid) {
+                if (eid.equals(grpid)){
                     if(w1!=null)
                     {
                         for (int j=0;j<Jarray2.length();j++)
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
-                            String uid = object2.get("uid").toString();
-                            if(uid==w1) {
+                            String uids = object2.get("uid").toString();
+                            Log.d("Eid", uids + " Winner1: " + w1);
+                            if(uids.equals(w1)){
+                                Log.d("Eid", uids);
                                 String name = object2.get("name").toString();
                                 String steps = object2.get("steps").toString();
                                 String coins = object2.get("coins").toString();
@@ -107,8 +109,8 @@ public class EventLeaderboardFragment extends Fragment {
                         for (int j=0;j<Jarray2.length();j++)
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
-                            String uid = object2.get("uid").toString();
-                            if(uid==w2) {
+                            String uids2 = object2.get("uid").toString();
+                            if(uids2.equals(w2)) {
                                 String name = object2.get("name").toString();
                                 String steps = object2.get("steps").toString();
                                 String coins = object2.get("coins").toString();
@@ -124,8 +126,8 @@ public class EventLeaderboardFragment extends Fragment {
                         for (int j=0;j<Jarray2.length();j++)
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
-                            String uid = object2.get("uid").toString();
-                            if(uid==w3) {
+                            String uids3 = object2.get("uid").toString();
+                            if(uids3.equals(w3)) {
                                 String name = object2.get("name").toString();
                                 String steps = object2.get("steps").toString();
                                 String coins = object2.get("coins").toString();
@@ -140,6 +142,7 @@ public class EventLeaderboardFragment extends Fragment {
             }
         } catch (JSONException | IOException e) {
             e.printStackTrace();
+            Log.d("Errors", e.toString());
         }
         return grpleaderboard;
     }
