@@ -45,7 +45,6 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
         }
     }
 
-
     @Override
     public int getItemCount() {
         return grpEventsModalList.size();

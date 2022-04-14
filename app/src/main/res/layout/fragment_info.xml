@@ -41,7 +41,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="1 Jan 2022"
                         android:textSize="14sp" />
                 </LinearLayout>
                 <LinearLayout
@@ -64,7 +63,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="3 Jan 2022"
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -88,7 +86,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="1 Day"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -152,21 +149,21 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/evtar"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="2dp"
-                            android:text="Event Target"
+                            android:hint="Event Target"
                             android:textSize="15dp" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/evrew"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="12dp"
-                            android:text="Event Reward"
+                            android:hint="Event Reward"
                             android:textSize="15dp" />
                     </LinearLayout>
                 </LinearLayout>

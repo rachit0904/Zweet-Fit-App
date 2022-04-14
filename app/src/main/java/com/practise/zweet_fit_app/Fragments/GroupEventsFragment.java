@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +15,25 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.practise.zweet_fit_app.PagerAdapter.GroupEventsViewPagerAdapter;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.RequestBody;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class GroupEventsFragment extends Fragment {
     ImageView bckBtn;
-    TextView eventName,levelUp,coins,status,target;
+    TextView eventName,levelUp,coins,status,target,joinbtn;
     TabLayout eventTabs;
     ViewPager eventViews;
     @Override
@@ -32,6 +48,8 @@ public class GroupEventsFragment extends Fragment {
         target=view.findViewById(R.id.eventTarget);
         eventTabs=view.findViewById(R.id.eventTabs);
         eventViews=view.findViewById(R.id.eventViews);
+        joinbtn = view.findViewById(R.id.joinEvent);
+        checkifuserjoin();
         setData();
         eventTabs.selectTab(eventTabs.getTabAt(1));
         GroupEventsViewPagerAdapter adapter=new GroupEventsViewPagerAdapter(getChildFragmentManager(),eventTabs.getTabCount());
@@ -43,16 +61,135 @@ public class GroupEventsFragment extends Fragment {
                 getActivity().finish();
             }
         });
+        joinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(joinbtn.getText()=="Join")
+                {
+                        String grpid = getActivity().getIntent().getStringExtra("id");
+                        String url = Constant.ServerUrl+"/addUserToGroupEvent";
+                        OkHttpClient client = new OkHttpClient().newBuilder()
+                                .build();
+                        MediaType mediaType = MediaType.parse("text/plain");
+                        MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                .addFormDataPart("uid","113671724192877645725")
+                                .addFormDataPart("eid", grpid)
+                                .build();
+                        Request request = new Request.Builder()
+                                .url("http://35.207.233.155:3578/addUserToGroupEvent")
+                                .method("POST", body)
+                                .addHeader("key", "MyApiKEy")
+                                .build();
+                        Response response = null;
+                        try {
+                            response = client.newCall(request).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                }
+                else
+                {
+                    String grpid = getActivity().getIntent().getStringExtra("id");
+                    String url = Constant.ServerUrl+"/removeUserToGroupEvent";
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("uid","113671724192877645725")
+                            .addFormDataPart("eid", grpid)
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("http://35.207.233.155:3578/removeUserToGroupEvent")
+                            .method("POST", body)
+                            .addHeader("key", "MyApiKEy")
+                            .build();
+                    Response response = null;
+                    try {
+                        response = client.newCall(request).execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                checkifuserjoin();
+            }
+        });
         return view;
     }
-
+    public void checkifuserjoin()
+    {
+        try {
+            String grpid = getActivity().getIntent().getStringExtra("id");
+            String url = Constant.ServerUrl+"/select?table=users";
+            String url2 = Constant.ServerUrl+"/select?table=group_event_holder";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            OkHttpClient client2 = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=users")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Request request2 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=group_event_holder")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            Response response2 = null;
+            try {
+                response = client.newCall(request).execute();
+                response2 = client2.newCall(request2).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("Leave2", e.toString());
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            String respo2 = response2.body().string();
+            JSONObject Jobject2 = new JSONObject(respo2);
+            JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            JSONObject object = Jarray.getJSONObject(1);
+            String userid = object.get("uid").toString();
+            String grp = "";
+            Log.d("Id", userid);
+            for(int i=0;i<Jarray2.length();i++)
+            {
+                JSONObject object2 = Jarray2.getJSONObject(i);
+                grp = object2.get("eid").toString();
+                String uid = object2.get("uid").toString();
+                Log.d("Id", uid);
+                if(grp.equals(grpid))
+                {
+                    if(userid.equals(uid))
+                    {
+                        userid="1";
+                        Log.d("Leave", "Join");
+                        joinbtn.setText("Leave");
+                        break;
+                    }
+                }
+            }
+            if(!userid.equals("1"))
+            {
+                joinbtn.setText("Join");
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Log.d("Leave", e.toString());
+        }
+    }
     private void setData() {
         //TODO - set card data
+        String tempdate = getActivity().getIntent().getStringExtra("dur").split("-")[0];
+//        String tempdate2 = getActivity().getIntent().getStringExtra("dur").split("-")[1];
+//        String dur = String.valueOf(Integer.parseInt(tempdate2.substring(2, 3)) - Integer.parseInt(tempdate.substring(1, 2)));
         eventName.setText(getActivity().getIntent().getStringExtra("title"));
         levelUp.setText(getActivity().getIntent().getStringExtra("lvlup"));
         coins.setText(getActivity().getIntent().getStringExtra("coins"));
         if(getActivity().getIntent().getStringExtra("status").equals("ongoing"))
-            status.setText(getActivity().getIntent().getStringExtra("dur")+" Event");
+            status.setText(tempdate +" Event");
         if(getActivity().getIntent().getStringExtra("status").equals("finished"))
             status.setText("Event Ended!");
         target.setText("Goal: "+getActivity().getIntent().getStringExtra("target")+" steps");
