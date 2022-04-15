@@ -1,5 +1,6 @@
 package com.practise.zweet_fit_app.Fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,7 +33,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -162,12 +166,58 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                 TextInputEditText title = eventDialog.findViewById(R.id.edit_name);
                 TextInputEditText target = eventDialog.findViewById(R.id.edit_Target);
                 TextInputEditText coins = eventDialog.findViewById(R.id.edit_Coin);
-                TextInputEditText sDate = eventDialog.findViewById(R.id.edit_sDate);
-                TextInputEditText eDate = eventDialog.findViewById(R.id.edit_eDate);
+                Button sDate = eventDialog.findViewById(R.id.edit_sDate);
+                Button eDate = eventDialog.findViewById(R.id.edit_eDate);
                 Button host = eventDialog.findViewById(R.id.host);
                 AlertDialog dialog = addEventDialog.create();
                 dialog.setCancelable(true);
                 dialog.show();
+                final int[] sd = {0};
+                sDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Calendar cal = Calendar.getInstance();
+                        int year = LocalDate.now().getYear();
+                        int month = cal.get(Calendar.MONTH);
+                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.app.AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                Log.i("day",day+" "+d);
+                                if(d-day<=0 || d-day>=3 || year!=y || month!=m ){
+                                    Toast.makeText(getContext(), "Enter a valid DOB!", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    m++;
+                                    sd[0] =d;
+                                    sDate.setText(d+"-"+m+"-"+y);
+                                }
+                            }
+                        },year,month,day);
+                        datePickerDialog.show();
+                    }
+                });
+                eDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Calendar cal = Calendar.getInstance();
+                        int year = LocalDate.now().getYear();
+                        int month = cal.get(Calendar.MONTH);
+                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.app.AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                                Log.i("day",day+" "+d);
+                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y || month!=m ){
+                                    Toast.makeText(getContext(), "Enter a valid DOB!", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    m++;
+                                    eDate.setText(d+"-"+m+"-"+y);
+                                }
+                            }
+                        },year,month,day);
+                        datePickerDialog.show();
+                    }
+                });
                 selectFriend.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {

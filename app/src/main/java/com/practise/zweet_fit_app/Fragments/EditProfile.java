@@ -160,7 +160,8 @@ public class EditProfile extends Fragment implements View.OnClickListener {
             preferences.putString("wt", wt.getText().toString());
             preferences.putString("ht", ht.getText().toString());
             preferences.apply();
-            if(saveToDb()) {
+//            if(saveToDb())
+            {
                 progressBar.setVisibility(View.GONE);
                 Intent intent = new Intent(getActivity(), BlankActivity.class);
                 intent.putExtra("activity", "profile");

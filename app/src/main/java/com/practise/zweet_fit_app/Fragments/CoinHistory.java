@@ -35,6 +35,7 @@ import okhttp3.Request;
 
 
 public class CoinHistory extends Fragment {
+    String months[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
     RecyclerView rv;
     List<CoinTransactionParentModal> coinTransactionParentModalList=new ArrayList<>();
     @Override
@@ -68,26 +69,19 @@ public class CoinHistory extends Fragment {
             String respo = response.body().string();
             JSONObject Jobject = new JSONObject(respo);
             JSONArray Jarray = Jobject.getJSONArray("data");
-            String dts[] = new String[Jarray.length()];
             for (int i = 0; i < Jarray.length(); i++) {
                 List<CoinTransactionChildModal> childModalList=new ArrayList<>();
                 JSONObject object = Jarray.getJSONObject(i);
-                dts[i] = object.get("date").toString();
-                Date dt = new SimpleDateFormat("dd/MM/yyyy").parse(dts[i]);
-                dts[i]=dt.toString();
-                dts[i]=dts[i].substring(8, 10) + " " + dts[i].substring(4, 7) + " " + dts[i].substring(30, 34);
+                String date=getDate(object.getString("date"));
                 CoinTransactionParentModal modal=new CoinTransactionParentModal();
-                modal.setDate(dts[i]);
+                modal.setDate(date);
                 for(int k=i;k<Jarray.length();k++)
                 {
                     JSONObject object2 = Jarray.getJSONObject(k);
-                    String tempdate = object2.get("date").toString();
+                    String tempdate = getDate(object2.get("date").toString());
                     String src = object2.get("source").toString();
                     String coin = object2.get("amount").toString();
-                    Date dtst = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
-                    tempdate=dtst.toString();
-                    tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
-                    if(tempdate.equals(dts[i]))
+                    if(tempdate.equals(date))
                     {
                         CoinTransactionChildModal childModal2=new CoinTransactionChildModal();
                         childModal2.setCoins(coin);
@@ -110,9 +104,17 @@ public class CoinHistory extends Fragment {
                     break;
                 }
             }
-        } catch (JSONException | IOException | ParseException e) {
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
         return coinTransactionParentModalList;
+    }
+
+    private String getDate(String date) {
+        String d=date.split(" ")[0];
+        String dd=d.split("-")[2];
+        String mm=months[Integer.parseInt(d.split("-")[1])-1];
+        String yy=d.split("-")[0];
+        return dd+" "+mm+" "+yy;
     }
 }

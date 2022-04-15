@@ -16,6 +16,10 @@ public class GrpEventsModal {
         this.status = status;
     }
 
+    public GrpEventsModal() {
+
+    }
+
     public String getStatus() {
         return status;
     }

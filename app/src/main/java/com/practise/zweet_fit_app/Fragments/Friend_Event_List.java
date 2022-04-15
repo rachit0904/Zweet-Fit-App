@@ -34,6 +34,7 @@ import okhttp3.Response;
 public class Friend_Event_List extends Fragment {
     TextView friendname;
     RecyclerView recyclerView;
+    String months[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
     SharedPreferences pref;
     String uid="";
     ImageView back;
@@ -85,9 +86,16 @@ public class Friend_Event_List extends Fragment {
                 if(obj.getString("p1id").equals(pref.getString("id","")) ||
                         obj.getString("p2id").equals(pref.getString("id",""))){
                     EventCardModal modal=new EventCardModal();
-                    String startDate=obj.getString("duration").split("-")[0];
+                    String startDate=getDate(obj.getString("duration").split("-")[0]);
                     modal.setDate(startDate);
+                    for(int k=i;k<array.length();k++) {
+                        JSONObject object2 = array.getJSONObject(k);
+                        String tempdate = getDate(object2.getString("duration").split("-")[0]);
+                        if(tempdate.equals(startDate)){
+                         GrpEventsModal modal1=new GrpEventsModal();
 
+                        }
+                    }
                 }
             }
             Response response2 = client.newCall(request2).execute();
@@ -106,13 +114,42 @@ public class Friend_Event_List extends Fragment {
                 JSONObject object3=new JSONObject(data3);
                 JSONArray array3=object3.getJSONArray("data");
                 for(int j=0;j<array2.length();j++) {
-                    JSONObject obj2 = array3.getJSONObject(j);
-
+                    JSONObject obj2 = array.getJSONObject(j);
+                    if(obj2.getString("p1id").equals(pref.getString("id","")) ||
+                            obj2.getString("p2id").equals(pref.getString("id",""))){
+                        EventCardModal modal=new EventCardModal();
+                        String startDate=getDate(obj2.getString("duration").split("-")[0]);
+                        modal.setDate(startDate);
+                        for(int k=i;k<array.length();k++) {
+                            JSONObject object4 = array.getJSONObject(k);
+                            String tempdate = getDate(object4.getString("duration").split("-")[0]);
+                            if(tempdate.equals(startDate)){
+                                GrpEventsModal grpEventsModal=new GrpEventsModal();
+                                grpEventsModal.setDur(obj2.getString("duration"));
+                                grpEventsModal.setEntryCoins(obj2.getString("entry_coin"));
+                                grpEventsModal.setgId(obj2.getString("id"));
+                                grpEventsModal.setTarget(obj2.getString("target"));
+                                grpEventsModal.setParticipants(obj2.getString("participates"));
+                                grpEventsModal.setTitle(obj2.getString("title"));
+                                grpEventsModal.setMaxP(obj2.getString("maxP"));
+                                grpEventsModal.setMinP(obj2.getString("minP"));
+                                grpEventsModal.setLevelUp(obj2.getString("levelUp"));
+                            }
+                        }
+                    }
                 }
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return eventCardModalList;
+    }
+
+    private String getDate(String date) {
+        String d=date.split(" ")[0];
+        String dd=d.split("-")[2];
+        String mm=months[Integer.parseInt(d.split("-")[1])-1];
+        String yy=d.split("-")[0];
+        return dd+" "+mm+" "+yy;
     }
 }

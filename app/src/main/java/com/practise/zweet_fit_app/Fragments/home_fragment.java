@@ -179,56 +179,31 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         Log.i("users_data",request.checkServer());
     }
 
-//    {
-//        OkHttpClient client = new OkHttpClient().newBuilder()
-//                .build();
-//        MediaType mediaType = MediaType.parse("text/plain");
-//        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-//                .addFormDataPart("uid","4")
-//                .addFormDataPart("name","jay")
-//                .addFormDataPart("dob","29-6-2001")
-//                .addFormDataPart("weight","65")
-//                .addFormDataPart("height","160")
-//                .addFormDataPart("target","4000")
-//                .addFormDataPart("streak","10")
-//                .addFormDataPart("subscription","true")
-//                .addFormDataPart("coins","30")
-//                .addFormDataPart("level","1")
-//                .addFormDataPart("win_rate","0")
-//                .addFormDataPart("mobile","0")
-//                .addFormDataPart("dp_url","null")
-//                .build();
-//        Request request = new Request.Builder()
-//                .url(Constant.ServerUrl+"/updateUsers")
-//                .method("POST", body)
-//                .addHeader("key", Constant.SeverApiKey)
-//                .build();
-//        Response response = client.newCall(request).execute();
-//    }
 
     private void saveData() {
         String url = Constant.ServerUrl+"/updateUsers";
         OkHttpClient client = new OkHttpClient();
-        //header
-        RequestBody formBody = new FormBody.Builder()
-                .add("key","MyApiKEy")
-                .build();
         //form-body
-        RequestBody body = new FormBody.Builder()
-                .add("uid",  pref.getString("id",""))
-                .add("name",  pref.getString("name",""))
-                .add("dob",  pref.getString("dob",""))
-                .add("weight",  pref.getString("wt",""))
-                .add("height",  pref.getString("ht",""))
-                .add("streak", "0")
-                .add("target",  pref.getString("target","750"))
-                .add("subscription", "false")
-                .add("coins",  pref.getString("coins","0"))
-                .add("level",  "1")
-                .add("win_rate", "")
-                .add("mobile", "")
-                .add("dp_url",  pref.getString("dp","")).build();
-        okhttp3.Request request = new Request.Builder()
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("uid",pref.getString("id","1"))
+                .addFormDataPart("username",pref.getString("usname",""))
+                .addFormDataPart("name",pref.getString("name","test user"))
+                .addFormDataPart("dob",pref.getString("dob","09-04-2001"))
+                .addFormDataPart("weight",pref.getString("wt","0"))
+                .addFormDataPart("height",pref.getString("ht","0"))
+                .addFormDataPart("target",pref.getString("target","1000"))
+                .addFormDataPart("streak","0")
+                .addFormDataPart("steps",daily_steps)
+                .addFormDataPart("subscription","true")
+                .addFormDataPart("coins",pref.getString("coins",""))
+                .addFormDataPart("points","0")
+                .addFormDataPart("level","1")
+                .addFormDataPart("win_rate","0")
+                .addFormDataPart("mobile","0")
+                .addFormDataPart("dp_url",pref.getString("dp",""))
+                .build();
+        Request request = new Request.Builder()
                 .url(url)
                 .addHeader("key","MyApiKEy")
                 .post(body)
@@ -317,7 +292,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                 String target = object.get("target").toString();
                 String level = object.get("levelUp").toString();
                 String gid = object.get("id").toString();
-                if(st.equals("2"))
+                if(st.equals("0"))
                 {
                     GrpEventsModal modal = new GrpEventsModal(
                             gid, title, minp,
@@ -547,7 +522,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         preferences.apply();
         checkTarget(daily_steps,pref.getString("target",""));
         setStreakCardData();
-//        saveData();
+        saveData();
     }
 
     private void setStreakCardData() {
