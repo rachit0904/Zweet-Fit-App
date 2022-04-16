@@ -151,6 +151,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
             try {
                 friends.clear();
                 f.clear();
+                friends.add("Select Friends");
                 AlertDialog.Builder addEventDialog = new AlertDialog.Builder(getContext());
                 View eventDialog = getLayoutInflater().inflate(R.layout.add_events_dialog, null);
                 getFriends(pref.getString("id", ""));
@@ -332,7 +333,6 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
         String data = response.body().string();
         JSONObject object = new JSONObject(data);
         JSONArray jsonArray = object.getJSONArray("data");
-        friends.add("Select Friends");
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject obj = jsonArray.getJSONObject(i);
             if(obj.getString("subscription").equals("true")){
