@@ -1,5 +1,7 @@
 package com.practise.zweet_fit_app.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +39,14 @@ import okhttp3.Response;
 
 public class Ongoing_Fragment extends Fragment {
     RecyclerView recyclerView;
+    SharedPreferences pref;
     int cnt =0;
     List<EventCardModal> eventCardModalList=new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_ongoing_, container, false);
+        pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         recyclerView=view.findViewById(R.id.parentEventRv);
         recyclerView.setHasFixedSize(true);
         eventCardModalList.clear();
@@ -54,8 +58,10 @@ public class Ongoing_Fragment extends Fragment {
 
     private List<EventCardModal> getCardDetails() {
         try {
+            String userid = pref.getString("id","");
             String url = Constant.ServerUrl+"/select?table=events";
             String url2 = Constant.ServerUrl+"/select?table=group_event";
+            String url3 = Constant.ServerUrl+"/select?table=group_event_holder";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             OkHttpClient client2 = new OkHttpClient().newBuilder()
@@ -70,11 +76,18 @@ public class Ongoing_Fragment extends Fragment {
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
+            Request request3 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=group_event_holder")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
             Response response = null;
             Response response2 = null;
+            Response response3 = null;
             try {
                 response = client.newCall(request).execute();
                 response2 = client2.newCall(request2).execute();
+                response3 = client.newCall(request3).execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,6 +99,9 @@ public class Ongoing_Fragment extends Fragment {
             String respo2 = response2.body().string();
             JSONObject Jobject2 = new JSONObject(respo2);
             JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            String respo3 = response3.body().string();
+            JSONObject Jobject3 = new JSONObject(respo3);
+            JSONArray Jarray3 = Jobject3.getJSONArray("data");
             String date[]=new String[Jarray.length() + Jarray2.length()];
             String stdate[]=new String[Jarray.length() + Jarray2.length()];
             for (int i = 0; i < Jarray.length(); i++) {
@@ -100,6 +116,7 @@ public class Ongoing_Fragment extends Fragment {
                 date[i]=date[i].substring(8, 10) + " " + date[i].substring(4, 7) + " " + date[i].substring(30, 34);
                 for(int k = i; k<Jarray.length(); k++)
                 {
+                    int flag = 0;
                     JSONObject object = Jarray.getJSONObject(k);
                     String title = object.get("title").toString();
                     String st = object.get("status").toString();
@@ -111,7 +128,22 @@ public class Ongoing_Fragment extends Fragment {
                     Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
                     tempdate=dts.toString();
                     tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
-                    if(st.equals("2"))
+                    for(int p = 0; p<Jarray3.length();p++)
+                    {
+                        JSONObject object3 = Jarray3.getJSONObject(p);
+                        String evid = object3.get("eid").toString();
+                        String uid = object3.get("uid").toString();
+                        Log.d("evid", evid + " " + uid);
+                        if(evid.equals(eid))
+                        {
+                            if(userid.equals(uid))
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }
+                    }
+                    if(st.equals("2") && flag==1)
                     {
                         if(tempdate.equals(date[i]))
                         {
@@ -150,6 +182,7 @@ public class Ongoing_Fragment extends Fragment {
                 String fdate2 = null;
                 for(int k = i; k<Jarray2.length(); k++)
                 {
+                    int flag=0;
                     JSONObject object = Jarray2.getJSONObject(k);
                     String title = object.get("title").toString();
                     String st = object.get("status").toString();
@@ -165,7 +198,22 @@ public class Ongoing_Fragment extends Fragment {
                     Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
                     tempdate=dts.toString();
                     tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
-                    if(st.equals("2"))
+                    for(int p = 0; p<Jarray3.length();p++)
+                    {
+                        JSONObject object3 = Jarray3.getJSONObject(p);
+                        String evid = object3.get("eid").toString();
+                        String uid = object3.get("uid").toString();
+                        Log.d("evid", evid + " " + uid);
+                        if(evid.equals(eid))
+                        {
+                            if(userid.equals(uid))
+                            {
+                                flag=1;
+                                break;
+                            }
+                        }
+                    }
+                    if(st.equals("2") && flag==1)
                     {
                         if(tempdate.equals(date[i]))
                         {
