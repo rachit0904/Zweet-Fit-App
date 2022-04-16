@@ -138,7 +138,7 @@ public class History_Fragment extends Fragment {
                         {
                             GrpEventsModal modal = new GrpEventsModal(
                                     eid, title, "2",
-                                    "5", "3", ent_coin, tempdate, target, "", "finished");
+                                    "2", "1", ent_coin, dur, target, "", "finished", "p2p");
                             grpEventsModalList.add(modal);
                             fdate=tempdate;
                         }
@@ -209,7 +209,7 @@ public class History_Fragment extends Fragment {
                         {
                             GrpEventsModal modal = new GrpEventsModal(
                                     id, title, minp,
-                                    maxp, level, ent_coin, tempdate, target, parti, "finished");
+                                    maxp, level, ent_coin, dur, target, parti, "finished", "grpev");
                             grpEventsModalList.add(modal);
                             fdate2=tempdate;
                         }

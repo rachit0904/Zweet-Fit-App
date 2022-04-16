@@ -296,7 +296,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                 {
                     GrpEventsModal modal = new GrpEventsModal(
                             gid, title, minp,
-                            maxp, level, ent_coin, dur, target, parti, "ongoing");
+                            maxp, level, ent_coin, dur, target, parti, "ongoing", "grpev");
                     grpEventsModalList.add(modal);
                 }
             }

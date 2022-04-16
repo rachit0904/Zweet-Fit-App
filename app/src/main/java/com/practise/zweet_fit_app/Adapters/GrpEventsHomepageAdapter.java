@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,13 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
         }else if(eventsModal.getStatus().equals("finished")){
             holder.eventCard.setCardBackgroundColor(Color.parseColor("#A9373737"));
         }
+        holder.tt.setText(eventsModal.getTitle());
+        if(eventsModal.getType().equals("p2p"))
+        {
+            holder.im1.setVisibility(View.GONE);
+            holder.im3.setVisibility(View.GONE);
+            holder.im5.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -52,9 +61,17 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView eventCard;
+        TextView tt;
+        ImageView im1, im2, im3, im4, im5;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             eventCard=itemView.findViewById(R.id.eventCard);
+            tt = itemView.findViewById(R.id.grouptitle);
+            im1 = itemView.findViewById(R.id.supimg1);
+            im2 = itemView.findViewById(R.id.supimg2);
+            im3 = itemView.findViewById(R.id.supimg3);
+            im4 = itemView.findViewById(R.id.supimg4);
+            im5 = itemView.findViewById(R.id.supimg5);
             eventCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -71,6 +88,7 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
                     intent.putExtra("minP",modal.getMinP());
                     intent.putExtra("id",modal.getgId());
                     intent.putExtra("dur",modal.getDur());
+                    intent.putExtra("type",modal.getType());
                     context.startActivity(intent);
                 }
             });

@@ -1,9 +1,9 @@
 package com.practise.zweet_fit_app.Modals;
 
 public class GrpEventsModal {
-    String gId,title,minP,maxP,levelUp,entryCoins,dur,target,participants,status;
+    String gId,title,minP,maxP,levelUp,entryCoins,dur,target,participants,status,type;
 
-    public GrpEventsModal(String gId, String title, String minP, String maxP, String levelUp, String entryCoins, String dur, String target, String participants, String status) {
+    public GrpEventsModal(String gId, String title, String minP, String maxP, String levelUp, String entryCoins, String dur, String target, String participants, String status, String type) {
         this.gId = gId;
         this.title = title;
         this.minP = minP;
@@ -14,10 +14,19 @@ public class GrpEventsModal {
         this.target = target;
         this.participants = participants;
         this.status = status;
+        this.type = type;
     }
 
     public GrpEventsModal() {
 
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
