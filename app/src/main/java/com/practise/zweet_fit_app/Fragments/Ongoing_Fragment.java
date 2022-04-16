@@ -135,8 +135,8 @@ public class Ongoing_Fragment extends Fragment {
                         if(tempdate.equals(date[i]))
                         {
                             GrpEventsModal modal = new GrpEventsModal(
-                                    "1", title, "2",
-                                    "5", "3", ent_coin, tempdate, target, "", "ongoing");
+                                    eid, title, "2",
+                                    "2", "1", ent_coin, dur, target, "", "ongoing", "p2p");
                             grpEventsModalList.add(modal);
                             fdate=tempdate;
                         }
@@ -206,7 +206,7 @@ public class Ongoing_Fragment extends Fragment {
                         {
                             GrpEventsModal modal = new GrpEventsModal(
                                     eid, title, minp,
-                                    maxp, level, ent_coin, tempdate, target, parti, "ongoing");
+                                    maxp, level, ent_coin, dur, target, parti, "ongoing", "grpev");
                             grpEventsModalList.add(modal);
                             fdate2=tempdate;
                         }
