@@ -88,6 +88,7 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
                     intent.putExtra("minP",modal.getMinP());
                     intent.putExtra("id",modal.getgId());
                     intent.putExtra("dur",modal.getDur());
+                    intent.putExtra("type",modal.getType());
                     context.startActivity(intent);
                 }
             });

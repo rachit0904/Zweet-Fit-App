@@ -34,7 +34,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class GroupEventsFragment extends Fragment {
-    ImageView bckBtn;
+    ImageView bckBtn, img1, img2, img3, img4, img5;
     TextView eventName,levelUp,coins,status,target,joinbtn;
     TabLayout eventTabs;
     ViewPager eventViews;
@@ -52,6 +52,11 @@ public class GroupEventsFragment extends Fragment {
         eventTabs=view.findViewById(R.id.eventTabs);
         eventViews=view.findViewById(R.id.eventViews);
         joinbtn = view.findViewById(R.id.joinEvent);
+        img1 = view.findViewById(R.id.p1);
+        img2 = view.findViewById(R.id.p2);
+        img3 = view.findViewById(R.id.p3);
+        img4 = view.findViewById(R.id.p4);
+        img5 = view.findViewById(R.id.p5);
         SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         uid=pref.getString("id","");
         checkifuserjoin();
@@ -186,17 +191,21 @@ public class GroupEventsFragment extends Fragment {
         }
     }
     private void setData() {
-        //TODO - set card data
         String tempdate = getActivity().getIntent().getStringExtra("dur").split("-")[0];
-//        String tempdate2 = getActivity().getIntent().getStringExtra("dur").split("-")[1];
-//        String dur = String.valueOf(Integer.parseInt(tempdate2.substring(2, 3)) - Integer.parseInt(tempdate.substring(1, 2)));
         eventName.setText(getActivity().getIntent().getStringExtra("title"));
         levelUp.setText(getActivity().getIntent().getStringExtra("lvlup"));
         coins.setText(getActivity().getIntent().getStringExtra("coins"));
         if(getActivity().getIntent().getStringExtra("status").equals("ongoing"))
-            status.setText(tempdate +" Event");
-        if(getActivity().getIntent().getStringExtra("status").equals("finished"))
+            status.setText(getActivity().getIntent().getStringExtra("title"));
+        else if(getActivity().getIntent().getStringExtra("status").equals("finished"))
             status.setText("Event Ended!");
         target.setText("Goal: "+getActivity().getIntent().getStringExtra("target")+" steps");
+        String type = getActivity().getIntent().getStringExtra("type");
+        if(type.equals("p2p"))
+        {
+            img1.setVisibility(View.GONE);
+            img3.setVisibility(View.GONE);
+            img5.setVisibility(View.GONE);
+        }
     }
 }
