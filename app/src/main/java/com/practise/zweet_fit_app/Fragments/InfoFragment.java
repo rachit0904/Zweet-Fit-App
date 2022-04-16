@@ -59,6 +59,7 @@ public class InfoFragment extends Fragment {
             String grpid = getActivity().getIntent().getStringExtra("id");
             String url = Constant.ServerUrl+"/select?table=users";
             String url2 = Constant.ServerUrl+"/select?table=group_event_holder";
+            String url3 = Constant.ServerUrl+"/select?table=events";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             OkHttpClient client2 = new OkHttpClient().newBuilder()
@@ -73,11 +74,18 @@ public class InfoFragment extends Fragment {
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
+            Request request3 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=events")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
             Response response = null;
             Response response2 = null;
+            Response response3 = null;
             try {
                 response = client.newCall(request).execute();
                 response2 = client2.newCall(request2).execute();
+                response3 = client2.newCall(request3).execute();
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("Leave2", e.toString());
@@ -88,6 +96,9 @@ public class InfoFragment extends Fragment {
             String respo2 = response2.body().string();
             JSONObject Jobject2 = new JSONObject(respo2);
             JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            String respo3 = response3.body().string();
+            JSONObject Jobject3 = new JSONObject(respo3);
+            JSONArray Jarray3 = Jobject3.getJSONArray("data");
             JSONObject object = Jarray.getJSONObject(1);
             String userid = object.get("uid").toString();
             String grp = "";
@@ -111,6 +122,42 @@ public class InfoFragment extends Fragment {
                             modal.setImagePath(obj2.get("dp_url").toString());
                             friendsList.add(modal);
                             break;
+                        }
+                    }
+                }
+            }
+            if(friendsList.isEmpty())
+            {
+                for(int i=0;i<Jarray3.length();i++)
+                {
+                    JSONObject obj = Jarray3.getJSONObject(i);
+                    String eid = obj.get("eid").toString();
+                    String p1id = obj.get("p1id").toString();
+                    String p2id = obj.get("p2id").toString();
+                    if(eid.equals(grpid))
+                    {
+                        for(int k =0;k<Jarray.length();k++)
+                        {
+                            JSONObject obj2 = Jarray.getJSONObject(k);
+                            String uid2 = obj2.get("uid").toString();
+                            if(p1id.equals(uid2))
+                            {
+                                UsersDataModal modal = new UsersDataModal();
+                                modal.setUid(p1id);
+                                modal.setCardType("friend");
+                                modal.setName(obj2.getString("name"));
+                                modal.setImagePath(obj2.get("dp_url").toString());
+                                friendsList.add(modal);
+                            }
+                            if(p2id.equals(uid2))
+                            {
+                                UsersDataModal modal = new UsersDataModal();
+                                modal.setUid(p2id);
+                                modal.setCardType("friend");
+                                modal.setName(obj2.getString("name"));
+                                modal.setImagePath(obj2.get("dp_url").toString());
+                                friendsList.add(modal);
+                            }
                         }
                     }
                 }
