@@ -1,5 +1,7 @@
 package com.practise.zweet_fit_app.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +38,7 @@ public class GroupEventsFragment extends Fragment {
     TextView eventName,levelUp,coins,status,target,joinbtn;
     TabLayout eventTabs;
     ViewPager eventViews;
+    String uid="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class GroupEventsFragment extends Fragment {
         eventTabs=view.findViewById(R.id.eventTabs);
         eventViews=view.findViewById(R.id.eventViews);
         joinbtn = view.findViewById(R.id.joinEvent);
+        SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+        uid=pref.getString("id","");
         checkifuserjoin();
         setData();
         eventTabs.selectTab(eventTabs.getTabAt(1));
@@ -72,7 +77,7 @@ public class GroupEventsFragment extends Fragment {
                                 .build();
                         MediaType mediaType = MediaType.parse("text/plain");
                         MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("uid","113671724192877645725")
+                                .addFormDataPart("uid",uid)
                                 .addFormDataPart("eid", grpid)
                                 .build();
                         Request request = new Request.Builder()
@@ -95,7 +100,7 @@ public class GroupEventsFragment extends Fragment {
                             .build();
                     MediaType mediaType = MediaType.parse("text/plain");
                     MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("uid","113671724192877645725")
+                            .addFormDataPart("uid",uid)
                             .addFormDataPart("eid", grpid)
                             .build();
                     Request request = new Request.Builder()
