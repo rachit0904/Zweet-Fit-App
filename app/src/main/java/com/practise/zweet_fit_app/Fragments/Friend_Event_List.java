@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +19,20 @@ import com.practise.zweet_fit_app.Adapters.EventParentAdapter;
 import com.practise.zweet_fit_app.Modals.EventCardModal;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -63,83 +70,202 @@ public class Friend_Event_List extends Fragment {
     }
 
     private List<EventCardModal> getCardDetails() {
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/select?table=events")
-                .method("GET", null)
-                .addHeader("key", "MyApiKEy")
-                .build();
-        Request request2 = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=group_event_holder&query=uid&value="+uid)
-                .method("GET", null)
-                .addHeader("key", "MyApiKEy")
-                .build();
         try {
-
-            Response response = client.newCall(request).execute();
-            String data=response.body().string();
-            JSONObject object=new JSONObject(data);
-            JSONArray array=object.getJSONArray("data");
-            for(int i=0;i<array.length();i++){
-                JSONObject obj = array.getJSONObject(i);
-                if(obj.getString("p1id").equals(pref.getString("id","")) ||
-                        obj.getString("p2id").equals(pref.getString("id",""))){
-                    EventCardModal modal=new EventCardModal();
-                    String startDate=getDate(obj.getString("duration").split("-")[0]);
-                    modal.setDate(startDate);
-                    for(int k=i;k<array.length();k++) {
-                        JSONObject object2 = array.getJSONObject(k);
-                        String tempdate = getDate(object2.getString("duration").split("-")[0]);
-                        if(tempdate.equals(startDate)){
-                         GrpEventsModal modal1=new GrpEventsModal();
-
+            String userid = pref.getString("id","");
+            String url = Constant.ServerUrl+"/select?table=events";
+            String url2 = Constant.ServerUrl+"/select?table=group_event";
+            String url3 = Constant.ServerUrl+"/select?table=group_event_holder";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            OkHttpClient client2 = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=events")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Request request2 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=group_event")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Request request3 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=group_event_holder")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            Response response2 = null;
+            Response response3 = null;
+            try {
+                response = client.newCall(request).execute();
+                response2 = client2.newCall(request2).execute();
+                response3 = client.newCall(request3).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            HashMap<String, List<GrpEventsModal>> allevents = new HashMap<>();
+            HashMap<String, List<GrpEventsModal>> allevents2 = new HashMap<>();
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            String respo2 = response2.body().string();
+            JSONObject Jobject2 = new JSONObject(respo2);
+            JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            String respo3 = response3.body().string();
+            JSONObject Jobject3 = new JSONObject(respo3);
+            JSONArray Jarray3 = Jobject3.getJSONArray("data");
+            String date[]=new String[Jarray.length() + Jarray2.length()];
+            String stdate[]=new String[Jarray.length() + Jarray2.length()];
+            for (int i = 0; i < Jarray.length(); i++) {
+                List<GrpEventsModal> grpEventsModalList=new ArrayList<>();
+                JSONObject object2 = Jarray.getJSONObject(i);
+                String dur = object2.get("duration").toString();
+                String fdate = null;
+                date[i]=dur;
+                date[i]=date[i].split("-")[0];
+                Date dt = new SimpleDateFormat("dd/MM/yyyy").parse(date[i]);
+                date[i]=dt.toString();
+                date[i]=date[i].substring(8, 10) + " " + date[i].substring(4, 7) + " " + date[i].substring(30, 34);
+                for(int k = i; k<Jarray.length(); k++)
+                {
+                    int flag = 0;
+                    JSONObject object = Jarray.getJSONObject(k);
+                    String title = object.get("title").toString();
+                    String st = object.get("status").toString();
+                    String dur2 = object.get("duration").toString();
+                    String target = object.get("target").toString();
+                    String ent_coin = object.get("entry_coin").toString();
+                    String eid = object.get("eid").toString();
+                    String p1id = object.get("p1id").toString();
+                    String p2id = object.get("p2id").toString();
+                    String tempdate = dur2.split("-")[0];
+                    Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+                    tempdate=dts.toString();
+                    tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
+                    if((p1id.equals(uid) || p2id.equals(uid)))
+                    {
+                        if(tempdate.equals(date[i]))
+                        {
+                            GrpEventsModal modal = new GrpEventsModal(
+                                    "1", title, "2",
+                                    "5", "3", ent_coin, tempdate, target, "", "ongoing");
+                            grpEventsModalList.add(modal);
+                            fdate=tempdate;
+                        }
+                        else
+                        {
+                            i=k-1;
+                            break;
                         }
                     }
+                    if(k==(Jarray.length()-1))
+                    {
+                        i=k;
+                        break;
+                    }
+                }
+                if(fdate!=null)
+                {
+                    allevents.put(fdate, grpEventsModalList);
                 }
             }
-            Response response2 = client.newCall(request2).execute();
-            String data2=response2.body().string();
-            JSONObject object2=new JSONObject(data2);
-            JSONArray array2=object2.getJSONArray("data");
-            for(int i=0;i<array2.length();i++){
-                JSONObject obj = array2.getJSONObject(i);
-                Request request3 = new Request.Builder()
-                        .url("http://35.207.233.155:3578/selectwQuery?table=group_event&query=id&value="+obj.getString("eid"))
-                        .method("GET", null)
-                        .addHeader("key", "MyApiKEy")
-                        .build();
-                Response response3 = client.newCall(request3).execute();
-                String data3=response3.body().string();
-                JSONObject object3=new JSONObject(data3);
-                JSONArray array3=object3.getJSONArray("data");
-                for(int j=0;j<array2.length();j++) {
-                    JSONObject obj2 = array.getJSONObject(j);
-                    if(obj2.getString("p1id").equals(pref.getString("id","")) ||
-                            obj2.getString("p2id").equals(pref.getString("id",""))){
-                        EventCardModal modal=new EventCardModal();
-                        String startDate=getDate(obj2.getString("duration").split("-")[0]);
-                        modal.setDate(startDate);
-                        for(int k=i;k<array.length();k++) {
-                            JSONObject object4 = array.getJSONObject(k);
-                            String tempdate = getDate(object4.getString("duration").split("-")[0]);
-                            if(tempdate.equals(startDate)){
-                                GrpEventsModal grpEventsModal=new GrpEventsModal();
-                                grpEventsModal.setDur(obj2.getString("duration"));
-                                grpEventsModal.setEntryCoins(obj2.getString("entry_coin"));
-                                grpEventsModal.setgId(obj2.getString("id"));
-                                grpEventsModal.setTarget(obj2.getString("target"));
-                                grpEventsModal.setParticipants(obj2.getString("participates"));
-                                grpEventsModal.setTitle(obj2.getString("title"));
-                                grpEventsModal.setMaxP(obj2.getString("maxP"));
-                                grpEventsModal.setMinP(obj2.getString("minP"));
-                                grpEventsModal.setLevelUp(obj2.getString("levelUp"));
+            for (int i = 0; i < Jarray2.length(); i++) {
+                List<GrpEventsModal> grpEventsModalList=new ArrayList<>();
+                JSONObject object2 = Jarray2.getJSONObject(i);
+                String dur = object2.get("duration").toString();
+                date[i]=dur;
+                date[i]=date[i].split("-")[0];
+                Date dt = new SimpleDateFormat("dd/MM/yyyy").parse(date[i]);
+                date[i]=dt.toString();
+                date[i]=date[i].substring(8, 10) + " " + date[i].substring(4, 7) + " " + date[i].substring(30, 34);
+                String fdate2 = null;
+                for(int k = i; k<Jarray2.length(); k++)
+                {
+                    int flag=0;
+                    JSONObject object = Jarray2.getJSONObject(k);
+                    String title = object.get("title").toString();
+                    String st = object.get("status").toString();
+                    String dur2 = object.get("duration").toString();
+                    String parti = object.get("participates").toString();
+                    String ent_coin = object.get("EntryCoin").toString();
+                    String minp = object.get("minP").toString();
+                    String maxp = object.get("maxP").toString();
+                    String target = object.get("target").toString();
+                    String eid = object.get("id").toString();
+                    String level = object.get("levelUp").toString();
+                    String tempdate = dur2.split("-")[0];
+                    Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
+                    tempdate=dts.toString();
+                    tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
+                    for(int p = 0; p<Jarray3.length();p++)
+                    {
+                        JSONObject object3 = Jarray3.getJSONObject(p);
+                        String evid = object3.get("eid").toString();
+                        String uid2 = object3.get("uid").toString();
+                        Log.d("evid", evid + " " + uid2);
+                        if(evid.equals(eid))
+                        {
+                            if(uid.equals(uid2))
+                            {
+                                flag=1;
+                                break;
                             }
                         }
                     }
+                    if(flag==1)
+                    {
+                        if(tempdate.equals(date[i]))
+                        {
+                            GrpEventsModal modal = new GrpEventsModal(
+                                    eid, title, minp,
+                                    maxp, level, ent_coin, tempdate, target, parti, "ongoing");
+                            grpEventsModalList.add(modal);
+                            fdate2=tempdate;
+                        }
+                        else
+                        {
+                            Log.d("Dates" + k, String.valueOf(grpEventsModalList.size()));
+                            i=(k-1);
+                            break;
+                        }
+                    }
+                    if(k==(Jarray2.length()-1))
+                    {
+                        i=k;
+                        break;
+                    }
+                }
+                if(fdate2!=null)
+                {
+                    allevents2.put(fdate2, grpEventsModalList);
                 }
             }
-        } catch (IOException | JSONException e) {
+            HashMap<String, List<GrpEventsModal>> finalevent = new HashMap<>();
+            for(Map.Entry<String, List<GrpEventsModal>> m : allevents.entrySet())
+            {
+                finalevent.put(m.getKey(), m.getValue());
+            }
+            for(Map.Entry<String, List<GrpEventsModal>> m : allevents2.entrySet())
+            {
+                if(!finalevent.containsKey(m.getKey()))
+                {
+                    finalevent.put(m.getKey(), m.getValue());
+                }
+                else
+                {
+                    List<GrpEventsModal> grpEventsModalList=new ArrayList<>();
+                    grpEventsModalList=finalevent.get(m.getKey());
+                    grpEventsModalList.addAll(m.getValue());
+                    finalevent.put(m.getKey(), grpEventsModalList);
+                }
+            }
+            for(Map.Entry<String, List<GrpEventsModal>> m : finalevent.entrySet())
+            {
+                EventCardModal cardModal = new EventCardModal(m.getKey(), m.getValue());
+                eventCardModalList.add(cardModal);
+            }
+        } catch (JSONException | IOException | ParseException e) {
             e.printStackTrace();
         }
         return eventCardModalList;

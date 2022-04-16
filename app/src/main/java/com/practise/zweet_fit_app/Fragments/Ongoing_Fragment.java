@@ -124,26 +124,13 @@ public class Ongoing_Fragment extends Fragment {
                     String target = object.get("target").toString();
                     String ent_coin = object.get("entry_coin").toString();
                     String eid = object.get("eid").toString();
+                    String p1id = object.get("p1id").toString();
+                    String p2id = object.get("p2id").toString();
                     String tempdate = dur2.split("-")[0];
                     Date dts = new SimpleDateFormat("dd/MM/yyyy").parse(tempdate);
                     tempdate=dts.toString();
                     tempdate=tempdate.substring(8, 10) + " " + tempdate.substring(4, 7) + " " + tempdate.substring(30, 34);
-                    for(int p = 0; p<Jarray3.length();p++)
-                    {
-                        JSONObject object3 = Jarray3.getJSONObject(p);
-                        String evid = object3.get("eid").toString();
-                        String uid = object3.get("uid").toString();
-                        Log.d("evid", evid + " " + uid);
-                        if(evid.equals(eid))
-                        {
-                            if(userid.equals(uid))
-                            {
-                                flag=1;
-                                break;
-                            }
-                        }
-                    }
-                    if(st.equals("2") && flag==1)
+                    if(st.equals("2") && (p1id.equals(userid) || p2id.equals(userid)))
                     {
                         if(tempdate.equals(date[i]))
                         {
