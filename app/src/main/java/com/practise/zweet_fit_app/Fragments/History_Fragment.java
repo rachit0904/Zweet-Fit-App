@@ -145,7 +145,7 @@ public class History_Fragment extends Fragment {
                             }
                         }
                     }
-                    if(st.equals("0"))
+                    if(st.equals("3") && flag==1)
                     {
                         if(tempdate.equals(date[i]))
                         {
@@ -216,7 +216,7 @@ public class History_Fragment extends Fragment {
                             }
                         }
                     }
-                    if(st.equals("0") && flag==1)
+                    if(st.equals("3") && flag==1)
                     {
                         if(tempdate.equals(date[i]))
                         {
