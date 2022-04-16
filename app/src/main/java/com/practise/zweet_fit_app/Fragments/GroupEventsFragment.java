@@ -131,9 +131,12 @@ public class GroupEventsFragment extends Fragment {
             String grpid = getActivity().getIntent().getStringExtra("id");
             String url = Constant.ServerUrl+"/select?table=users";
             String url2 = Constant.ServerUrl+"/select?table=group_event_holder";
+            String url3 = Constant.ServerUrl+"/select?table=events";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             OkHttpClient client2 = new OkHttpClient().newBuilder()
+                    .build();
+            OkHttpClient client3 = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
                     .url("http://35.207.233.155:3578/select?table=users")
@@ -145,11 +148,18 @@ public class GroupEventsFragment extends Fragment {
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
+            Request request3 = new Request.Builder()
+                    .url("http://35.207.233.155:3578/select?table=events")
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
             Response response = null;
             Response response2 = null;
+            Response response3 = null;
             try {
                 response = client.newCall(request).execute();
                 response2 = client2.newCall(request2).execute();
+                response3 = client2.newCall(request3).execute();
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d("Leave2", e.toString());
@@ -160,6 +170,9 @@ public class GroupEventsFragment extends Fragment {
             String respo2 = response2.body().string();
             JSONObject Jobject2 = new JSONObject(respo2);
             JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            String respo3 = response3.body().string();
+            JSONObject Jobject3 = new JSONObject(respo3);
+            JSONArray Jarray3 = Jobject3.getJSONArray("data");
             JSONObject object = Jarray.getJSONObject(1);
             String userid = object.get("uid").toString();
             String grp = "";
@@ -175,7 +188,6 @@ public class GroupEventsFragment extends Fragment {
                     if(userid.equals(uid))
                     {
                         userid="1";
-                        Log.d("Leave", "Join");
                         joinbtn.setText("Leave");
                         break;
                     }
@@ -183,7 +195,26 @@ public class GroupEventsFragment extends Fragment {
             }
             if(!userid.equals("1"))
             {
-                joinbtn.setText("Join");
+                for(int k=0;k<Jarray3.length();k++)
+                {
+                    JSONObject object3 = Jarray3.getJSONObject(k);
+                    String pid1 = object3.getString("p1id");
+                    String pid2 = object3.getString("p2id");
+                    String eid = object3.get("eid").toString();
+                    if(eid.equals(grpid))
+                    {
+                        if(userid.equals(pid1) || userid.equals(pid2))
+                        {
+                            userid="2";
+                            joinbtn.setText("Leave");
+                            break;
+                        }
+                    }
+                }
+                if(!userid.equals("2"))
+                {
+                    joinbtn.setText("Join");
+                }
             }
         } catch (JSONException | IOException e) {
             e.printStackTrace();
