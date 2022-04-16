@@ -1,5 +1,7 @@
 package com.practise.zweet_fit_app.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +37,7 @@ import okhttp3.Request;
 
 
 public class CoinHistory extends Fragment {
+    SharedPreferences pref;
     String months[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
     RecyclerView rv;
     List<CoinTransactionParentModal> coinTransactionParentModalList=new ArrayList<>();
@@ -44,6 +47,7 @@ public class CoinHistory extends Fragment {
         View view= inflater.inflate(R.layout.fragment_coin_history, container, false);
         rv=view.findViewById(R.id.coinParentRv);
         rv.setHasFixedSize(true);
+        pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         rv.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         CoinTransactionParentAdapter adapter=new CoinTransactionParentAdapter(getContext(),getTransactions());
         rv.setAdapter(adapter);
@@ -52,11 +56,11 @@ public class CoinHistory extends Fragment {
 
     private List<CoinTransactionParentModal> getTransactions() {
         try {
-            String url = Constant.ServerUrl+"/select?table=coin_history";
+
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             okhttp3.Request request = new okhttp3.Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=coin_history")
+                    .url("http://35.207.233.155:3578/selectwQuery?table=coin_history&query=uid&value="+pref.getString("id",""))
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
