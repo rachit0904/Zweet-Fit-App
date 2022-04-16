@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,6 @@ public class Friend_Event_List extends Fragment {
                 .addHeader("key", "MyApiKEy")
                 .build();
         try {
-
             Response response = client.newCall(request).execute();
             String data=response.body().string();
             JSONObject object=new JSONObject(data);
@@ -86,15 +86,31 @@ public class Friend_Event_List extends Fragment {
                 if(obj.getString("p1id").equals(pref.getString("id","")) ||
                         obj.getString("p2id").equals(pref.getString("id",""))){
                     EventCardModal modal=new EventCardModal();
+                    List<GrpEventsModal> GrpEventsModalList = new ArrayList<>();
                     String startDate=getDate(obj.getString("duration").split("-")[0]);
                     modal.setDate(startDate);
                     for(int k=i;k<array.length();k++) {
                         JSONObject object2 = array.getJSONObject(k);
                         String tempdate = getDate(object2.getString("duration").split("-")[0]);
                         if(tempdate.equals(startDate)){
-                         GrpEventsModal modal1=new GrpEventsModal();
-
+                            GrpEventsModal grpEventsModal=new GrpEventsModal();
+                            grpEventsModal.setDur(obj.getString("duration"));
+                            grpEventsModal.setEntryCoins(obj.getString("entry_coin"));
+                            grpEventsModal.setgId(obj.getString("id"));
+                            grpEventsModal.setTarget(obj.getString("target"));
+                            grpEventsModal.setParticipants(obj.getString("participates"));
+                            grpEventsModal.setTitle(obj.getString("title"));
+                            grpEventsModal.setMaxP(obj.getString("maxP"));
+                            grpEventsModal.setMinP(obj.getString("minP"));
+                            grpEventsModal.setLevelUp(obj.getString("levelUp"));
+                            GrpEventsModalList.add(grpEventsModal);
                         }
+                    }
+                    if(!GrpEventsModalList.isEmpty())
+                    {
+                        Log.d("List", GrpEventsModalList.toString());
+                        modal.setGrpEventsModalList(GrpEventsModalList);
+                        eventCardModalList.add(modal);
                     }
                 }
             }
@@ -118,6 +134,7 @@ public class Friend_Event_List extends Fragment {
                     if(obj2.getString("p1id").equals(pref.getString("id","")) ||
                             obj2.getString("p2id").equals(pref.getString("id",""))){
                         EventCardModal modal=new EventCardModal();
+                        List<GrpEventsModal> GrpEventsModalList = new ArrayList<>();
                         String startDate=getDate(obj2.getString("duration").split("-")[0]);
                         modal.setDate(startDate);
                         for(int k=i;k<array.length();k++) {
@@ -134,7 +151,14 @@ public class Friend_Event_List extends Fragment {
                                 grpEventsModal.setMaxP(obj2.getString("maxP"));
                                 grpEventsModal.setMinP(obj2.getString("minP"));
                                 grpEventsModal.setLevelUp(obj2.getString("levelUp"));
+                                GrpEventsModalList.add(grpEventsModal);
                             }
+                        }
+                        if(!GrpEventsModalList.isEmpty())
+                        {
+                            Log.d("List", GrpEventsModalList.toString());
+                            modal.setGrpEventsModalList(GrpEventsModalList);
+                            eventCardModalList.add(modal);
                         }
                     }
                 }
