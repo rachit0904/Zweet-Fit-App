@@ -3,11 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     tools:context=".Fragments.History_Fragment">
 
+   <TextView
+       android:id="@+id/noData"
+       android:layout_gravity="center"
+       android:textStyle="bold"
+       android:textColor="@color/white"
+       android:textSize="18sp"
+       android:text="Not Enrolled in any Event yet!"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+
    <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/parentRv"
+       android:visibility="invisible"
        android:scrollbars="none"
        android:overScrollMode="never"
        android:nestedScrollingEnabled="false"

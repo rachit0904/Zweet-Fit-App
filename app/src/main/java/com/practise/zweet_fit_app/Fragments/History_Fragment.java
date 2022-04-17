@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +42,7 @@ public class History_Fragment extends Fragment {
     RecyclerView parentEventRv;
     SharedPreferences pref;
     int cnt=0;
+    TextView noData;
     List<EventCardModal> eventCardModalList=new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,11 +50,19 @@ public class History_Fragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_history_, container, false);
         pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         parentEventRv=view.findViewById(R.id.parentRv);
+        noData=view.findViewById(R.id.noData);
         parentEventRv.setHasFixedSize(true);
         eventCardModalList.clear();
         parentEventRv.setLayoutManager(new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false));
         EventParentAdapter adapter=new EventParentAdapter(view.getContext(),getCardDetails());
         parentEventRv.setAdapter(adapter);
+        if(eventCardModalList.isEmpty()){
+            noData.setVisibility(View.VISIBLE);
+            parentEventRv.setVisibility(View.GONE);
+        }else{
+            noData.setVisibility(View.GONE);
+            parentEventRv.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -90,9 +100,6 @@ public class History_Fragment extends Fragment {
                 response = client.newCall(request).execute();
                 response2 = client2.newCall(request2).execute();
                 response3 = client.newCall(request3).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             HashMap<String, List<GrpEventsModal>> allevents = new HashMap<>();
             HashMap<String, List<GrpEventsModal>> allevents2 = new HashMap<>();
             String respo = response.body().string();
@@ -256,7 +263,10 @@ public class History_Fragment extends Fragment {
                 eventCardModalList.add(cardModal);
                 Log.d("Sizesss", String.valueOf(m.getValue().size()) + m.getKey());
             }
-        } catch (JSONException | IOException | ParseException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (JSONException | ParseException e) {
             e.printStackTrace();
             Log.d("Error2", e.toString());
         }

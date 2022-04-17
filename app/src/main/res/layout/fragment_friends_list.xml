@@ -3,11 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     tools:context=".Fragments.FriendsList">
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/friendsAnim"
+        android:elevation="10dp"
+        android:layout_gravity="center"
+        app:lottie_fileName="lonely.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:layout_marginRight="30dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"/>
+
+    <TextView
+        android:id="@+id/noData"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:text="You are caught up all alone yet!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/friends"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

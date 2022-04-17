@@ -25,12 +25,12 @@
                 android:id="@+id/userImg"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/dp"/>
+                android:src="@drawable/avatar_1"/>
             <TextView
                 android:id="@+id/name"
                 android:textColor="@color/white"
                 android:layout_marginLeft="20dp"
-                android:text="Rachit Singh"
+                android:text="User"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

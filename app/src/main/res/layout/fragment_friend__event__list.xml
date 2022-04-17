@@ -11,6 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <LinearLayout
             android:layout_marginStart="30dp"
             android:layout_marginTop="40dp"
@@ -27,6 +29,7 @@
 
         <TextView
             android:id="@+id/FriendsName"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -36,13 +39,25 @@
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/noData"
+            android:layout_marginTop="200dp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:text="Not Enrolled in any Event yet!"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friend_event_rv"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/grp_event_card" >
-
         </androidx.recyclerview.widget.RecyclerView>
+
 
     </LinearLayout>
 

@@ -7,6 +7,11 @@
     android:background="#000000"
     tools:context=".Fragments.ActivityFragment">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/activityRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,14 +19,6 @@
        android:id="@+id/friendsLayout"
        android:layout_width="match_parent"
        android:layout_height="80dp">
-<!--       <ImageView-->
-<!--           android:id="@+id/manageFriends"-->
-<!--           android:layout_marginTop="30dp"-->
-<!--           android:layout_marginRight="30dp"-->
-<!--           android:layout_gravity="end"-->
-<!--           android:src="@drawable/friends"-->
-<!--           android:layout_width="wrap_content"-->
-<!--           android:layout_height="wrap_content"/>-->
    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <com.google.android.material.tabs.TabLayout
@@ -60,4 +57,5 @@
             android:layout_below="@id/eventTabs"
             tools:ignore="SpeakableTextPresentCheck" />
     </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

@@ -106,9 +106,6 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
             Response response=null;
             try {
                response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             String data=response.body().string();
             Log.i("response",data);
             JSONObject object=new JSONObject(data);
@@ -117,8 +114,10 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
                 JSONObject obj=userData.getJSONObject(i);
                 Log.i("name",obj.getString("name"));
             }
-
-        }catch (IOException | JSONException e){
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }catch (JSONException e){
             e.printStackTrace();
         }
     }

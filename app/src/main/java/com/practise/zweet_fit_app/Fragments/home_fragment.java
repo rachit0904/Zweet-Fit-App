@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
@@ -60,6 +61,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
+import com.practise.zweet_fit_app.Activity.MainActivity;
 import com.practise.zweet_fit_app.Adapters.GrpEventsHomepageAdapter;
 import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
@@ -128,7 +130,8 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     LocalDate date=LocalDate.now();
     private String daily_steps = "0";
     private static List<Step_Item> stepsData = new ArrayList<>();
-
+    SwipeRefreshLayout swipeRefreshLayout;
+    TextView grpEventheader;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -147,6 +150,8 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         hintbutton = view.findViewById(R.id.hintbutton);
         progressBar = view.findViewById(R.id.progressBar);
         goalAchieved=view.findViewById(R.id.goalAchieved);
+        grpEventheader=view.findViewById(R.id.textView4);
+        swipeRefreshLayout=view.findViewById(R.id.homeRefreshLayout);
         d1=view.findViewById(R.id.monStreakStat);d2=view.findViewById(R.id.tuesStreakStat);d3=view.findViewById(R.id.wedStreakStat);
         d4=view.findViewById(R.id.thursStreakStat);d5=view.findViewById(R.id.friStreakStat);d6=view.findViewById(R.id.satStreakStat);
         d7=view.findViewById(R.id.sunStreakStat);
@@ -169,7 +174,20 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         setData();
         getStreakStatus();
         saveData();
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(false);
+                Intent intent=new Intent(getContext(), MainActivity.class);
+                getActivity().startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        if(grpEventsModalList.isEmpty()){
+            grpEventheader.setVisibility(View.INVISIBLE);
+        }else {
+            grpEventheader.setVisibility(View.VISIBLE);
+        }
         FirebaseAuth auth=FirebaseAuth.getInstance();
         return view;
     }
@@ -273,9 +291,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             Response response = null;
             try {
                 response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             String respo = response.body().string();
             JSONObject Jobject = new JSONObject(respo);
             JSONArray Jarray = Jobject.getJSONArray("data");
@@ -299,8 +314,10 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                             maxp, level, ent_coin, dur, target, parti, "ongoing", "grpev");
                     grpEventsModalList.add(modal);
                 }
+            } } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException | IOException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
             Log.d("Error2", e.toString());
         }

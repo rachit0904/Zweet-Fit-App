@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
     tools:context=".Fragments.CoinHistory">
 
@@ -10,18 +11,53 @@
        android:orientation="vertical"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
-   <TextView
-       android:text="Coin Transactions"
-       android:textSize="22sp"
-       android:textStyle="bold"
-       android:layout_marginTop="40dp"
-       android:layout_marginLeft="30dp"
-       android:textColor="@color/white"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"/>
 
-   <androidx.recyclerview.widget.RecyclerView
+      <LinearLayout
+          android:gravity="center_vertical"
+          android:layout_marginTop="30dp"
+         android:layout_marginLeft="25dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+         <ImageView
+             android:id="@+id/back"
+             android:src="@drawable/back"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+         <TextView
+             android:text="Coin Transactions"
+             android:textSize="22sp"
+             android:textStyle="bold"
+             android:layout_marginLeft="15dp"
+             android:textColor="@color/white"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
+      </LinearLayout>
+      <com.airbnb.lottie.LottieAnimationView
+          android:id="@+id/coinAnim"
+          android:elevation="10dp"
+          android:layout_marginTop="140dp"
+          android:layout_gravity="center"
+          app:lottie_fileName="coins.json"
+          app:lottie_autoPlay="true"
+          app:lottie_loop="false"
+          android:layout_marginLeft="20dp"
+          android:layout_width="200dp"
+          android:layout_height="150dp"/>
+
+      <TextView
+          android:id="@+id/noData"
+          android:layout_marginTop="20dp"
+          android:textSize="18sp"
+          android:textColor="@color/white"
+          android:layout_gravity="center"
+          android:text="No Coin Transactions Yet!"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+
+      <androidx.recyclerview.widget.RecyclerView
        android:id="@+id/coinParentRv"
+       android:visibility="gone"
        tools:listitem="@layout/coins_parent_card"
        tools:itemCount="3"
        android:paddingTop="30dp"

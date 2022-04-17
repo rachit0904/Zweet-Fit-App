@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.practise.zweet_fit_app.Adapters.FriendsCardAdapter;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
@@ -31,17 +33,29 @@ public class FriendsList extends Fragment {
     RecyclerView friends;
     List<UsersDataModal> friendsList = new ArrayList<>();
     SharedPreferences pref;
-
+    LottieAnimationView friendsAnim;
+    TextView noData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends_list, container, false);
         pref = getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         friends = view.findViewById(R.id.friends);
+        friendsAnim=view.findViewById(R.id.friendsAnim);
+        noData=view.findViewById(R.id.noData);
         friends.setHasFixedSize(true);
         friends.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         FriendsCardAdapter adapter = new FriendsCardAdapter(getFriends(), requireContext());
         friends.setAdapter(adapter);
+        if(friendsList.isEmpty()){
+            friendsAnim.setVisibility(View.VISIBLE);
+            noData.setVisibility(View.VISIBLE);
+            friends.setVisibility(View.GONE);
+        }else{
+            friendsAnim.setVisibility(View.GONE);
+            noData.setVisibility(View.GONE);
+            friends.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 

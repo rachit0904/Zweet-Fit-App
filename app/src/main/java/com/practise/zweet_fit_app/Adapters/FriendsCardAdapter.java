@@ -64,7 +64,8 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             holder.more.setVisibility(View.VISIBLE);
         }
         holder.name.setText(modal.getName());
-        if(!modal.getImagePath().isEmpty()) {
+        if(!modal.getImagePath().isEmpty())
+        {
             Picasso.get().load(modal.getImagePath()).placeholder(R.drawable.avatar_1).into(holder.profilePic);
         }
     }

@@ -7,6 +7,10 @@
     android:background="#000000"
     tools:context=".Fragments.home_fragment">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/homeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.core.widget.NestedScrollView
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:overScrollMode="never"
@@ -258,8 +262,8 @@
                 android:layout_marginStart="27dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="27dp"
-                app:cardCornerRadius="25dp"
                 app:cardBackgroundColor="#035E68"
+                app:cardCornerRadius="25dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/grpEventsHorizontalRV">
@@ -680,6 +684,6 @@
             </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

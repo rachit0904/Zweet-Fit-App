@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -53,6 +55,8 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
     ArrayList<JSONObject> f=new ArrayList<JSONObject>();
     ArrayList<String> friends=new ArrayList<>();
     String rid="";
+    LottieAnimationView animationView;
+    TextView noData;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,12 +64,23 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
         invititationsRv=view.findViewById(R.id.invitations);
         addEvent=view.findViewById(R.id.addEvent);
         addEvent.setOnClickListener(this);
+        animationView=view.findViewById(R.id.invitationAnim);
+        noData=view.findViewById(R.id.noInvitationData);
         inviteCardModalList.clear();
         invititationsRv.setHasFixedSize(true);
         pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         invititationsRv.setLayoutManager(new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false));
         InvitationRvAdapter adapter=new InvitationRvAdapter(getInvitations(),view.getContext());
         invititationsRv.setAdapter(adapter);
+        if(inviteCardModalList.isEmpty()){
+            invititationsRv.setVisibility(View.GONE);
+            animationView.setVisibility(View.VISIBLE);
+            noData.setVisibility(View.VISIBLE);
+        }else{
+            invititationsRv.setVisibility(View.VISIBLE);
+            animationView.setVisibility(View.GONE);
+            noData.setVisibility(View.GONE);
+        }
         return view;
     }
 

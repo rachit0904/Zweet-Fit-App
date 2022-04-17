@@ -1,5 +1,7 @@
 package com.practise.zweet_fit_app.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,60 +9,32 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.practise.zweet_fit_app.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EventStatsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class EventStatsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public EventStatsFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EventStatsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EventStatsFragment newInstance(String param1, String param2) {
-        EventStatsFragment fragment = new EventStatsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    ProgressBar progressBar;
+    TextView prg,steps,cal,dist;
+    SharedPreferences pref;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_event_stats, container, false);
+        View view= inflater.inflate(R.layout.fragment_event_stats, container, false);
+        progressBar=view.findViewById(R.id.userPrg);
+        prg=view.findViewById(R.id.progress);
+        steps=view.findViewById(R.id.steps);
+        cal=view.findViewById(R.id.calorie);
+        dist=view.findViewById(R.id.dist);
+        pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+        steps.setText(pref.getString("steps",""));
+        cal.setText(pref.getString("cal","")+ "KCal");
+        dist.setText(pref.getString("dist","")+" Km");
+        Float s=Float.valueOf(pref.getString("steps",""));
+        Float t= Float.valueOf(pref.getString("target",""));
+        prg.setText(pref.getString("progress","")+" %");
+        progressBar.setProgress(Integer.parseInt(pref.getString("progress","")));
+        return view;
     }
 }

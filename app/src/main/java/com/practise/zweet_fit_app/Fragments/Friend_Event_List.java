@@ -39,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class Friend_Event_List extends Fragment {
-    TextView friendname;
+    TextView friendname,noData;
     RecyclerView recyclerView;
     String months[]={"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"};
     SharedPreferences pref;
@@ -52,6 +52,7 @@ public class Friend_Event_List extends Fragment {
         View view= inflater.inflate(R.layout.fragment_friend__event__list, container, false);
         recyclerView=view.findViewById(R.id.friend_event_rv);
         friendname = view.findViewById(R.id.FriendsName);
+        noData=view.findViewById(R.id.noData);
         uid=getActivity().getIntent().getStringExtra("uid");
         back=view.findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +67,13 @@ public class Friend_Event_List extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false));
         EventParentAdapter adapter=new EventParentAdapter(view.getContext(),getCardDetails());
         recyclerView.setAdapter(adapter);
+        if(eventCardModalList.isEmpty()){
+            noData.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }else{
+            noData.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 

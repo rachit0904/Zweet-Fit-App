@@ -12,8 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.practise.zweet_fit_app.Modals.GrpLeaderboardModal;
 import com.practise.zweet_fit_app.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>  {
     List<GrpLeaderboardModal> grpleaderboard;
@@ -45,12 +48,17 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         holder.lvl.setText(modal.getParticipantlvl());
         holder.coins.setText(modal.getCoins());
         holder.rank.setText(modal.getRank());
+        if(!modal.getDp().isEmpty()){
+            Picasso.get().load(modal.getDp()).into(holder.dp);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView name, steps, lvl, coins, rank;
+        CircleImageView dp;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            dp=itemView.findViewById(R.id.dp);
             name = itemView.findViewById(R.id.participantName);
             steps = itemView.findViewById(R.id.participantSteps);
             lvl = itemView.findViewById(R.id.participantLevel);

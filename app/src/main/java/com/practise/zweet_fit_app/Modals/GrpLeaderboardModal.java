@@ -1,16 +1,24 @@
 package com.practise.zweet_fit_app.Modals;
 
 public class GrpLeaderboardModal {
-    String gId,name,rank,steps,coins,participantlvl;
+    String gId,name,rank,steps,coins,participantlvl,dp;
 
-    public GrpLeaderboardModal(String gid, String name, String rank, String steps, String coins, String participantlvl)
-    {
-        this.gId = gid;
-        this.coins = coins;
+    public GrpLeaderboardModal(String gId, String name, String rank, String steps, String coins, String participantlvl, String dp) {
+        this.gId = gId;
         this.name = name;
-        this.participantlvl = participantlvl;
         this.rank = rank;
         this.steps = steps;
+        this.coins = coins;
+        this.participantlvl = participantlvl;
+        this.dp = dp;
+    }
+
+    public String getDp() {
+        return dp;
+    }
+
+    public void setDp(String dp) {
+        this.dp = dp;
     }
 
     public String getgId() {

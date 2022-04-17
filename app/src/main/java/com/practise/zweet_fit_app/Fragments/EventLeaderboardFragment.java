@@ -39,6 +39,7 @@ public class EventLeaderboardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event_leaderboard, container, false);
         rv = view.findViewById(R.id.leaderboard_rv);
         rv.setHasFixedSize(true);
+        grpleaderboard.clear();
         rv.setLayoutManager(new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false));
         LeaderboardAdapter adapter = new LeaderboardAdapter(getCardDetails(),view.getContext());
         rv.setAdapter(adapter);
@@ -91,6 +92,7 @@ public class EventLeaderboardFragment extends Fragment {
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
                             String uids = object2.get("uid").toString();
+                            String dp=object2.get("dp_url").toString();
                             Log.d("Eid", uids + " Winner1: " + w1);
                             if(uids.equals(w1)){
                                 Log.d("Eid", uids);
@@ -99,7 +101,7 @@ public class EventLeaderboardFragment extends Fragment {
                                 String coins = object2.get("coins").toString();
                                 String lvl = object2.get("level").toString();
                                 String rank = "1";
-                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl);
+                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl,dp);
                                 grpleaderboard.add(modal);
                             }
                         }
@@ -110,13 +112,14 @@ public class EventLeaderboardFragment extends Fragment {
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
                             String uids2 = object2.get("uid").toString();
+                            String dp=object2.get("dp_url").toString();
                             if(uids2.equals(w2)) {
                                 String name = object2.get("name").toString();
                                 String steps = object2.get("steps").toString();
                                 String coins = object2.get("coins").toString();
                                 String lvl = object2.get("level").toString();
                                 String rank = "2";
-                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl);
+                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl,dp);
                                 grpleaderboard.add(modal);
                             }
                         }
@@ -127,13 +130,14 @@ public class EventLeaderboardFragment extends Fragment {
                         {
                             JSONObject object2 = Jarray2.getJSONObject(j);
                             String uids3 = object2.get("uid").toString();
+                            String dp=object2.get("dp_url").toString();
                             if(uids3.equals(w3)) {
                                 String name = object2.get("name").toString();
                                 String steps = object2.get("steps").toString();
                                 String coins = object2.get("coins").toString();
                                 String lvl = object2.get("level").toString();
                                 String rank = "3";
-                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl);
+                                GrpLeaderboardModal modal = new GrpLeaderboardModal(grpid, name, rank, steps, coins, lvl,dp);
                                 grpleaderboard.add(modal);
                             }
                         }
