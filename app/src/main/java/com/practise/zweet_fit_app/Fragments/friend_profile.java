@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
@@ -60,7 +59,7 @@ public class friend_profile extends Fragment implements View.OnClickListener {
         add_friend =view.findViewById(R.id.addFriend);
         remove_friend =view.findViewById(R.id.removeFriend);
         name = view.findViewById(R.id.textView);
-        coins = view.findViewById(R.id.coins);
+        coins = view.findViewById(R.id.lvl);
         steps = view.findViewById(R.id.steps);
         calories = view.findViewById(R.id.calories);
         distance = view.findViewById(R.id.distance);
@@ -86,10 +85,11 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             add_friend.setVisibility(View.VISIBLE);
             remove_friend.setVisibility(View.GONE);
         }
+        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pid;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value="+pid)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -124,10 +124,11 @@ public class friend_profile extends Fragment implements View.OnClickListener {
 
     private boolean isFriend(String pid) {
         String status="";
+        String url = Constant.ServerUrl+"/selectwQuery?table=friends&query=uid&value="+pref.getString("id","")+"&query=fid&value="+pid;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=friends&query=uid&value="+pref.getString("id","")+"&query=fid&value="+pid)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();

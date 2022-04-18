@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:id="@+id/coins"
+            android:id="@+id/lvl"
             android:text="+20"
             android:layout_marginRight="25dp"
             android:layout_gravity="end"

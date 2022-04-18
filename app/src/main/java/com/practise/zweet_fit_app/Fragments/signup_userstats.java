@@ -20,6 +20,7 @@ import com.practise.zweet_fit_app.Activity.SignUp;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
+import com.practise.zweet_fit_app.Util.Constant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -111,6 +112,7 @@ public class signup_userstats extends Fragment {
     }
 
     private void createUser(SharedPreferences pref) {
+        String url = Constant.ServerUrl+"/updateUsers";
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
@@ -133,7 +135,7 @@ public class signup_userstats extends Fragment {
                 .addFormDataPart("dp_url","")
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/updateUsers")
+                .url(url)
                 .method("POST", body)
                 .addHeader("key", "MyApiKEy")
                 .build();

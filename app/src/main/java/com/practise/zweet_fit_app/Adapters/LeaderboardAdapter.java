@@ -1,7 +1,6 @@
 package com.practise.zweet_fit_app.Adapters;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,7 +61,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             name = itemView.findViewById(R.id.participantName);
             steps = itemView.findViewById(R.id.participantSteps);
             lvl = itemView.findViewById(R.id.participantLevel);
-            coins = itemView.findViewById(R.id.coins);
+            coins = itemView.findViewById(R.id.lvl);
             rank = itemView.findViewById(R.id.participantRank);
         }
     }

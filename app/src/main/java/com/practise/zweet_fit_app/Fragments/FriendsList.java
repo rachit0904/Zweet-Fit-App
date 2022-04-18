@@ -3,6 +3,7 @@ package com.practise.zweet_fit_app.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.practise.zweet_fit_app.Adapters.FriendsCardAdapter;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,10 +62,11 @@ public class FriendsList extends Fragment {
     }
 
     private List<UsersDataModal> getFriends() {
+        String url = Constant.ServerUrl+"/select?table=friends";
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/select?table=friends")
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -96,10 +99,11 @@ public class FriendsList extends Fragment {
     private UsersDataModal getFriendData(UsersDataModal user) {
         user.setIsFriend("yes");
         user.setCardType("friend");
+        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+user.getUid();
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value=" + user.getUid())
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
