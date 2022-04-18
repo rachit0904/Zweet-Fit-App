@@ -110,13 +110,20 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             seekPermissions();
         }
         if(view==nextPage){
-            checkStep(flag1,1);
-            checkStep(flag2, 2);
-            checkStep(flag3, 3);
-            Intent intent=new Intent(AuthActivity.this,SignUp.class);
-            intent.putExtra("fragment","personal details");
-            startActivity(intent);
-            finish();
+            if(flag1&&flag2&&flag2) {
+                Intent intent = new Intent(AuthActivity.this, SignUp.class);
+                intent.putExtra("fragment", "personal details");
+                startActivity(intent);
+                finish();
+            }else{
+                if(!flag1){
+                    Snackbar.make(view,"Complete Step 1!",Snackbar.LENGTH_SHORT).show();
+                }else if(!flag2){
+                    Snackbar.make(view,"Complete Step 2!",Snackbar.LENGTH_SHORT).show();
+                }else if(!flag3){
+                    Snackbar.make(view,"Complete Step 3!",Snackbar.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -186,6 +193,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     100);
             allowPermissions.setCompoundDrawablesWithIntrinsicBounds(R.drawable.permission, 0, R.drawable.verified, 0);
             flag3=true;
+        }else{
+            flag3=false;
         }
     }
 
@@ -207,6 +216,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             installFit.setCompoundDrawablesWithIntrinsicBounds(R.drawable.google_fit_logo, 0, R.drawable.verified, 0);
             flag2=true;
             accessGoogleFit();
+        }else{
+            flag2=false;
         }
     }
 
@@ -220,6 +231,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             flag1=true;
         }else{
             Snackbar.make(signWithGoogle,"Sign in attempt failed!",Snackbar.LENGTH_SHORT).show();
+            flag1=false;
             Log.d("result",result.getStatus().toString());
         }
     }

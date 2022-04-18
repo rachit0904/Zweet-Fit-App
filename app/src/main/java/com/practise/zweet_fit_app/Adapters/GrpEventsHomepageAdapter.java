@@ -81,21 +81,25 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
             eventCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    GrpEventsModal modal=grpEventsModalList.get(getAdapterPosition());
-                    Intent intent=new Intent(context, BlankActivity.class);
-                    intent.putExtra("activity","grp_event");
-                    intent.putExtra("title",modal.getTitle());
-                    intent.putExtra("lvlup",modal.getLevelUp());
-                    intent.putExtra("coins",modal.getEntryCoins());
-                    intent.putExtra("target",modal.getTarget());
-                    intent.putExtra("status",modal.getStatus());
-                    intent.putExtra("participants",modal.getParticipants());
-                    intent.putExtra("maxP",modal.getMaxP());
-                    intent.putExtra("minP",modal.getMinP());
-                    intent.putExtra("id",modal.getgId());
-                    intent.putExtra("dur",modal.getDur());
-                    intent.putExtra("type",modal.getType());
-                    context.startActivity(intent);
+                    try {
+                        GrpEventsModal modal = grpEventsModalList.get(getAdapterPosition());
+                        Intent intent = new Intent(context, BlankActivity.class);
+                        intent.putExtra("activity", "grp_event");
+                        intent.putExtra("title", modal.getTitle());
+                        intent.putExtra("lvlup", modal.getLevelUp());
+                        intent.putExtra("coins", modal.getEntryCoins());
+                        intent.putExtra("target", modal.getTarget());
+                        intent.putExtra("status", modal.getStatus());
+                        intent.putExtra("participants", modal.getParticipants());
+                        intent.putExtra("maxP", modal.getMaxP());
+                        intent.putExtra("minP", modal.getMinP());
+                        intent.putExtra("id", modal.getgId());
+                        intent.putExtra("dur", modal.getDur());
+                        intent.putExtra("type", modal.getType());
+                        context.startActivity(intent);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
             });
         }

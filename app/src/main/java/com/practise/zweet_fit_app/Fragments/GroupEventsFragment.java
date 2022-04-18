@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.PagerAdapter.GroupEventsViewPagerAdapter;
@@ -77,19 +78,64 @@ public class GroupEventsFragment extends Fragment {
         joinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(joinbtn.getText()=="Join")
-                {
-                        String grpid = getActivity().getIntent().getStringExtra("id");
-                        String url = Constant.ServerUrl+"/addUserToGroupEvent";
+                String grpid = getActivity().getIntent().getStringExtra("id");
+                if(joinbtn.getText()=="Join") {
+                        {
+                            String url = Constant.ServerUrl + "/addUserToGroupEvent";
+                            OkHttpClient client = new OkHttpClient().newBuilder()
+                                    .build();
+                            MediaType mediaType = MediaType.parse("text/plain");
+                            MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("uid", uid)
+                                    .addFormDataPart("eid", grpid)
+                                    .build();
+                            Request request = new Request.Builder()
+                                    .url(url)
+                                    .method("POST", body)
+                                    .addHeader("key", "MyApiKEy")
+                                    .build();
+                            Response response = null;
+                            try {
+                                response = client.newCall(request).execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        {
+                            OkHttpClient client = new OkHttpClient().newBuilder()
+                                    .build();
+                            MediaType mediaType = MediaType.parse("text/plain");
+                            MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                    .addFormDataPart("amount","-"+getActivity().getIntent().getStringExtra("coins"))
+                                    .addFormDataPart("eid",grpid)
+                                    .addFormDataPart("source","joined "+getActivity().getIntent().getStringExtra("title"))
+                                    .addFormDataPart("uid",uid)
+                                    .build();
+                            Request request = new Request.Builder()
+                                    .url(Constant.ServerUrl+"/addCoin")
+                                    .method("POST", body)
+                                    .addHeader("key", "MyApiKEy")
+                                    .build();
+                            try {
+                                Response response = client.newCall(request).execute();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Snackbar.make(view,"Event Joined!",Snackbar.LENGTH_SHORT).show();
+                }
+                else {
+                        {
+                        String url2 = Constant.ServerUrl + "/removeUserToGroupEvent";
                         OkHttpClient client = new OkHttpClient().newBuilder()
                                 .build();
                         MediaType mediaType = MediaType.parse("text/plain");
                         MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("uid",uid)
+                                .addFormDataPart("uid", uid)
                                 .addFormDataPart("eid", grpid)
                                 .build();
                         Request request = new Request.Builder()
-                                .url(url)
+                                .url(url2)
                                 .method("POST", body)
                                 .addHeader("key", "MyApiKEy")
                                 .build();
@@ -99,31 +145,29 @@ public class GroupEventsFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    Toast.makeText(getContext(), "Event Joined :)", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    String grpid = getActivity().getIntent().getStringExtra("id");
-                    String url2 = Constant.ServerUrl+"/removeUserToGroupEvent";
-                    OkHttpClient client = new OkHttpClient().newBuilder()
-                            .build();
-                    MediaType mediaType = MediaType.parse("text/plain");
-                    MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("uid",uid)
-                            .addFormDataPart("eid", grpid)
-                            .build();
-                    Request request = new Request.Builder()
-                            .url(url2)
-                            .method("POST", body)
-                            .addHeader("key", "MyApiKEy")
-                            .build();
-                    Response response = null;
-                    try {
-                        response = client.newCall(request).execute();
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
-                    Toast.makeText(getContext(), "Event Left :(", Toast.LENGTH_SHORT).show();
+                    {
+                        OkHttpClient client = new OkHttpClient().newBuilder()
+                                .build();
+                        MediaType mediaType = MediaType.parse("text/plain");
+                        MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                .addFormDataPart("amount",getActivity().getIntent().getStringExtra("coins"))
+                                .addFormDataPart("eid",grpid)
+                                .addFormDataPart("source","refund for "+getActivity().getIntent().getStringExtra("title"))
+                                .addFormDataPart("uid",uid)
+                                .build();
+                        Request request = new Request.Builder()
+                                .url(Constant.ServerUrl+"/addCoin")
+                                .method("POST", body)
+                                .addHeader("key", "MyApiKEy")
+                                .build();
+                        try {
+                            Response response = client.newCall(request).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Snackbar.make(view,"Event Left!",Snackbar.LENGTH_SHORT).show();
                 }
                 checkifuserjoin();
                 Intent intent=new Intent(getContext(), BlankActivity.class);

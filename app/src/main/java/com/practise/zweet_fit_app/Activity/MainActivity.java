@@ -44,9 +44,14 @@ public class MainActivity extends AppCompatActivity {
         try {
             if(getIntent().getStringExtra("frag").isEmpty()) {
                 addFragment(new home_fragment());
-            }else{
-                addFragment(new StatsFragment());
-                tabLayout.selectTab(tabLayout.getTabAt(2));
+            }else {
+                if(getIntent().getStringExtra("frag").equals("profile")){
+                    addFragment(new ProfilePage());
+                    tabLayout.selectTab(tabLayout.getTabAt(3));
+                }else {
+                    addFragment(new StatsFragment());
+                    tabLayout.selectTab(tabLayout.getTabAt(2));
+                }
             }
         }catch (Exception e){
             addFragment(new home_fragment());

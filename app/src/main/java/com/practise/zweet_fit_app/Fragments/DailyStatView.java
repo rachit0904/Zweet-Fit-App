@@ -266,7 +266,11 @@ public class DailyStatView extends Fragment implements View.OnClickListener {
         stepProgress.setProgress(prg);
         streakProgress.setProgress(prg);
         streakPrcnt.setText(String.valueOf(prg) + "%");
-        stepUpdate.setText(String.valueOf(steps)+"/"+pref.getString("target",""));
+        if(Math.round(steps)<Integer.parseInt(pref.getString("target",""))) {
+            stepUpdate.setText(String.valueOf(Math.round(steps)) + "/" + pref.getString("target", ""));
+        }else{
+            stepUpdate.setText("Target Accomplished!");
+        }
         target.setText("Goal: "+pref.getString("target",""));
     }
 

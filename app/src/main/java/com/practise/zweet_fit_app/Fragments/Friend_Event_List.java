@@ -157,7 +157,7 @@ public class Friend_Event_List extends Fragment {
                         {
                             GrpEventsModal modal = new GrpEventsModal(
                                     "1", title, "2",
-                                    "2", "1", ent_coin, tempdate, target, "", "ongoing", "p2p");
+                                    "2", "1", ent_coin, tempdate, target, "2", "ongoing", "p2p");
                             grpEventsModalList.add(modal);
                             fdate=tempdate;
                         }

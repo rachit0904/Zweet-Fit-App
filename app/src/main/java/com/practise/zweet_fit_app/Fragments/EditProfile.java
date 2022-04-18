@@ -40,6 +40,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
+import com.practise.zweet_fit_app.Activity.MainActivity;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.squareup.picasso.Picasso;
@@ -115,8 +116,8 @@ public class EditProfile extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(view==back){
-            Intent intent=new Intent(getActivity(), BlankActivity.class);
-            intent.putExtra("activity","profile");
+            Intent intent=new Intent(getActivity(), MainActivity.class);
+            intent.putExtra("frag","profile");
             startActivity(intent);
             getActivity().finish();
         }
@@ -163,8 +164,8 @@ public class EditProfile extends Fragment implements View.OnClickListener {
 //            if(saveToDb())
             {
                 progressBar.setVisibility(View.GONE);
-                Intent intent = new Intent(getActivity(), BlankActivity.class);
-                intent.putExtra("activity", "profile");
+                Intent intent=new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("frag","profile");
                 startActivity(intent);
                 getActivity().finish();
             }
