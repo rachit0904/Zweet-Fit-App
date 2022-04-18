@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -22,7 +21,6 @@ import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.practise.zweet_fit_app.Util.Constant;
@@ -34,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,7 +56,7 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
         userImg = view.findViewById(R.id.userImg);
         username = view.findViewById(R.id.usname);
         name = view.findViewById(R.id.textView);
-        coins = view.findViewById(R.id.coins);
+        coins = view.findViewById(R.id.lvl);
         steps = view.findViewById(R.id.steps);
         calories = view.findViewById(R.id.calories);
         distance = view.findViewById(R.id.distance);

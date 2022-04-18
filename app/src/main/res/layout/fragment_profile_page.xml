@@ -36,7 +36,7 @@
                     android:src="@drawable/coins" />
 
                 <TextView
-                    android:id="@+id/coins"
+                    android:id="@+id/lvl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

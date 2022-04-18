@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
@@ -98,6 +99,7 @@ public class GroupEventsFragment extends Fragment {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    Toast.makeText(getContext(), "Event Joined :)", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
@@ -121,6 +123,7 @@ public class GroupEventsFragment extends Fragment {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    Toast.makeText(getContext(), "Event Left :(", Toast.LENGTH_SHORT).show();
                 }
                 checkifuserjoin();
                 Intent intent=new Intent(getContext(), BlankActivity.class);
@@ -191,18 +194,18 @@ public class GroupEventsFragment extends Fragment {
             JSONObject Jobject3 = new JSONObject(respo3);
             JSONArray Jarray3 = Jobject3.getJSONArray("data");
             JSONObject object = Jarray.getJSONObject(1);
-            String userid = object.get("uid").toString();
+            String userid = uid;
             String grp = "";
-            Log.d("Id", userid);
+            Log.d("Id1", userid);
             for(int i=0;i<Jarray2.length();i++)
             {
                 JSONObject object2 = Jarray2.getJSONObject(i);
                 grp = object2.get("eid").toString();
-                String uid = object2.get("uid").toString();
-                Log.d("Id", uid);
+                String uid2 = object2.get("uid").toString();
+                Log.d("Id", uid2);
                 if(grp.equals(grpid))
                 {
-                    if(userid.equals(uid))
+                    if(userid.equals(uid2))
                     {
                         userid="1";
                         joinbtn.setText("Leave");

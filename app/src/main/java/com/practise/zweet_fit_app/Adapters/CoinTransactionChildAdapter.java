@@ -55,7 +55,7 @@ public class CoinTransactionChildAdapter extends RecyclerView.Adapter<CoinTransa
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             source=itemView.findViewById(R.id.source);
-            coins=itemView.findViewById(R.id.coins);
+            coins=itemView.findViewById(R.id.lvl);
         }
     }
 }

@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
@@ -60,7 +59,7 @@ public class friend_profile extends Fragment implements View.OnClickListener {
         add_friend =view.findViewById(R.id.addFriend);
         remove_friend =view.findViewById(R.id.removeFriend);
         name = view.findViewById(R.id.textView);
-        coins = view.findViewById(R.id.coins);
+        coins = view.findViewById(R.id.lvl);
         steps = view.findViewById(R.id.steps);
         calories = view.findViewById(R.id.calories);
         distance = view.findViewById(R.id.distance);

@@ -46,6 +46,9 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
             holder.eventCard.setCardBackgroundColor(Color.parseColor("#A9373737"));
         }
         holder.tt.setText(eventsModal.getTitle());
+        holder.coins.setText(eventsModal.getEntryCoins());
+        holder.lvl.setText(eventsModal.getLevelUp());
+        holder.goals.setText("Goals : "+eventsModal.getTarget()+" steps");
         if(eventsModal.getType().equals("p2p"))
         {
             holder.im1.setVisibility(View.GONE);
@@ -61,7 +64,7 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView eventCard;
-        TextView tt;
+        TextView tt, coins, lvl, goals;
         ImageView im1, im2, im3, im4, im5;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +75,9 @@ public class GrpEventsHomepageAdapter extends RecyclerView.Adapter<GrpEventsHome
             im3 = itemView.findViewById(R.id.supimg3);
             im4 = itemView.findViewById(R.id.supimg4);
             im5 = itemView.findViewById(R.id.supimg5);
+            coins = itemView.findViewById(R.id.coins);
+            lvl = itemView.findViewById(R.id.lvl);
+            goals = itemView.findViewById(R.id.goals);
             eventCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
