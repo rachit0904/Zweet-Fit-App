@@ -75,11 +75,11 @@ public class CoinHistory extends Fragment implements View.OnClickListener {
     }
 
     private List<CoinTransactionParentModal> getTransactions() {
-
+        String url = Constant.ServerUrl+"/selectwQuery?table=coin_history&query=uid&value="+pref.getString("id","");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=coin_history&query=uid&value="+pref.getString("id",""))
+                .url(url)
                 .method("GET", null)
                 .addHeader("Key", "MyApiKEy")
                 .build();

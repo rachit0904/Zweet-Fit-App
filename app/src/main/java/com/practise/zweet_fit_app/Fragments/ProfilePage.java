@@ -96,10 +96,11 @@ public class ProfilePage extends Fragment implements View.OnClickListener {
 
     private void getData() {
         try {
+            String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pref.getString("id","");
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value=" + pref.getString("id",""))
+                    .url(url)
                     .method("GET", null)
                     .addHeader("key", "MyApiKEy")
                     .build();

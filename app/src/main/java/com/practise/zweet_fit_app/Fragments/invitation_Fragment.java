@@ -28,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.practise.zweet_fit_app.Adapters.InvitationRvAdapter;
 import com.practise.zweet_fit_app.Modals.InviteCardModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
 
 
 import org.json.JSONArray;
@@ -85,10 +86,11 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
     }
 
     private List<InviteCardModal> getInvitations() {
+        String url = Constant.ServerUrl+"/select?table=invitation";
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/select?table=invitation")
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -122,13 +124,15 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
             String sid=obj.getString("sid");
             modal.setSid(obj.getString("id"));
             modal.seteId(eid);
+            String url = Constant.ServerUrl+"/selectwQuery?table=events&query=eid&value="+eid;
+            String url2 = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+sid;
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/selectwQuery?table=events&query=eid&value="+eid)
+                    .url(url)
                     .method("GET", null)
                     .addHeader("key", "MyApiKEy")
                     .build();
             Request request2 = new Request.Builder()
-                    .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value="+sid)
+                    .url(url2)
                     .method("GET", null)
                     .addHeader("key", "MyApiKEy")
                     .build();
@@ -260,6 +264,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                         //take data of target dur pts coins and friend for creating event;
                         //Post addPeerEvent Request
                         {
+                            String url = Constant.ServerUrl+"/AddPeerEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
                             MediaType mediaType = MediaType.parse("text/plain");
@@ -273,11 +278,12 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                     .addFormDataPart("status", "0")
                                     .build();
                             Request request = new Request.Builder()
-                                    .url("http://35.207.233.155:3578/AddPeerEvent")
+                                    .url(url)
                                     .method("POST", body)
                                     .addHeader("key", "MyApiKEy")
                                     .build();
                             try {
+                                String url2 = Constant.ServerUrl+"/addInvitation";
                                 Response response = client.newCall(request).execute();
                                 String data = response.body().string();
                                 Log.i("response",data);
@@ -290,7 +296,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                                 .addFormDataPart("eid", eid)
                                                 .build();
                                         Request request2 = new Request.Builder()
-                                                .url("http://35.207.233.155:3578/addInvitation")
+                                                .url(url2)
                                                 .method("POST", body2)
                                                 .addHeader("key", "MyApiKEy")
                                                 .build();
@@ -309,10 +315,11 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
     }
 
     private void getFriends(String id) {
+        String url = Constant.ServerUrl+"/select?table=friends";
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/select?table=friends")
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -337,10 +344,11 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
     }
 
     private void getUserData(String uid) throws IOException, JSONException {
+        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+uid;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value=" + uid)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();

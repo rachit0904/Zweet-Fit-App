@@ -22,6 +22,7 @@ import com.google.firebase.firestore.auth.User;
 import com.practise.zweet_fit_app.Adapters.FriendsCardAdapter;
 import com.practise.zweet_fit_app.Modals.UsersDataModal;
 import com.practise.zweet_fit_app.R;
+import com.practise.zweet_fit_app.Util.Constant;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,10 +86,11 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUser(String user) {
+        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=name&value="+user;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=users&query=name&value="+user)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -131,10 +133,11 @@ public class SearchFragment extends Fragment {
             return false;
         }else {
             String status = "";
+            String url = Constant.ServerUrl+"/selectwQuery?table=friends&query=uid&value="+ pref.getString("id", "") + "&query=fid&value=" + pid;
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/selectwQuery?table=friends&query=uid&value=" + pref.getString("id", "") + "&query=fid&value=" + pid)
+                    .url(url)
                     .method("GET", null)
                     .addHeader("key", "MyApiKEy")
                     .build();

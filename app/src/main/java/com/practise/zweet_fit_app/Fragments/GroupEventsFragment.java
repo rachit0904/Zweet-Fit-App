@@ -1,6 +1,7 @@
 package com.practise.zweet_fit_app.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.practise.zweet_fit_app.Activity.BlankActivity;
 import com.practise.zweet_fit_app.PagerAdapter.GroupEventsViewPagerAdapter;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Util.Constant;
@@ -86,7 +88,7 @@ public class GroupEventsFragment extends Fragment {
                                 .addFormDataPart("eid", grpid)
                                 .build();
                         Request request = new Request.Builder()
-                                .url("http://35.207.233.155:3578/addUserToGroupEvent")
+                                .url(url)
                                 .method("POST", body)
                                 .addHeader("key", "MyApiKEy")
                                 .build();
@@ -100,7 +102,7 @@ public class GroupEventsFragment extends Fragment {
                 else
                 {
                     String grpid = getActivity().getIntent().getStringExtra("id");
-                    String url = Constant.ServerUrl+"/removeUserToGroupEvent";
+                    String url2 = Constant.ServerUrl+"/removeUserToGroupEvent";
                     OkHttpClient client = new OkHttpClient().newBuilder()
                             .build();
                     MediaType mediaType = MediaType.parse("text/plain");
@@ -109,7 +111,7 @@ public class GroupEventsFragment extends Fragment {
                             .addFormDataPart("eid", grpid)
                             .build();
                     Request request = new Request.Builder()
-                            .url("http://35.207.233.155:3578/removeUserToGroupEvent")
+                            .url(url2)
                             .method("POST", body)
                             .addHeader("key", "MyApiKEy")
                             .build();
@@ -121,6 +123,21 @@ public class GroupEventsFragment extends Fragment {
                     }
                 }
                 checkifuserjoin();
+                Intent intent=new Intent(getContext(), BlankActivity.class);
+                intent.putExtra("activity","grp_event");
+                intent.putExtra("title",getActivity().getIntent().getStringExtra("title"));
+                intent.putExtra("lvlup",getActivity().getIntent().getStringExtra("lvl"));
+                intent.putExtra("coins",getActivity().getIntent().getStringExtra("coins"));
+                intent.putExtra("target",getActivity().getIntent().getStringExtra("target"));
+                intent.putExtra("status",getActivity().getIntent().getStringExtra("status"));
+                intent.putExtra("participants",getActivity().getIntent().getStringExtra("participants"));
+                intent.putExtra("maxP",getActivity().getIntent().getStringExtra("maxp"));
+                intent.putExtra("minP",getActivity().getIntent().getStringExtra("minp"));
+                intent.putExtra("id",getActivity().getIntent().getStringExtra("id"));
+                intent.putExtra("dur",getActivity().getIntent().getStringExtra("dur"));
+                intent.putExtra("type",getActivity().getIntent().getStringExtra("type"));
+                getContext().startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;
@@ -129,8 +146,8 @@ public class GroupEventsFragment extends Fragment {
     {
         try {
             String grpid = getActivity().getIntent().getStringExtra("id");
-            String url = Constant.ServerUrl+"/select?table=users";
-            String url2 = Constant.ServerUrl+"/select?table=group_event_holder";
+            String url4 = Constant.ServerUrl+"/select?table=users";
+            String url5 = Constant.ServerUrl+"/select?table=group_event_holder";
             String url3 = Constant.ServerUrl+"/select?table=events";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
@@ -139,17 +156,17 @@ public class GroupEventsFragment extends Fragment {
             OkHttpClient client3 = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=users")
+                    .url(url4)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
             Request request2 = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=group_event_holder")
+                    .url(url5)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
             Request request3 = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=events")
+                    .url(url3)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();

@@ -88,17 +88,17 @@ public class Friend_Event_List extends Fragment {
             OkHttpClient client2 = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=events")
+                    .url(url)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
             Request request2 = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=group_event")
+                    .url(url2)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
             Request request3 = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=group_event_holder")
+                    .url(url3)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();

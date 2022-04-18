@@ -86,10 +86,11 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             add_friend.setVisibility(View.VISIBLE);
             remove_friend.setVisibility(View.GONE);
         }
+        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pid;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=users&query=uid&value="+pid)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();
@@ -124,10 +125,11 @@ public class friend_profile extends Fragment implements View.OnClickListener {
 
     private boolean isFriend(String pid) {
         String status="";
+        String url = Constant.ServerUrl+"/selectwQuery?table=friends&query=uid&value="+pref.getString("id","")+"&query=fid&value="+pid;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://35.207.233.155:3578/selectwQuery?table=friends&query=uid&value="+pref.getString("id","")+"&query=fid&value="+pid)
+                .url(url)
                 .method("GET", null)
                 .addHeader("key", "MyApiKEy")
                 .build();

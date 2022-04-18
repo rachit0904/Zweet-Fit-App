@@ -284,7 +284,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.233.155:3578/select?table=group_event")
+                    .url(url)
                     .method("GET", null)
                     .addHeader("Key", "MyApiKEy")
                     .build();
@@ -331,7 +331,6 @@ public class home_fragment extends Fragment implements View.OnClickListener {
             Intent intent = new Intent(getActivity(), BlankActivity.class);
             intent.putExtra("activity", "profile");
             startActivity(intent);
-//            getActivity().finish();
         }
         if (v == streakPercent || v == streakProgressBar || v == streakCard) {
             setFragment(new StatsFragment());
