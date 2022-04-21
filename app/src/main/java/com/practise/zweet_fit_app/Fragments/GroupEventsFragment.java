@@ -42,6 +42,7 @@ public class GroupEventsFragment extends Fragment {
     TextView eventName,levelUp,coins,status,target,joinbtn;
     TabLayout eventTabs;
     ViewPager eventViews;
+    int fl = 0;
     String uid="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +62,7 @@ public class GroupEventsFragment extends Fragment {
         img3 = view.findViewById(R.id.p3);
         img4 = view.findViewById(R.id.p4);
         img5 = view.findViewById(R.id.p5);
+
         SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         uid=pref.getString("id","");
         checkifuserjoin();
@@ -79,7 +81,9 @@ public class GroupEventsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String grpid = getActivity().getIntent().getStringExtra("id");
+                String event_coin = getActivity().getIntent().getStringExtra("coins");
                 if(joinbtn.getText()=="Join") {
+                    if(checkcoins(event_coin)) {
                         {
                             String url = Constant.ServerUrl + "/addUserToGroupEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
@@ -106,13 +110,13 @@ public class GroupEventsFragment extends Fragment {
                                     .build();
                             MediaType mediaType = MediaType.parse("text/plain");
                             MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    .addFormDataPart("amount","-"+getActivity().getIntent().getStringExtra("coins"))
-                                    .addFormDataPart("eid",grpid)
-                                    .addFormDataPart("source","joined "+getActivity().getIntent().getStringExtra("title"))
-                                    .addFormDataPart("uid",uid)
+                                    .addFormDataPart("amount", "-" + getActivity().getIntent().getStringExtra("coins"))
+                                    .addFormDataPart("eid", grpid)
+                                    .addFormDataPart("source", "joined " + getActivity().getIntent().getStringExtra("title"))
+                                    .addFormDataPart("uid", uid)
                                     .build();
                             Request request = new Request.Builder()
-                                    .url(Constant.ServerUrl+"/addCoin")
+                                    .url(Constant.ServerUrl + "/addCoin")
                                     .method("POST", body)
                                     .addHeader("key", "MyApiKEy")
                                     .build();
@@ -122,7 +126,13 @@ public class GroupEventsFragment extends Fragment {
                                 e.printStackTrace();
                             }
                         }
-                        Snackbar.make(view,"Event Joined!",Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(view, "Event Joined!", Snackbar.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                         fl=1;
+                         Toast.makeText(getContext(), "Not Enough Coins!!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                         {
@@ -170,24 +180,70 @@ public class GroupEventsFragment extends Fragment {
                     Snackbar.make(view,"Event Left!",Snackbar.LENGTH_SHORT).show();
                 }
                 checkifuserjoin();
-                Intent intent=new Intent(getContext(), BlankActivity.class);
-                intent.putExtra("activity","grp_event");
-                intent.putExtra("title",getActivity().getIntent().getStringExtra("title"));
-                intent.putExtra("lvlup",getActivity().getIntent().getStringExtra("lvl"));
-                intent.putExtra("coins",getActivity().getIntent().getStringExtra("coins"));
-                intent.putExtra("target",getActivity().getIntent().getStringExtra("target"));
-                intent.putExtra("status",getActivity().getIntent().getStringExtra("status"));
-                intent.putExtra("participants",getActivity().getIntent().getStringExtra("participants"));
-                intent.putExtra("maxP",getActivity().getIntent().getStringExtra("maxp"));
-                intent.putExtra("minP",getActivity().getIntent().getStringExtra("minp"));
-                intent.putExtra("id",getActivity().getIntent().getStringExtra("id"));
-                intent.putExtra("dur",getActivity().getIntent().getStringExtra("dur"));
-                intent.putExtra("type",getActivity().getIntent().getStringExtra("type"));
-                getContext().startActivity(intent);
-                getActivity().finish();
+                if(fl==0)
+                {
+                    Intent intent=new Intent(getContext(), BlankActivity.class);
+                    intent.putExtra("activity","grp_event");
+                    intent.putExtra("title",getActivity().getIntent().getStringExtra("title"));
+                    intent.putExtra("lvlup",getActivity().getIntent().getStringExtra("lvl"));
+                    intent.putExtra("coins",getActivity().getIntent().getStringExtra("coins"));
+                    intent.putExtra("target",getActivity().getIntent().getStringExtra("target"));
+                    intent.putExtra("status",getActivity().getIntent().getStringExtra("status"));
+                    intent.putExtra("participants",getActivity().getIntent().getStringExtra("participants"));
+                    intent.putExtra("maxP",getActivity().getIntent().getStringExtra("maxp"));
+                    intent.putExtra("minP",getActivity().getIntent().getStringExtra("minp"));
+                    intent.putExtra("id",getActivity().getIntent().getStringExtra("id"));
+                    intent.putExtra("dur",getActivity().getIntent().getStringExtra("dur"));
+                    intent.putExtra("type",getActivity().getIntent().getStringExtra("type"));
+                    getContext().startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
         return view;
+    }
+
+    public boolean checkcoins(String event_coin)
+    {
+       try {
+
+            String url = Constant.ServerUrl+"/select?table=users";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("L11", e.toString());
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            for(int i=0;i<Jarray.length();i++)
+            {
+                JSONObject object = Jarray.getJSONObject(i);
+                String user = object.getString("uid");
+                int coins = Integer.parseInt(object.getString("coins"));
+                int ec = Integer.parseInt(event_coin);
+                if(user.equals(uid))
+                {
+                    if(coins>=ec)
+                    {
+                        return true;
+                    }
+                }
+            }
+       } catch (JSONException | IOException e) {
+           e.printStackTrace();
+           Log.d("L2", e.toString());
+       }
+       return false;
     }
     public void checkifuserjoin()
     {

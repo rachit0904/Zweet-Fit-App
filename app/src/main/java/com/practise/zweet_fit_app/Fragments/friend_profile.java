@@ -17,9 +17,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.practise.zweet_fit_app.Activity.BlankActivity;
+import com.practise.zweet_fit_app.Modals.GrpEventsModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Util.Constant;
 import com.squareup.picasso.Picasso;
@@ -70,6 +72,7 @@ public class friend_profile extends Fragment implements View.OnClickListener {
         uid=pref.getString("id","");
         setData();
         events.setOnClickListener(this);
+        Log.d("fid", getActivity().getIntent().getStringExtra("uid"));
         add_friend.setOnClickListener(this);
         remove_friend.setOnClickListener(this);
         return view;
@@ -140,9 +143,13 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             if(jsonArray.length()>0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject obj = jsonArray.getJSONObject(i);
+                    String st = obj.getString("status");
                     if(pid.equals(obj.getString("fid")) || pid.equals(obj.getString("uid"))
                             && uid.equals(obj.getString("uid")) || uid.equals(obj.getString("fid"))) {
-                        status = obj.getString("status");
+                        if(st.equals("pending"))
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -150,11 +157,7 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
         Log.i("status",status);
-        if(status.equals("friend")){
-            return true;
-        }else{
-            return false;
-        }
+        return false;
     }
 
     @Override
@@ -166,7 +169,14 @@ public class friend_profile extends Fragment implements View.OnClickListener {
             startActivity(intent);
         }
         if(view==add_friend){
-            requestDb(Constant.ServerUrl,"/addFriend",uid,pid);
+            if(isFriend(getActivity().getIntent().getStringExtra("uid")))
+            {
+                Snackbar.make(getView(),"Friend Request Already Sent !",Snackbar.LENGTH_SHORT).show();
+            }
+            else
+            {
+                requestDb(Constant.ServerUrl,"/addFriend",uid,pid);
+            }
         }
         if(view==remove_friend){
             requestDb(Constant.ServerUrl,"/removeFriend",uid,pid);
