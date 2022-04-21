@@ -89,11 +89,11 @@ public class signup_userstats extends Fragment {
                                 Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
                             } else {
                                 dataModal.setTarget(edit_Target.getText().toString());
+                                preferences.putString("target", dataModal.getTarget());
                             }
                         }
                         preferences.putString("wt", dataModal.getWeight());
                         preferences.putString("ht", dataModal.getHeight());
-                        preferences.putString("target", dataModal.getTarget());
                         preferences.apply();
                         createUser(pref);
                     }catch (Exception e){
