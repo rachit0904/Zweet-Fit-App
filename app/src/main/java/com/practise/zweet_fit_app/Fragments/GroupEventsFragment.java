@@ -206,7 +206,6 @@ public class GroupEventsFragment extends Fragment {
     public boolean checkcoins(String event_coin)
     {
        try {
-
             String url = Constant.ServerUrl+"/select?table=users";
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();

@@ -68,46 +68,68 @@ public class signup_userstats extends Fragment {
             @Override
             public void onClick(View view) {
                 if(view==submit) {
+                    int fl1=0, fl2=0, fl3=0, fl4=0;
                     try {
                         pref = getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
                         preferences = pref.edit();
                         String username = edit_usname.getText().toString();
                         if (!username.isEmpty()) {
+                            fl1=1;
                             validateUsername(username);
                             preferences.putString("usname", username);
                         } else {
                             Toast.makeText(getContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
                         }
                         if (!edit_Height.getText().toString().isEmpty()) {
+                            fl4=1;
                             dataModal.setHeight(edit_Height.getText().toString());
+                            preferences.putString("ht", dataModal.getHeight());
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "Height Cannot Be Empty !!", Toast.LENGTH_SHORT).show();
                         }
                         if (!edit_Weight.getText().toString().isEmpty()) {
+                            fl3=1;
                             dataModal.setWeight(edit_Weight.getText().toString());
+                            preferences.putString("wt", dataModal.getWeight());
+                        }
+                        else
+                        {
+                            Toast.makeText(getContext(), "Weight Cannot Be Empty !!", Toast.LENGTH_SHORT).show();
                         }
                         if (!edit_Target.getText().toString().isEmpty()) {
                             if (Integer.parseInt(edit_Target.getText().toString()) < 750) {
                                 Toast.makeText(getContext(), "Minimum Target is 750 Steps!", Toast.LENGTH_SHORT).show();
                             } else {
+                                fl2=1;
                                 dataModal.setTarget(edit_Target.getText().toString());
                                 preferences.putString("target", dataModal.getTarget());
                             }
                         }
-                        preferences.putString("wt", dataModal.getWeight());
-                        preferences.putString("ht", dataModal.getHeight());
-                        preferences.apply();
-                        createUser(pref);
+                        else
+                        {
+                            Toast.makeText(getContext(), "Target Cannot Be Empty !!", Toast.LENGTH_SHORT).show();
+                        }
+                        if(fl1==1 && fl2==1 && fl3==1 && fl4==1)
+                        {
+                            preferences.apply();
+                            createUser(pref);
+                        }
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                    Intent intent = new Intent(getActivity(), SignUp.class);
-                    intent.putExtra("fragment", "get started");
-                    startActivity(intent);
-                    getActivity().finish();
+                    if(fl1==1 && fl2==1 && fl3==1 && fl4==1)
+                    {
+                        Log.d("EveryThing", edit_Target.getText().toString());
+                        Intent intent = new Intent(getActivity(), SignUp.class);
+                        intent.putExtra("fragment", "get started");
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
                 }
             }
         });
-
-
         return view;
     }
 

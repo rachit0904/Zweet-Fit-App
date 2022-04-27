@@ -35,7 +35,7 @@ public class Signup_PersonalDetails extends Fragment implements View.OnClickList
     Spinner gender;
     TextInputEditText edit_Name;
     Button next,edit_dob;
-    String[] genders = {"Gender", "Male", "Female"};
+    String[] genders = {"Gender", "Male", "Female", "Other"};
     List<UsersDataModal> userData=new ArrayList<>();
     SharedPreferences.Editor preferences;
     SharedPreferences pref;

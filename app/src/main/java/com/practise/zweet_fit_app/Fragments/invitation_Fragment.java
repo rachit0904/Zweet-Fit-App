@@ -261,13 +261,36 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                     }
                 });
                 host.setOnClickListener(new View.OnClickListener() {
+                    int fl1=0,fl2=0,fl3=0;
                     @Override
                     public void onClick(View view) {
                         {
-                            if (friends.size()<=1) {
-                                Toast.makeText(getContext(), "No Friend Selected !!", Toast.LENGTH_SHORT).show();
+                            if(!checkcoins(coins.getText().toString()))
+                            {
+                                Toast.makeText(getContext(), "Not Enough Coins !!", Toast.LENGTH_SHORT).show();
+                                fl3=1;
+                                dialog.dismiss();
                             }
-                            else{
+                            if(title.getText().toString().isEmpty())
+                            {
+                                fl1=1;
+                                Log.d("Every", coins.getText() + " " + target.getText() + " " + title.getText());
+                                Toast.makeText(getContext(), "Title Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+//                                dialog.dismiss();
+                            }
+                            if(target.getText().toString().isEmpty())
+                            {
+                                Toast.makeText(getContext(), "Target Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+                                fl2=1;
+//                                dialog.dismiss();
+                            }
+                            if(coins.getText().toString().isEmpty())
+                            {
+                                Toast.makeText(getContext(), "Coins Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+                                fl3=1;
+//                                dialog.dismiss();
+                            }
+                            if(fl1==0 && fl2==0 && fl3==0){
                             String url = Constant.ServerUrl + "/AddPeerEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
@@ -310,13 +333,61 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             }
                             }
                         }
-                        dialog.dismiss();
+                        if(fl1==0 && fl2==0 && fl3==0)
+                        {
+                            Log.d("Every", coins.getText() + " " + target.getText() + " " + title.getText());
+                            dialog.dismiss();
+                        }
                     }
                 });
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean checkcoins(String event_coin)
+    {
+        SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+        String uid=pref.getString("id","");
+        try {
+            String url = Constant.ServerUrl+"/select?table=users";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("L11", e.toString());
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            for(int i=0;i<Jarray.length();i++)
+            {
+                JSONObject object = Jarray.getJSONObject(i);
+                String user = object.getString("uid");
+                int coins = Integer.parseInt(object.getString("coins"));
+                int ec = Integer.parseInt(event_coin);
+                if(user.equals(uid))
+                {
+                    if(coins>=ec)
+                    {
+                        return true;
+                    }
+                }
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Log.d("L2", e.toString());
+        }
+        return false;
     }
 
     private void getFriends(String id) {
