@@ -31,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
@@ -53,7 +54,7 @@ public class friend_profile extends Fragment implements View.OnClickListener {
     String uid="",pid="";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friend_profile, container, false);
         events=view.findViewById(R.id.events);
         userImg = view.findViewById(R.id.userImg);
@@ -80,47 +81,61 @@ public class friend_profile extends Fragment implements View.OnClickListener {
 
     private void setData() {
         pid=getActivity().getIntent().getStringExtra("uid");
-        try{
         if(getActivity().getIntent().getStringExtra("type").equals("yes")){
             add_friend.setVisibility(View.GONE);
             remove_friend.setVisibility(View.VISIBLE);
-        }}catch (Exception e){
+        }
+        else
+        {
             add_friend.setVisibility(View.VISIBLE);
             remove_friend.setVisibility(View.GONE);
         }
-        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pid;
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(url)
-                .method("GET", null)
-                .addHeader("key", "MyApiKEy")
-                .build();
         try {
-            Response response = client.newCall(request).execute();
-            String data = response.body().string();
-            JSONObject jsonObject=new JSONObject(data);
-            JSONArray jsonArray = jsonObject.getJSONArray("data");
-            if(jsonArray.length()>0) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    coins.setText(obj.getString("coins"));
-                    Picasso.get().load(obj.getString("dp_url")).placeholder(R.drawable.avatar_1).into(userImg);
-                    name.setText(obj.getString("name"));
-                    username.setText(obj.getString("username"));
-                    target_text.setText(obj.getString("target")+" Steps");
-                    weight_text.setText(obj.getString("weight"));
-                    obj.getString("subscription");
-                    String s=obj.getString("steps");
-                    steps.setText(s);
-                    int cal= (int) Math.ceil((Integer.parseInt(s)*0.04258));
-                    calories.setText(String.valueOf(cal)+ " KCal");
-                    int dist=  (int) Math.ceil(Integer.parseInt(s)/1312.33595801);
-                    distance.setText(String.valueOf(dist)+ " Kms");
-                    progressBar3.setProgress((Integer.parseInt(s)/Integer.parseInt(obj.getString("target")))*100 );
+            String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pid;
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                String data = response.body().string();
+                JSONObject jsonObject=new JSONObject(data);
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                if(jsonArray.length()>0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        coins.setText(obj.getString("coins"));
+                        if(obj.getString("dp_url").isEmpty())
+                        {
+                            Log.d("Hello", "World !");
+                        }
+                        else
+                        {
+                            Picasso.get().load(obj.getString("dp_url")).placeholder(R.drawable.avatar_1).into(userImg);
+                        }
+                        name.setText(obj.getString("name"));
+                        username.setText(obj.getString("username"));
+                        target_text.setText(obj.getString("target")+" Steps");
+                        weight_text.setText(obj.getString("weight"));
+                        obj.getString("subscription");
+                        String s=obj.getString("steps");
+                        steps.setText(s);
+                        int cal= (int) Math.ceil((Integer.parseInt(s)*0.04258));
+                        calories.setText(String.valueOf(cal)+ " KCal");
+                        int dist=  (int) Math.ceil(Integer.parseInt(s)/1312.33595801);
+                        distance.setText(String.valueOf(dist)+ " Kms");
+                        progressBar3.setProgress((Integer.parseInt(s)/Integer.parseInt(obj.getString("target")))*100 );
+                    }
                 }
+            }catch (IOException e)
+            {
+                e.printStackTrace();
             }
-        } catch (IOException | JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
