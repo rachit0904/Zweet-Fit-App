@@ -205,13 +205,13 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-                                if(d-day<=0 || d-day>=3 || year!=y || month!=m ){
-                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
-                                }else{
+//                                if(d-day<=0 || d-day>=3 || year!=y){
+//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+//                                }else{
                                     m++;
                                     sd[0] =d;
                                     sDate.setText(d+"-"+m+"-"+y);
-                                }
+//                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -228,12 +228,12 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y || month!=m ){
-                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
-                                }else{
+//                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y){
+//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+//                                }else{
                                     m++;
                                     eDate.setText(d+"-"+m+"-"+y);
-                                }
+//                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -261,36 +261,40 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                     }
                 });
                 host.setOnClickListener(new View.OnClickListener() {
-                    int fl1=0,fl2=0,fl3=0;
+                    int fl1=0,fl2=0,fl3=0,fl4=0;
                     @Override
                     public void onClick(View view) {
                         {
                             if(!checkcoins(coins.getText().toString()))
                             {
-                                Toast.makeText(getContext(), "Not Enough Coins !!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view,"Not Enough Coins !!",Snackbar.LENGTH_SHORT).show();
                                 fl3=1;
                                 dialog.dismiss();
                             }
-                            if(title.getText().toString().isEmpty())
+                            else if(title.getText().toString().isEmpty())
                             {
                                 fl1=1;
-                                Log.d("Every", coins.getText() + " " + target.getText() + " " + title.getText());
-                                Toast.makeText(getContext(), "Title Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view,"Title Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
 //                                dialog.dismiss();
                             }
-                            if(target.getText().toString().isEmpty())
+                            else if(target.getText().toString().isEmpty())
                             {
-                                Toast.makeText(getContext(), "Target Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view,"Target Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
                                 fl2=1;
 //                                dialog.dismiss();
                             }
-                            if(coins.getText().toString().isEmpty())
+                            else if(coins.getText().toString().isEmpty())
                             {
-                                Toast.makeText(getContext(), "Coins Cannot be Empty !!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view,"Coins Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
                                 fl3=1;
 //                                dialog.dismiss();
                             }
-                            if(fl1==0 && fl2==0 && fl3==0){
+                            else if(selectFriend.getSelectedItem().toString().equals("Select Friends"))
+                            {
+                                Snackbar.make(view,"No Friend Selected!",Snackbar.LENGTH_SHORT).show();
+                                fl4=1;
+                            }
+                            if(fl1==0 && fl2==0 && fl3==0 && fl4==0){
                             String url = Constant.ServerUrl + "/AddPeerEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
@@ -333,11 +337,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             }
                             }
                         }
-                        if(fl1==0 && fl2==0 && fl3==0)
-                        {
-                            Log.d("Every", coins.getText() + " " + target.getText() + " " + title.getText());
-                            dialog.dismiss();
-                        }
+                        dialog.dismiss();
                     }
                 });
             }catch (Exception e){
@@ -374,12 +374,15 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                 JSONObject object = Jarray.getJSONObject(i);
                 String user = object.getString("uid");
                 int coins = Integer.parseInt(object.getString("coins"));
-                int ec = Integer.parseInt(event_coin);
-                if(user.equals(uid))
+                if(!event_coin.isEmpty())
                 {
-                    if(coins>=ec)
+                    int ec = Integer.parseInt(event_coin);
+                    if(user.equals(uid))
                     {
-                        return true;
+                        if(coins>=ec)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
