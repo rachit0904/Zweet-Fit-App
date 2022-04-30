@@ -56,6 +56,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
     ArrayList<JSONObject> f=new ArrayList<JSONObject>();
     ArrayList<String> friends=new ArrayList<>();
     String rid="";
+    int pos = 0;
     LottieAnimationView animationView;
     TextView noData;
     @Override
@@ -97,7 +98,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
         try {
             Response response = client.newCall(request).execute();
             String data=response.body().string();
-            Log.i("invitations",data);
+            Log.d("invitations",data);
             JSONObject jsonObject=new JSONObject(data);
             JSONArray jsonArray=jsonObject.getJSONArray("data");
             if(jsonArray.length()>0){
@@ -204,13 +205,13 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-                                if(d-day<=0 || d-day>=3 || year!=y || month!=m ){
-                                    Toast.makeText(getContext(), "Enter a valid DOB!", Toast.LENGTH_SHORT).show();
-                                }else{
+//                                if(d-day<=0 || d-day>=3 || year!=y){
+//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+//                                }else{
                                     m++;
                                     sd[0] =d;
                                     sDate.setText(d+"-"+m+"-"+y);
-                                }
+//                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -227,12 +228,12 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y || month!=m ){
-                                    Toast.makeText(getContext(), "Enter a valid DOB!", Toast.LENGTH_SHORT).show();
-                                }else{
+//                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y){
+//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+//                                }else{
                                     m++;
                                     eDate.setText(d+"-"+m+"-"+y);
-                                }
+//                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -256,15 +257,45 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
                         Snackbar.make(view,"No Friend Selected!",Snackbar.LENGTH_SHORT).show();
+                        pos = 1;
                     }
                 });
                 host.setOnClickListener(new View.OnClickListener() {
+                    int fl1=0,fl2=0,fl3=0,fl4=0;
                     @Override
                     public void onClick(View view) {
-                        //take data of target dur pts coins and friend for creating event;
-                        //Post addPeerEvent Request
                         {
-                            String url = Constant.ServerUrl+"/AddPeerEvent";
+                            if(!checkcoins(coins.getText().toString()))
+                            {
+                                Snackbar.make(view,"Not Enough Coins !!",Snackbar.LENGTH_SHORT).show();
+                                fl3=1;
+                                dialog.dismiss();
+                            }
+                            else if(title.getText().toString().isEmpty())
+                            {
+                                fl1=1;
+                                Snackbar.make(view,"Title Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
+//                                dialog.dismiss();
+                            }
+                            else if(target.getText().toString().isEmpty())
+                            {
+                                Snackbar.make(view,"Target Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
+                                fl2=1;
+//                                dialog.dismiss();
+                            }
+                            else if(coins.getText().toString().isEmpty())
+                            {
+                                Snackbar.make(view,"Coins Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
+                                fl3=1;
+//                                dialog.dismiss();
+                            }
+                            else if(selectFriend.getSelectedItem().toString().equals("Select Friends"))
+                            {
+                                Snackbar.make(view,"No Friend Selected!",Snackbar.LENGTH_SHORT).show();
+                                fl4=1;
+                            }
+                            if(fl1==0 && fl2==0 && fl3==0 && fl4==0){
+                            String url = Constant.ServerUrl + "/AddPeerEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
                             MediaType mediaType = MediaType.parse("text/plain");
@@ -283,26 +314,27 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                     .addHeader("key", "MyApiKEy")
                                     .build();
                             try {
-                                String url2 = Constant.ServerUrl+"/addInvitation";
+                                String url2 = Constant.ServerUrl + "/addInvitation";
                                 Response response = client.newCall(request).execute();
                                 String data = response.body().string();
-                                Log.i("response",data);
-                                JSONObject object=new JSONObject(data);
-                                JSONObject obj=object.getJSONObject("data");
-                                String eid=obj.getString("eid");
-                                        RequestBody body2 = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                                .addFormDataPart("rid", rid)
-                                                .addFormDataPart("sid", pref.getString("id", ""))
-                                                .addFormDataPart("eid", eid)
-                                                .build();
-                                        Request request2 = new Request.Builder()
-                                                .url(url2)
-                                                .method("POST", body2)
-                                                .addHeader("key", "MyApiKEy")
-                                                .build();
-                                        Response response2 = client.newCall(request2).execute();
+                                Log.i("response", data);
+                                JSONObject object = new JSONObject(data);
+                                JSONObject obj = object.getJSONObject("data");
+                                String eid = obj.getString("eid");
+                                RequestBody body2 = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                        .addFormDataPart("rid", rid)
+                                        .addFormDataPart("sid", pref.getString("id", ""))
+                                        .addFormDataPart("eid", eid)
+                                        .build();
+                                Request request2 = new Request.Builder()
+                                        .url(url2)
+                                        .method("POST", body2)
+                                        .addHeader("key", "MyApiKEy")
+                                        .build();
+                                Response response2 = client.newCall(request2).execute();
                             } catch (IOException | JSONException e) {
                                 e.printStackTrace();
+                            }
                             }
                         }
                         dialog.dismiss();
@@ -312,6 +344,53 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean checkcoins(String event_coin)
+    {
+        SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+        String uid=pref.getString("id","");
+        try {
+            String url = Constant.ServerUrl+"/select?table=users";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("L11", e.toString());
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            for(int i=0;i<Jarray.length();i++)
+            {
+                JSONObject object = Jarray.getJSONObject(i);
+                String user = object.getString("uid");
+                int coins = Integer.parseInt(object.getString("coins"));
+                if(!event_coin.isEmpty())
+                {
+                    int ec = Integer.parseInt(event_coin);
+                    if(user.equals(uid))
+                    {
+                        if(coins>=ec)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Log.d("L2", e.toString());
+        }
+        return false;
     }
 
     private void getFriends(String id) {

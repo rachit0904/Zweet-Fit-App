@@ -220,6 +220,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
                 .addFormDataPart("win_rate","0")
                 .addFormDataPart("mobile","0")
                 .addFormDataPart("dp_url",pref.getString("dp",""))
+                .addFormDataPart("creation_date","2050-06-30 2:00:00")
                 .build();
         Request request = new Request.Builder()
                 .url(url)
@@ -516,29 +517,35 @@ public class home_fragment extends Fragment implements View.OnClickListener {
     }
 
     private void update_daily_counter(){
-        steps.setText(getString(R.string.daily_counter, daily_steps));
-        int cal= (int) Math.ceil((Integer.parseInt(daily_steps)*0.04258));
-        calories.setText(getString(R.string.daily_counter, String.valueOf(cal)));
-        int dist=  (int) Math.ceil(Integer.parseInt(daily_steps)/1312.33595801);
-        distance.setText(getString(R.string.daily_counter, String.valueOf(dist)));
-        Float s=Float.valueOf(daily_steps);
-        Float t= Float.valueOf(pref.getString("target",""));
-        progressBar.setProgress((int) Math.ceil((s/t)*100),true);
-        preferences=pref.edit();
-        preferences.putString("steps",daily_steps);
-        preferences.putString("cal", String.valueOf(cal));
-        preferences.putString("dist", String.valueOf(dist));
-        if(((int) Math.ceil((s / t) * 100))<100) {
-            streakProgressPcnt.setText(new StringBuilder().append(String.valueOf((int) Math.ceil((s / t) * 100))).append("%").toString());
-            preferences.putString("progress",String.valueOf((int) Math.ceil((s/t)*100)));
-        }else{
-            streakProgressPcnt.setText("100%");
-            preferences.putString("progress","100");
+        try
+        {
+            steps.setText(getString(R.string.daily_counter, daily_steps));
+            int cal= (int) Math.ceil((Integer.parseInt(daily_steps)*0.04258));
+            calories.setText(getString(R.string.daily_counter, String.valueOf(cal)));
+            int dist=  (int) Math.ceil(Integer.parseInt(daily_steps)/1312.33595801);
+            distance.setText(getString(R.string.daily_counter, String.valueOf(dist)));
+            Float s=Float.valueOf(daily_steps);
+            Float t= Float.valueOf(pref.getString("target",""));
+            progressBar.setProgress((int) Math.ceil((s/t)*100),true);
+            preferences=pref.edit();
+            preferences.putString("steps",daily_steps);
+            preferences.putString("cal", String.valueOf(cal));
+            preferences.putString("dist", String.valueOf(dist));
+            if(((int) Math.ceil((s / t) * 100))<100) {
+                streakProgressPcnt.setText(new StringBuilder().append(String.valueOf((int) Math.ceil((s / t) * 100))).append("%").toString());
+                preferences.putString("progress",String.valueOf((int) Math.ceil((s/t)*100)));
+            }else{
+                streakProgressPcnt.setText("100%");
+                preferences.putString("progress","100");
+            }
+            preferences.apply();
+            checkTarget(daily_steps,pref.getString("target",""));
+            setStreakCardData();
+            saveData();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
-        preferences.apply();
-        checkTarget(daily_steps,pref.getString("target",""));
-        setStreakCardData();
-        saveData();
     }
 
     private void setStreakCardData() {

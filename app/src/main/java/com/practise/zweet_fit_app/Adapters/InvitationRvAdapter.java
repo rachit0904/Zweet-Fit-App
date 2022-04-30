@@ -177,7 +177,6 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
                     }
                     break;
                 }
-
             }
         }catch (Exception e){
             e.printStackTrace();

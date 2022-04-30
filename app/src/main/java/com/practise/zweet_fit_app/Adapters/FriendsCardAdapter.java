@@ -64,13 +64,13 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             holder.more.setVisibility(View.VISIBLE);
         }
         holder.name.setText(modal.getName());
-        try {
-            if (!modal.getImagePath().isEmpty()) {
-                Picasso.get().load(modal.getImagePath()).placeholder(R.drawable.avatar_1).into(holder.profilePic);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try {
+//            if (!modal.getImagePath().isEmpty()) {
+//                Picasso.get().load(modal.getImagePath()).placeholder(R.drawable.avatar_1).into(holder.profilePic);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -100,6 +100,7 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
         @Override
         public void onClick(View view) {
             SharedPreferences pref= cnt.getSharedPreferences("user data", Context.MODE_PRIVATE);
+            Log.d("fid3", pref.toString());
             if(view==accept){
                 requestToDb(view,Constant.ServerUrl,"/acceptRequest",usersList.get(getAdapterPosition()).getUid(),pref.getString("id",""));
                 usersList.remove(getAdapterPosition());
@@ -112,7 +113,7 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             }
             if(view==more|| view==cardItem)
             {
-                Intent intent = new Intent(cnt,BlankActivity.class);
+                Intent intent = new Intent(cnt, BlankActivity.class);
                 if(usersList.get(getAdapterPosition()).getUid().equals(pref.getString("id",""))){
                     intent.putExtra("activity", "profile");
                 }else {

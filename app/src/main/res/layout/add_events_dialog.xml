@@ -137,20 +137,20 @@
 
         <Button
             android:id="@+id/host"
-            android:text="Host Event"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:textColor="@color/white"
-            android:backgroundTint="@android:color/holo_green_dark"
-            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectFriend"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/selectFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:paddingLeft="30dp"
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="10dp"
+            android:text="Host Event"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
