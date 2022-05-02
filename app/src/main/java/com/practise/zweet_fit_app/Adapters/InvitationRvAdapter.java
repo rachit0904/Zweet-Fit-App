@@ -142,10 +142,10 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
                                 .build();
                         MediaType mediaType = MediaType.parse("text/plain");
                         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("id", id)
+                                .addFormDataPart("eid", eid)
                                 .build();
                         Request request = new Request.Builder()
-                                .url(serverUrl + "/removeInvitation")
+                                .url(serverUrl + "/deleteinvite")
                                 .method("POST", body)
                                 .addHeader("key", "MyApiKEy")
                                 .build();

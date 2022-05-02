@@ -210,7 +210,7 @@
                 android:indeterminateOnly="false"
                 android:progress="0"
                 android:progressDrawable="@drawable/progress_chart"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
+                app:layout_constraintBottom_toBottomOf="@+id/backupDateTime"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.767"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -230,7 +230,7 @@
                 app:layout_constraintTop_toTopOf="@+id/progressBar" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/backupDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="39dp"
@@ -251,7 +251,7 @@
                 android:overScrollMode="never"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@+id/backupDateTime"
                 tools:itemCount="1"
                 tools:listitem="@layout/grp_event_card" />
 

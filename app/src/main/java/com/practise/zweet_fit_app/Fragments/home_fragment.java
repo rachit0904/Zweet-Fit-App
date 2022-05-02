@@ -39,11 +39,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -70,7 +65,6 @@ import com.practise.zweet_fit_app.Util.Constant;
 import com.practise.zweet_fit_app.Util.Step_Item;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,16 +77,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.FormBody;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -150,7 +138,7 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         hintbutton = view.findViewById(R.id.hintbutton);
         progressBar = view.findViewById(R.id.progressBar);
         goalAchieved=view.findViewById(R.id.goalAchieved);
-        grpEventheader=view.findViewById(R.id.textView4);
+        grpEventheader=view.findViewById(R.id.backupDateTime);
         swipeRefreshLayout=view.findViewById(R.id.homeRefreshLayout);
         d1=view.findViewById(R.id.monStreakStat);d2=view.findViewById(R.id.tuesStreakStat);d3=view.findViewById(R.id.wedStreakStat);
         d4=view.findViewById(R.id.thursStreakStat);d5=view.findViewById(R.id.friStreakStat);d6=view.findViewById(R.id.satStreakStat);

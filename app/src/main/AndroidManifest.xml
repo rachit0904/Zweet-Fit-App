@@ -6,7 +6,9 @@
     <uses-permission android:name="android.permission.INTERNET " />
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="QUICKBOOT_POWERON" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -24,8 +26,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.ZweetFitApp">
+        android:theme="@style/Theme.ZweetFitApp"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".RestoreAccPage"
+            android:exported="true"/>
         <activity
             android:name=".Activity.SignUp"
             android:exported="true" />
@@ -40,8 +45,7 @@
             android:exported="true" />
         <activity
             android:name=".Activity.AuthActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"/>
         <activity
             android:name=".Activity.splash_screen"
             android:exported="true">
@@ -52,12 +56,13 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Services.BrodcastReciver"
+        <receiver
+            android:name=".Services.BrodcastReciver"
             android:exported="true"
             android:permission="TODO"
             tools:ignore="ExportedReceiver">
-            <intent-filter >
-                <action android:name="com.practise.zweet_fit_app.android.action.broadcast"/>
+            <intent-filter>
+                <action android:name="com.practise.zweet_fit_app.android.action.broadcast" />
             </intent-filter>
         </receiver>
 
