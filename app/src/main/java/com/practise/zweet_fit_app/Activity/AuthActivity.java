@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.auth.User;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Util.Constant;
 
@@ -123,18 +125,12 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view==nextPage){
             if(flag1&&flag2&&flag2) {
-                checkExistingUser(pref.getString("id",""));
-//                if(){
-//                    Intent intent=new Intent(this,MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                }else
-//                {
-//                    Intent intent = new Intent(AuthActivity.this, SignUp.class);
-//                    intent.putExtra("fragment", "personal details");
-//                    startActivity(intent);
-//                    finish();
-//                }
+                UserData d=new UserData();
+                d.id=pref.getString("id","");
+                d.context=AuthActivity.this;
+                d.pref=pref;
+                d.preferences=preferences;
+                d.execute();
             }else{
                 if(!flag1){
                     Snackbar.make(view,"Complete Step 1!",Snackbar.LENGTH_SHORT).show();
@@ -147,50 +143,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private boolean checkExistingUser(String id) {
-        boolean status=false;
-        try {
-            Log.i("id",id);
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            Request request = new Request.Builder()
-                    .url("http://35.207.247.18:3578/selectwQuery?table=users&query=uid&value=113671724192877645725")
-                    .method("GET", null)
-                    .addHeader("key", "MyApiKEy")
-                    .build();
-            Response response = client.newCall(request).execute();
-
-//             JSONObject obj=new JSONObject(data);
-//            JSONArray array=obj.getJSONArray("data");
-//            if(array.length()>0){
-//                for(int i=0;i<array.length();i++) {
-//                    JSONObject d=array.getJSONObject(i);
-//                    preferences = pref.edit();
-//                    preferences.putString("name", d.getString("name"));
-//                    preferences.putString("subs", d.getString("subscription"));
-//                    preferences.putString("usname", d.getString("username"));
-//                    preferences.putString("coins", d.getString("coins"));
-//                    preferences.putString("dob", d.getString("dob"));
-//                    preferences.putString("pts", d.getString("points"));
-//                    preferences.putString("wt", d.getString("weight"));
-//                    preferences.putString("level", d.getString("level"));
-//                    preferences.putString("ht", d.getString("height"));
-//                    preferences.putString("wr", d.getString("win_rate"));
-//                    preferences.putString("target", d.getString("target"));
-//                    preferences.putString("no", d.getString("mobile"));
-//                    preferences.putString("steps", d.getString("steps"));
-//                    preferences.putString("dp", d.getString("dp_url"));
-//                    preferences.putString("streak", d.getString("streak"));
-//                    preferences.putString("cd", d.getString("creation_date"));
-//                    preferences.apply();
-//                }
-//                status=true;
-//            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return status;
-    }
 
     private void checkStep(Boolean flag,int fId) {
         if(!flag){
@@ -308,4 +260,71 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
 }
 
+class UserData extends AsyncTask<String,Void,Boolean> {
 
+    private String resp;
+    String id;
+    SharedPreferences pref;
+    SharedPreferences.Editor preferences;
+    Context context;
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected Boolean doInBackground(String... params) {
+        try{
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id)
+                    .method("GET", null)
+                    .addHeader("key", "MyApiKEy")
+                    .build();
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject obj=new JSONObject(data);
+            JSONArray arr=obj.getJSONArray("data");
+            if(arr.length()>0){
+                for(int i=0;i<arr.length();i++){
+                    JSONObject d=arr.getJSONObject(i);
+                    preferences = pref.edit();
+                    preferences.putString("name", d.getString("name"));
+                    preferences.putString("subs", d.getString("subscription"));
+                    preferences.putString("usname", d.getString("username"));
+                    preferences.putString("coins", d.getString("coins"));
+                    preferences.putString("dob", d.getString("dob"));
+                    preferences.putString("pts", d.getString("points"));
+                    preferences.putString("wt", d.getString("weight"));
+                    preferences.putString("level", d.getString("level"));
+                    preferences.putString("ht", d.getString("height"));
+                    preferences.putString("wr", d.getString("win_rate"));
+                    preferences.putString("target", d.getString("target"));
+                    preferences.putString("no", d.getString("mobile"));
+                    preferences.putString("steps", d.getString("steps"));
+                    preferences.putString("dp", d.getString("dp_url"));
+                    preferences.putString("streak", d.getString("streak"));
+                    preferences.putString("creation_date", d.getString("creation_date"));
+                    preferences.apply();
+                }
+                Intent intent=new Intent(context,RestoreAccPage.class);
+                context.startActivity(intent);
+            }else{
+                Intent intent=new Intent(context,SignUp.class);
+                intent.putExtra("fragment","personal details");
+                context.startActivity(intent);
+            }
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    protected void onPostExecute(Boolean result) {
+        Log.i("result",result.toString());
+    }
+
+}
