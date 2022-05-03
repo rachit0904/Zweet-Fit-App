@@ -40,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -122,19 +123,20 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             seekPermissions();
         }
         if(view==nextPage){
-            if(flag1&&flag2&&flag2) {
-                checkExistingUser(pref.getString("id",""));
-//                if(){
-//                    Intent intent=new Intent(this,MainActivity.class);
-//                    startActivity(intent);
-//                    finish();
-//                }else
-//                {
-//                    Intent intent = new Intent(AuthActivity.this, SignUp.class);
-//                    intent.putExtra("fragment", "personal details");
-//                    startActivity(intent);
-//                    finish();
-//                }
+            if(flag1&&flag2&&flag3) {
+                if(checkExistingUser(pref.getString("id",""))){
+                    Intent intent=new Intent(this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Log.d("Hello", String.valueOf(checkExistingUser(pref.getString("id",""))));
+                    Intent intent = new Intent(AuthActivity.this, SignUp.class);
+                    intent.putExtra("fragment", "personal details");
+                    startActivity(intent);
+                    finish();
+                }
             }else{
                 if(!flag1){
                     Snackbar.make(view,"Complete Step 1!",Snackbar.LENGTH_SHORT).show();
@@ -150,44 +152,50 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private boolean checkExistingUser(String id) {
         boolean status=false;
         try {
-            Log.i("id",id);
+            String url = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id;
             OkHttpClient client = new OkHttpClient().newBuilder()
                     .build();
             Request request = new Request.Builder()
-                    .url("http://35.207.247.18:3578/selectwQuery?table=users&query=uid&value=113671724192877645725")
+                    .url(url)
                     .method("GET", null)
-                    .addHeader("key", "MyApiKEy")
+                    .addHeader("Key", "MyApiKEy")
                     .build();
-            Response response = client.newCall(request).execute();
-
-//             JSONObject obj=new JSONObject(data);
-//            JSONArray array=obj.getJSONArray("data");
-//            if(array.length()>0){
-//                for(int i=0;i<array.length();i++) {
-//                    JSONObject d=array.getJSONObject(i);
-//                    preferences = pref.edit();
-//                    preferences.putString("name", d.getString("name"));
-//                    preferences.putString("subs", d.getString("subscription"));
-//                    preferences.putString("usname", d.getString("username"));
-//                    preferences.putString("coins", d.getString("coins"));
-//                    preferences.putString("dob", d.getString("dob"));
-//                    preferences.putString("pts", d.getString("points"));
-//                    preferences.putString("wt", d.getString("weight"));
-//                    preferences.putString("level", d.getString("level"));
-//                    preferences.putString("ht", d.getString("height"));
-//                    preferences.putString("wr", d.getString("win_rate"));
-//                    preferences.putString("target", d.getString("target"));
-//                    preferences.putString("no", d.getString("mobile"));
-//                    preferences.putString("steps", d.getString("steps"));
-//                    preferences.putString("dp", d.getString("dp_url"));
-//                    preferences.putString("streak", d.getString("streak"));
-//                    preferences.putString("cd", d.getString("creation_date"));
-//                    preferences.apply();
-//                }
-//                status=true;
-//            }
-        } catch (Exception e) {
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                String respo = response.body().string();
+                JSONObject obj=new JSONObject(respo);
+                JSONArray array=obj.getJSONArray("data");
+                Log.d("idsss", array.toString());
+                if(array.length()>0){
+                    JSONObject d=array.getJSONObject(0);
+                    preferences = pref.edit();
+                    preferences.putString("name", d.getString("name"));
+                    preferences.putString("subs", d.getString("subscription"));
+                    preferences.putString("usname", d.getString("username"));
+                    preferences.putString("coins", d.getString("coins"));
+                    preferences.putString("dob", d.getString("dob"));
+                    preferences.putString("pts", d.getString("points"));
+                    preferences.putString("wt", d.getString("weight"));
+                    preferences.putString("level", d.getString("level"));
+                    preferences.putString("ht", d.getString("height"));
+                    preferences.putString("wr", d.getString("win_rate"));
+                    preferences.putString("target", d.getString("target"));
+                    preferences.putString("no", d.getString("mobile"));
+                    preferences.putString("steps", d.getString("steps"));
+                    preferences.putString("dp", d.getString("dp_url"));
+                    preferences.putString("streak", d.getString("streak"));
+                    preferences.putString("cd", d.getString("creation_date"));
+                    preferences.apply();
+                    status=true;
+                }
+            }catch (IOException e) {
+                e.printStackTrace();
+                Log.d("Err", e.toString());
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("Err2", e.toString());
         }
         return status;
     }
