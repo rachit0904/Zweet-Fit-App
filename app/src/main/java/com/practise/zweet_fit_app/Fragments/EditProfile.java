@@ -48,6 +48,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -72,11 +73,12 @@ public class EditProfile extends Fragment implements View.OnClickListener {
     ProgressBar progressBar;
     SharedPreferences.Editor preferences;
     SharedPreferences pref;
+    View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         uploadPic = view.findViewById(R.id.uploadDp);
         dp = view.findViewById(R.id.profilePic);
         name = view.findViewById(R.id.edit_Name);
@@ -109,6 +111,12 @@ public class EditProfile extends Fragment implements View.OnClickListener {
         ht.setText(pref.getString("ht",""));
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(dp);
+        }
+        if(LocalDate.now().getDayOfWeek().equals(DayOfWeek.MONDAY)){
+            target.setEnabled(true);
+            Toast.makeText(view.getContext(), "Target can be set on monday only!", Toast.LENGTH_SHORT).show();
+        }else{
+            target.setEnabled(false);
         }
     }
 

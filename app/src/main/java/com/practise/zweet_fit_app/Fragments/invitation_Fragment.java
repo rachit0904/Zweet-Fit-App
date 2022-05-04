@@ -205,13 +205,13 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-//                                if(d-day<=0 || d-day>=3 || year!=y){
-//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
-//                                }else{
+                                if(d-day<=0 || d-day>=3 || year!=y){
+                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+                                }else{
                                     m++;
                                     sd[0] =d;
                                     sDate.setText(d+"-"+m+"-"+y);
-//                                }
+                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -228,12 +228,12 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             @Override
                             public void onDateSet(DatePicker datePicker, int y, int m, int d) {
                                 Log.i("day",day+" "+d);
-//                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y){
-//                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
-//                                }else{
+                                if(d-sd[0]<=0 || d-sd[0]>=3 || year!=y){
+                                    Toast.makeText(getContext(), "Enter a valid Date!", Toast.LENGTH_SHORT).show();
+                                }else{
                                     m++;
                                     eDate.setText(d+"-"+m+"-"+y);
-//                                }
+                                }
                             }
                         },year,month,day);
                         datePickerDialog.show();
@@ -265,17 +265,16 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                     @Override
                     public void onClick(View view) {
                         {
-                            if(!checkcoins(coins.getText().toString()))
-                            {
-                                Snackbar.make(view,"Not Enough Coins !!",Snackbar.LENGTH_SHORT).show();
-                                fl3=1;
-                                dialog.dismiss();
-                            }
-                            else if(title.getText().toString().isEmpty())
+                            if(title.getText().toString().isEmpty())
                             {
                                 fl1=1;
                                 Snackbar.make(view,"Title Cannot be Empty !!",Snackbar.LENGTH_SHORT).show();
 //                                dialog.dismiss();
+                            }
+                            else if((coins.getText().toString().isEmpty()))
+                            {
+                                Snackbar.make(view,"Not Enough Coins !!",Snackbar.LENGTH_SHORT).show();
+                                fl3=1;
                             }
                             else if(target.getText().toString().isEmpty())
                             {
@@ -294,7 +293,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                 Snackbar.make(view,"No Friend Selected!",Snackbar.LENGTH_SHORT).show();
                                 fl4=1;
                             }
-                            if(fl1==0 && fl2==0 && fl3==0 && fl4==0){
+                            else if(checkcoins(coins.getText().toString())){
                             String url = Constant.ServerUrl + "/AddPeerEvent";
                             OkHttpClient client = new OkHttpClient().newBuilder()
                                     .build();
@@ -337,7 +336,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                             }
                             }
                         }
-                        dialog.dismiss();
+//                        dialog.dismiss();
                     }
                 });
             }catch (Exception e){

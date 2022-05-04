@@ -143,26 +143,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-    private void checkStep(Boolean flag,int fId) {
-        if(!flag){
-            switch(fId){
-                case 1:{
-                    Snackbar.make(nextPage,"Sign in attempt failed!",Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                case 2:{
-                    Snackbar.make(nextPage,"Fit not Installed! Please Install to continue..",Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-                case 3:{
-                    Snackbar.make(nextPage,"Permissions mandatory to continue!",Snackbar.LENGTH_SHORT).show();
-                    break;
-                }
-            }
-        }
-    }
-
     private void googleSignIn() {
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
         startActivityForResult(intent,RC_SIGN_IN);
