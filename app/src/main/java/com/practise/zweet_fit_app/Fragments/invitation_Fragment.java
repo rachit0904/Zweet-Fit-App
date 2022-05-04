@@ -335,8 +335,8 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                 e.printStackTrace();
                             }
                             }
+                            dialog.dismiss();
                         }
-//                        dialog.dismiss();
                     }
                 });
             }catch (Exception e){
