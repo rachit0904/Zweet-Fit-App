@@ -29,7 +29,7 @@
         android:theme="@style/Theme.ZweetFitApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".RestoreAccPage"
+            android:name=".Activity.RestoreAccPage"
             android:exported="true"/>
         <activity
             android:name=".Activity.SignUp"

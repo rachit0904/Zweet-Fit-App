@@ -64,13 +64,13 @@ public class FriendsCardAdapter extends RecyclerView.Adapter<FriendsCardAdapter.
             holder.more.setVisibility(View.VISIBLE);
         }
         holder.name.setText(modal.getName());
-//        try {
-//            if (!modal.getImagePath().isEmpty()) {
-//                Picasso.get().load(modal.getImagePath()).placeholder(R.drawable.avatar_1).into(holder.profilePic);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        try {
+            if (!modal.getImagePath().isEmpty()) {
+                Picasso.get().load(modal.getImagePath()).placeholder(R.drawable.avatar_1).into(holder.profilePic);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

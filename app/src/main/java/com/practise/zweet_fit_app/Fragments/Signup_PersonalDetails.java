@@ -119,6 +119,7 @@ public class Signup_PersonalDetails extends Fragment implements View.OnClickList
                 preferences = pref.edit();
                 preferences.putString("name", dataModal.getName());
                 preferences.putString("gender", dataModal.getGender());
+                preferences.putString("creation_date",LocalDate.now().toString());
                 preferences.apply();
                 Log.d("result","pd saved");
                 startActivity(intent);

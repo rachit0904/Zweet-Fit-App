@@ -145,7 +145,7 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
                                 .addFormDataPart("eid", eid)
                                 .build();
                         Request request = new Request.Builder()
-                                .url(serverUrl + "/deleteinvite")
+                                .url(serverUrl + "/removeInvitation")
                                 .method("POST", body)
                                 .addHeader("key", "MyApiKEy")
                                 .build();

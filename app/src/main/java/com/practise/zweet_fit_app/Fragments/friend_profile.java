@@ -109,14 +109,14 @@ public class friend_profile extends Fragment implements View.OnClickListener {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         coins.setText(obj.getString("coins"));
-//                        if(obj.getString("dp_url").isEmpty())
-//                        {
-//                            Log.d("Hello", "World !");
-//                        }
-//                        else
-//                        {
-//                            Picasso.get().load(obj.getString("dp_url")).placeholder(R.drawable.avatar_1).into(userImg);
-//                        }
+                        if(obj.getString("dp_url").isEmpty())
+                        {
+                            Log.d("Hello", "World !");
+                        }
+                        else
+                        {
+                            Picasso.get().load(obj.getString("dp_url")).placeholder(R.drawable.avatar_1).into(userImg);
+                        }
                         name.setText(obj.getString("name"));
                         username.setText(obj.getString("username"));
                         target_text.setText(obj.getString("target")+" Steps");
