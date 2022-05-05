@@ -14,12 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.practise.zweet_fit_app.Modals.InviteCardModal;
 import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Util.Constant;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -91,26 +91,18 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
     private void requestToDb(View view, String serverUrl, String endpt,int pos) {
         String eid=inviteCardModalList.get(pos).geteId();
         String rid=inviteCardModalList.get(pos).getRid();
-        String id=inviteCardModalList.get(pos   ).getSid();
+        String id=inviteCardModalList.get(pos).getSid();
         try {
             switch (endpt) {
                 case "/acceptinvite": {
                     {
-                        OkHttpClient client = new OkHttpClient().newBuilder()
-                                .build();
-                        MediaType mediaType = MediaType.parse("text/plain");
-                        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("rid", rid)
-                                .addFormDataPart("eid", eid)
-                                .build();
-                        Request request = new Request.Builder()
-                                .url(serverUrl + "/acceptinvite")
-                                .method("POST", body)
-                                .addHeader("key", "MyApiKEy")
-                                .build();
-                        Response response = client.newCall(request).execute();
-                        String data = response.body().string();
-                        Log.i("accept invite",data);
+                        if(checkCoins(rid,eid)){
+                        acceptInvite(rid, eid, serverUrl);
+                        rejectInvite(eid, serverUrl);
+                        }
+                        else{
+                            Toast.makeText(contextl, "Not Sufficient Coins", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     {
                         JSONObject object=getEventData(eid);
@@ -135,23 +127,10 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
                             e.printStackTrace();
                         }
                     }
+                     break;
                 }
                 case "/removeInvitation": {
-                    {
-                        OkHttpClient client = new OkHttpClient().newBuilder()
-                                .build();
-                        MediaType mediaType = MediaType.parse("text/plain");
-                        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("eid", eid)
-                                .build();
-                        Request request = new Request.Builder()
-                                .url(serverUrl + "/removeInvitation")
-                                .method("POST", body)
-                                .addHeader("key", "MyApiKEy")
-                                .build();
-                        Response response = client.newCall(request).execute();
-                        String data = response.body().string();
-                    }
+                    rejectInvite(eid,serverUrl);
                     {
                         JSONObject object=getEventData(eid);
                         InviteCardModal modal=inviteCardModalList.get(pos);
@@ -182,6 +161,121 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
             e.printStackTrace();
         }
         inviteCardModalList.remove(pos);
+    }
+
+    private boolean checkCoins(String id,String eid){
+        int uCoins = 0,eCoins=0;
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id)
+                .method("GET", null)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        Request request2 = new Request.Builder()
+                .url(Constant.ServerUrl+"/selectwQuery?table=events&query=eid&value="+eid)
+                .method("GET", null)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject object=new JSONObject(data);
+            JSONArray array=object.getJSONArray("data");
+            if(array.length()>0){
+                for(int i=0;i<array.length();i++) {
+                    JSONObject obj = array.getJSONObject(i);
+                    uCoins= Integer.parseInt(obj.getString("coins"));
+                }
+            }
+            Response response2 = client.newCall(request2).execute();
+            String data2=response2.body().string();
+            JSONObject object2=new JSONObject(data2);
+            JSONArray array2=object.getJSONArray("data");
+            String eventname="";
+            if(array2.length()>0){
+                for(int i=0;i<array2.length();i++) {
+                    JSONObject obj = array2.getJSONObject(i);
+                    eventname=obj.getString("title");
+                    eCoins= Integer.parseInt(obj.getString("entry_coin"));
+                }
+            }
+            if(uCoins>=eCoins){
+                deductCoins(eventname,eCoins,id,eid);
+                return true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void deductCoins(String eventName,int eCoins,String id,String eid) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("amount","-"+eCoins)
+                .addFormDataPart("eid",eid)
+                .addFormDataPart("source",eventName)
+                .addFormDataPart("uid",id)
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/addCoin")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void rejectInvite(String eid,String serverUrl) {
+        {
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("eid", eid)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(serverUrl + "/removeInvitation")
+                    .method("POST", body)
+                    .addHeader("key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                String data = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void acceptInvite(String rid,String eid,String serverUrl) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("rid", rid)
+                .addFormDataPart("eid", eid)
+                .build();
+        Request request = new Request.Builder()
+                .url(serverUrl + "/acceptinvite")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
+            String data = response.body().string();
+            Log.i("accept invite",data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private JSONObject getEventData(String eid) {
