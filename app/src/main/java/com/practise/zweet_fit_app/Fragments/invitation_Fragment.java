@@ -293,50 +293,55 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                 Snackbar.make(view,"No Friend Selected!",Snackbar.LENGTH_SHORT).show();
                                 fl4=1;
                             }
-                            else if(checkcoins(coins.getText().toString())){
-                            String url = Constant.ServerUrl + "/AddPeerEvent";
-                            OkHttpClient client = new OkHttpClient().newBuilder()
-                                    .build();
-                            MediaType mediaType = MediaType.parse("text/plain");
-                            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    .addFormDataPart("p1id", pref.getString("id", ""))
-                                    .addFormDataPart("p2id", "0")
-                                    .addFormDataPart("title", title.getText().toString())
-                                    .addFormDataPart("duration", sDate.getText().toString() + " - " + eDate.getText().toString())
-                                    .addFormDataPart("target", target.getText().toString())
-                                    .addFormDataPart("entry_coin", coins.getText().toString())
-                                    .addFormDataPart("status", "0")
-                                    .build();
-                            Request request = new Request.Builder()
-                                    .url(url)
-                                    .method("POST", body)
-                                    .addHeader("key", "MyApiKEy")
-                                    .build();
-                            try {
-                                String url2 = Constant.ServerUrl + "/addInvitation";
-                                Response response = client.newCall(request).execute();
-                                String data = response.body().string();
-                                Log.i("response", data);
-                                JSONObject object = new JSONObject(data);
-                                JSONObject obj = object.getJSONObject("data");
-                                String eid = obj.getString("eid");
-                                RequestBody body2 = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                        .addFormDataPart("rid", rid)
-                                        .addFormDataPart("sid", pref.getString("id", ""))
-                                        .addFormDataPart("eid", eid)
-                                        .build();
-                                Request request2 = new Request.Builder()
-                                        .url(url2)
-                                        .method("POST", body2)
-                                        .addHeader("key", "MyApiKEy")
-                                        .build();
-                                Response response2 = client.newCall(request2).execute();
-                            } catch (IOException | JSONException e) {
-                                e.printStackTrace();
+                            if(fl1==0&&fl2==0&&fl3==0&&fl4==0){
+                                if (checkcoins(coins.getText().toString())) {
+                                    String url = Constant.ServerUrl + "/AddPeerEvent";
+                                    OkHttpClient client = new OkHttpClient().newBuilder()
+                                            .build();
+                                    MediaType mediaType = MediaType.parse("text/plain");
+                                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                            .addFormDataPart("p1id", pref.getString("id", ""))
+                                            .addFormDataPart("p2id", "0")
+                                            .addFormDataPart("title", title.getText().toString())
+                                            .addFormDataPart("duration", sDate.getText().toString() + " - " + eDate.getText().toString())
+                                            .addFormDataPart("target", target.getText().toString())
+                                            .addFormDataPart("entry_coin", coins.getText().toString())
+                                            .addFormDataPart("status", "0")
+                                            .build();
+                                    Request request = new Request.Builder()
+                                            .url(url)
+                                            .method("POST", body)
+                                            .addHeader("key", "MyApiKEy")
+                                            .build();
+                                    try {
+                                        String url2 = Constant.ServerUrl + "/addInvitation";
+                                        Response response = client.newCall(request).execute();
+                                        String data = response.body().string();
+                                        Log.i("response", data);
+                                        JSONObject object = new JSONObject(data);
+                                        JSONObject obj = object.getJSONObject("data");
+                                        String eid = obj.getString("eid");
+                                        RequestBody body2 = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                                                .addFormDataPart("rid", rid)
+                                                .addFormDataPart("sid", pref.getString("id", ""))
+                                                .addFormDataPart("eid", eid)
+                                                .build();
+                                        Request request2 = new Request.Builder()
+                                                .url(url2)
+                                                .method("POST", body2)
+                                                .addHeader("key", "MyApiKEy")
+                                                .build();
+                                        Response response2 = client.newCall(request2).execute();
+                                        deductCoins(title.getText().toString(), Integer.parseInt(coins.getText().toString()), pref.getString("id", ""), eid);
+                                    } catch (IOException | JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                } else {
+                                    Snackbar.make(view, "Not Enough coins!", Snackbar.LENGTH_SHORT).show();
+                                }
                             }
-                            }
-                            dialog.dismiss();
                         }
+//                        dialog.dismiss();
                     }
                 });
             }catch (Exception e){
@@ -345,49 +350,55 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
         }
     }
 
-    public boolean checkcoins(String event_coin)
-    {
-        SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
-        String uid=pref.getString("id","");
+    private void deductCoins(String eventName,int eCoins,String id,String eid) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("amount","-"+eCoins)
+                .addFormDataPart("eid",eid)
+                .addFormDataPart("source",eventName)
+                .addFormDataPart("uid",id)
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/addCoin")
+                .method("POST", body)
+                .addHeader("key", "MyApiKEy")
+                .build();
         try {
-            String url = Constant.ServerUrl+"/select?table=users";
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .method("GET", null)
-                    .addHeader("Key", "MyApiKEy")
-                    .build();
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("L11", e.toString());
-            }
-            String respo = response.body().string();
-            JSONObject Jobject = new JSONObject(respo);
-            JSONArray Jarray = Jobject.getJSONArray("data");
-            for(int i=0;i<Jarray.length();i++)
-            {
-                JSONObject object = Jarray.getJSONObject(i);
-                String user = object.getString("uid");
-                int coins = Integer.parseInt(object.getString("coins"));
-                if(!event_coin.isEmpty())
-                {
-                    int ec = Integer.parseInt(event_coin);
-                    if(user.equals(uid))
-                    {
-                        if(coins>=ec)
-                        {
-                            return true;
-                        }
-                    }
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkcoins(String event_coin) {
+        SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
+        String id=pref.getString("id","");
+        int uCoins = 0,eCoins=Integer.parseInt(event_coin);
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id)
+                .method("GET", null)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject object=new JSONObject(data);
+            JSONArray array=object.getJSONArray("data");
+            if(array.length()>0){
+                for(int i=0;i<array.length();i++) {
+                    JSONObject obj = array.getJSONObject(i);
+                    uCoins= Integer.parseInt(obj.getString("coins"));
                 }
             }
-        } catch (JSONException | IOException e) {
+            if(uCoins>=eCoins){
+                return true;
+            }
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
-            Log.d("L2", e.toString());
         }
         return false;
     }
@@ -442,4 +453,5 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
             }
         }
     }
-    }
+
+}
