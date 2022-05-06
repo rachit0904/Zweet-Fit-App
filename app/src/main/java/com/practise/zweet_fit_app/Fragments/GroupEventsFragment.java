@@ -66,6 +66,10 @@ public class GroupEventsFragment extends Fragment {
         SharedPreferences pref=getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
         uid=pref.getString("id","");
         checkifuserjoin();
+        if(checkeventst())
+        {
+            joinbtn.setVisibility(View.GONE);
+        }
         setData();
         eventTabs.selectTab(eventTabs.getTabAt(1));
         GroupEventsViewPagerAdapter adapter=new GroupEventsViewPagerAdapter(getChildFragmentManager(),eventTabs.getTabCount());
@@ -201,6 +205,84 @@ public class GroupEventsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public boolean checkeventst()
+    {
+        try {
+            String url = Constant.ServerUrl+"/select?table=events";
+            String url2 = Constant.ServerUrl+"/select?table=group_event";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            OkHttpClient client2 = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Request request2 = new Request.Builder()
+                    .url(url2)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = null;
+            Response response2 = null;
+            try {
+                response = client.newCall(request).execute();
+                response2 = client.newCall(request2).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d("L11", e.toString());
+            }
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            String respo2 = response2.body().string();
+            JSONObject Jobject2 = new JSONObject(respo2);
+            JSONArray Jarray2 = Jobject2.getJSONArray("data");
+            for(int i=0;i<Jarray.length();i++)
+            {
+                JSONObject object = Jarray.getJSONObject(i);
+                String eid = object.get("eid").toString();
+                String st = object.get("status").toString();
+                Log.d("eid1", eid);
+                if(eid.equals(getActivity().getIntent().getStringExtra("id")))
+                {
+                    if(st.equals("3"))
+                    {
+                       return true;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            for(int i=0;i<Jarray2.length();i++)
+            {
+                JSONObject object2 = Jarray2.getJSONObject(i);
+                String eid = object2.get("id").toString();
+                String st = object2.get("status").toString();
+                Log.d("eid2", eid);
+                if(eid.equals(getActivity().getIntent().getStringExtra("id")))
+                {
+                    if(st.equals("3"))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+            Log.d("Lll2", e.toString());
+        }
+        return false;
     }
 
     public boolean checkcoins(String event_coin)

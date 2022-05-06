@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/activity_auth.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/add_events_dialog.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_friend__event__list.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_friend_profile.xml" value="0.14635416666666667" />
@@ -11,6 +12,9 @@
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_group_events.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_invitation_.xml" value="0.1" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_profile_page.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_signup__personal_details.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_signup_getstarted.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/fragment_signup_userstats.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Palash/Dropbox/My PC (LAPTOP-42U74MT7)/Desktop/App Dev/Projects/Zweet-Fit-App_DevCorps/app/src/main/res/layout/friendrequests_carditem.xml" value="0.22" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/activity_ic.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/singh/AndroidStudioProjects/ZweetFitApp/app/src/main/res/drawable/add_event.xml" value="0.22291666666666668" />
