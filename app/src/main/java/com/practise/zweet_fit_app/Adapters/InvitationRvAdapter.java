@@ -96,35 +96,36 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
             switch (endpt) {
                 case "/acceptinvite": {
                     {
+                        Log.i("id",id);
                         if(checkCoins(rid,eid)){
                         acceptInvite(rid, eid, serverUrl);
+//                            {
+//                                JSONObject object=getEventData(eid);
+//                                InviteCardModal modal=inviteCardModalList.get(pos);
+//                                OkHttpClient client = new OkHttpClient().newBuilder()
+//                                        .build();
+//                                com.squareup.okhttp.MediaType mediaType = com.squareup.okhttp.MediaType.parse("text/plain");
+//                                MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+//                                        .addFormDataPart("amount","-"+object.getString("entry_coin"))
+//                                        .addFormDataPart("eid",eid)
+//                                        .addFormDataPart("source","joined "+object.getString("title"))
+//                                        .addFormDataPart("uid",rid)
+//                                        .build();
+//                                Request request = new Request.Builder()
+//                                        .url(Constant.ServerUrl+"/addCoin")
+//                                        .method("POST", body)
+//                                        .addHeader("key", "MyApiKEy")
+//                                        .build();
+//                                try {
+//                                    Response response = client.newCall(request).execute();
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
                         rejectInvite(eid, serverUrl);
                         }
                         else{
                             Toast.makeText(contextl, "Not Sufficient Coins", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    {
-                        JSONObject object=getEventData(eid);
-                        InviteCardModal modal=inviteCardModalList.get(pos);
-                        OkHttpClient client = new OkHttpClient().newBuilder()
-                                .build();
-                        com.squareup.okhttp.MediaType mediaType = com.squareup.okhttp.MediaType.parse("text/plain");
-                        MultipartBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                .addFormDataPart("amount","-"+object.getString("entry_coin"))
-                                .addFormDataPart("eid",eid)
-                                .addFormDataPart("source","joined "+object.getString("title"))
-                                .addFormDataPart("uid",rid)
-                                .build();
-                        Request request = new Request.Builder()
-                                .url(Constant.ServerUrl+"/addCoin")
-                                .method("POST", body)
-                                .addHeader("key", "MyApiKEy")
-                                .build();
-                        try {
-                            Response response = client.newCall(request).execute();
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
                     }
                      break;
@@ -191,7 +192,7 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
             Response response2 = client.newCall(request2).execute();
             String data2=response2.body().string();
             JSONObject object2=new JSONObject(data2);
-            JSONArray array2=object.getJSONArray("data");
+            JSONArray array2=object2.getJSONArray("data");
             String eventname="";
             if(array2.length()>0){
                 for(int i=0;i<array2.length();i++) {
@@ -200,6 +201,8 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
                     eCoins= Integer.parseInt(obj.getString("entry_coin"));
                 }
             }
+            Log.i("data",data);
+            Log.i("ucoins : ecoins",uCoins+":"+eCoins);
             if(uCoins>=eCoins){
                 deductCoins(eventname,eCoins,id,eid);
                 return true;
@@ -211,6 +214,7 @@ public class InvitationRvAdapter extends RecyclerView.Adapter<InvitationRvAdapte
     }
 
     private void deductCoins(String eventName,int eCoins,String id,String eid) {
+        Log.i("id",id);
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
