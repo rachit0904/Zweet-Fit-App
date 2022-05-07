@@ -4,6 +4,7 @@ package com.practise.zweet_fit_app.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.practise.zweet_fit_app.R;
 import com.practise.zweet_fit_app.Server.ServerRequests;
 import com.practise.zweet_fit_app.Util.Constant;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,6 +43,7 @@ public class signup_userstats extends Fragment {
     TextInputEditText edit_Weight, edit_Height, edit_Target,edit_usname;
     SharedPreferences.Editor preferences;
     TextView status;
+    boolean validUser=false;
     SharedPreferences pref;
 
     @Override
@@ -59,7 +62,15 @@ public class signup_userstats extends Fragment {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!view.hasFocus()){
-                    status.setVisibility(View.VISIBLE);
+                    if(!edit_usname.getText().toString().isEmpty()) {
+                        validateUsername(edit_usname.getText().toString());
+                        if(validUser){
+                            status.setText("User name valid!");
+                        }else{
+                            status.setText("User name taken!");
+                        }
+                        status.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -75,8 +86,9 @@ public class signup_userstats extends Fragment {
                         String username = edit_usname.getText().toString();
                         if (!username.isEmpty()) {
                             fl1=1;
-                            validateUsername(username);
-                            preferences.putString("usname", username);
+                            if(validUser) {
+                                preferences.putString("usname", username);
+                            }
                         } else {
                             Toast.makeText(getContext(), "Enter Username!", Toast.LENGTH_SHORT).show();
                         }
@@ -176,6 +188,51 @@ public class signup_userstats extends Fragment {
     }
 
     private void validateUsername(String username) {
-
+       Usernames usernames=new Usernames();
+       usernames.username=username;
+       usernames.execute();
+       validUser=usernames.rslt;
     }
+}
+
+class Usernames extends AsyncTask<String,Void,Boolean> {
+
+    String username;
+    boolean rslt;
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected Boolean doInBackground(String... params) {
+        boolean rslt=false;
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/selectwQuery?table=users&query=username&value="+username)
+                .method("GET", null)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject object=new JSONObject(data);
+            JSONArray array=object.getJSONArray("data");
+            if(array.length()>0){
+                rslt=false;
+            }else{
+                rslt=true;
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        return rslt;
+    }
+
+    protected void onPostExecute(Boolean result) {
+        rslt=result;
+    }
+
 }

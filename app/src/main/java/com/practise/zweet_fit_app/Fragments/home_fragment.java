@@ -243,6 +243,27 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         if(!pref.getString("dp","").isEmpty()){
             Picasso.get().load(pref.getString("dp","")).into(userImg);
         }
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+pref.getString("id",""))
+                .method("GET", null)
+                .addHeader("key", "MyApiKEy")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            String data=response.body().string();
+            JSONObject object=new JSONObject(data);
+            JSONArray array=object.getJSONArray("data");
+            for(int i=0;i<array.length();i++){
+                JSONObject obj=array.getJSONObject(i);
+                preferences=pref.edit();
+                preferences.putString("coins",obj.getString("coins"));
+                preferences.apply();
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

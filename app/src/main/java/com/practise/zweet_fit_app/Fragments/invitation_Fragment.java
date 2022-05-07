@@ -123,7 +123,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
             modal.setRid(obj.getString("rid"));
             String eid=obj.getString("eid");
             String sid=obj.getString("sid");
-            modal.setSid(obj.getString("id"));
+            modal.setSid(sid);
             modal.seteId(eid);
             String url = Constant.ServerUrl+"/selectwQuery?table=events&query=eid&value="+eid;
             String url2 = Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+sid;
@@ -294,7 +294,8 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                 fl4=1;
                             }
                             if(fl1==0&&fl2==0&&fl3==0&&fl4==0){
-                                if (checkcoins(coins.getText().toString())) {
+                                if (checkcoins(coins.getText().toString()))
+                                {
                                     String url = Constant.ServerUrl + "/AddPeerEvent";
                                     OkHttpClient client = new OkHttpClient().newBuilder()
                                             .build();
@@ -333,15 +334,17 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                                 .build();
                                         Response response2 = client.newCall(request2).execute();
                                         deductCoins(title.getText().toString(), Integer.parseInt(coins.getText().toString()), pref.getString("id", ""), eid);
+                                        dialog.dismiss();
                                     } catch (IOException | JSONException e) {
                                         e.printStackTrace();
                                     }
-                                } else {
-                                    Snackbar.make(view, "Not Enough coins!", Snackbar.LENGTH_SHORT).show();
+                                }
+                                else {
+                                    dialog.dismiss();
+                                    Toast.makeText(getContext(), "Not Enough coins!", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
-//                        dialog.dismiss();
                     }
                 });
             }catch (Exception e){
@@ -388,10 +391,12 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
             String data=response.body().string();
             JSONObject object=new JSONObject(data);
             JSONArray array=object.getJSONArray("data");
+            Log.i("data",data);
             if(array.length()>0){
                 for(int i=0;i<array.length();i++) {
                     JSONObject obj = array.getJSONObject(i);
                     uCoins= Integer.parseInt(obj.getString("coins"));
+                    Log.i("coins", String.valueOf(uCoins));
                 }
             }
             if(uCoins>=eCoins){
