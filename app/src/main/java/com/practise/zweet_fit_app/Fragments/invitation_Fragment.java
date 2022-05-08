@@ -302,7 +302,7 @@ public class invitation_Fragment extends Fragment implements View.OnClickListene
                                     MediaType mediaType = MediaType.parse("text/plain");
                                     RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                                             .addFormDataPart("p1id", pref.getString("id", ""))
-                                            .addFormDataPart("p2id", "0")
+                                            .addFormDataPart("p2id", "")
                                             .addFormDataPart("title", title.getText().toString())
                                             .addFormDataPart("duration", sDate.getText().toString() + " - " + eDate.getText().toString())
                                             .addFormDataPart("target", target.getText().toString())

@@ -238,73 +238,75 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-}
+    class UserData extends AsyncTask<String,Void,Boolean> {
 
-class UserData extends AsyncTask<String,Void,Boolean> {
+        private String resp;
+        String id;
+        SharedPreferences pref;
+        SharedPreferences.Editor preferences;
+        Context context;
 
-    private String resp;
-    String id;
-    SharedPreferences pref;
-    SharedPreferences.Editor preferences;
-    Context context;
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected Boolean doInBackground(String... params) {
-        try{
-            OkHttpClient client = new OkHttpClient().newBuilder()
-                    .build();
-            Request request = new Request.Builder()
-                    .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id)
-                    .method("GET", null)
-                    .addHeader("key", "MyApiKEy")
-                    .build();
-            Response response = client.newCall(request).execute();
-            String data=response.body().string();
-            JSONObject obj=new JSONObject(data);
-            JSONArray arr=obj.getJSONArray("data");
-            if(arr.length()>0){
-                for(int i=0;i<arr.length();i++){
-                    JSONObject d=arr.getJSONObject(i);
-                    preferences = pref.edit();
-                    preferences.putString("name", d.getString("name"));
-                    preferences.putString("subs", d.getString("subscription"));
-                    preferences.putString("usname", d.getString("username"));
-                    preferences.putString("coins", d.getString("coins"));
-                    preferences.putString("dob", d.getString("dob"));
-                    preferences.putString("pts", d.getString("points"));
-                    preferences.putString("wt", d.getString("weight"));
-                    preferences.putString("level", d.getString("level"));
-                    preferences.putString("ht", d.getString("height"));
-                    preferences.putString("wr", d.getString("win_rate"));
-                    preferences.putString("target", d.getString("target"));
-                    preferences.putString("no", d.getString("mobile"));
-                    preferences.putString("steps", d.getString("steps"));
-                    preferences.putString("dp", d.getString("dp_url"));
-                    preferences.putString("streak", d.getString("streak"));
-                    preferences.putString("creation_date", d.getString("creation_date"));
-                    preferences.apply();
-                }
-                Intent intent=new Intent(context,RestoreAccPage.class);
-                context.startActivity(intent);
-            }else{
-                Intent intent=new Intent(context,SignUp.class);
-                intent.putExtra("fragment","personal details");
-                context.startActivity(intent);
-            }
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
-        return false;
-    }
 
-    protected void onPostExecute(Boolean result) {
-        Log.i("result",result.toString());
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try{
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                Request request = new Request.Builder()
+                        .url(Constant.ServerUrl+"/selectwQuery?table=users&query=uid&value="+id)
+                        .method("GET", null)
+                        .addHeader("key", "MyApiKEy")
+                        .build();
+                Response response = client.newCall(request).execute();
+                String data=response.body().string();
+                JSONObject obj=new JSONObject(data);
+                JSONArray arr=obj.getJSONArray("data");
+                if(arr.length()>0){
+                    for(int i=0;i<arr.length();i++){
+                        JSONObject d=arr.getJSONObject(i);
+                        preferences = pref.edit();
+                        preferences.putString("name", d.getString("name"));
+                        preferences.putString("subs", d.getString("subscription"));
+                        preferences.putString("usname", d.getString("username"));
+                        preferences.putString("coins", d.getString("coins"));
+                        preferences.putString("dob", d.getString("dob"));
+                        preferences.putString("pts", d.getString("points"));
+                        preferences.putString("wt", d.getString("weight"));
+                        preferences.putString("level", d.getString("level"));
+                        preferences.putString("ht", d.getString("height"));
+                        preferences.putString("wr", d.getString("win_rate"));
+                        preferences.putString("target", d.getString("target"));
+                        preferences.putString("no", d.getString("mobile"));
+                        preferences.putString("steps", d.getString("steps"));
+                        preferences.putString("dp", d.getString("dp_url"));
+                        preferences.putString("streak", d.getString("streak"));
+                        preferences.putString("creation_date", d.getString("creation_date"));
+                        preferences.apply();
+                    }
+                    Intent intent=new Intent(context,RestoreAccPage.class);
+                    context.startActivity(intent);
+                    finish();
+                }else{
+                    Intent intent=new Intent(context,SignUp.class);
+                    intent.putExtra("fragment","personal details");
+                    context.startActivity(intent);
+                    finish();
+                }
+                return true;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            Log.i("result",result.toString());
+        }
+
     }
 
 }

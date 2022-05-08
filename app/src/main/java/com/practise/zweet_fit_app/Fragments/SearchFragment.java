@@ -32,8 +32,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class SearchFragment extends Fragment {
@@ -86,12 +89,15 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUser(String user) {
-        String url = Constant.ServerUrl+"/selectwQuery?table=users&query=name&value="+user;
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
+        MediaType mediaType = MediaType.parse("text/plain");
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("value",user)
+                .build();
         Request request = new Request.Builder()
-                .url(url)
-                .method("GET", null)
+                .url(Constant.ServerUrl+"/searchUser")
+                .method("POST", body)
                 .addHeader("key", "MyApiKEy")
                 .build();
         try {

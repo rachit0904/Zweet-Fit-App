@@ -43,7 +43,7 @@ public class signup_userstats extends Fragment {
     TextInputEditText edit_Weight, edit_Height, edit_Target,edit_usname;
     SharedPreferences.Editor preferences;
     TextView status;
-    boolean validUser=false;
+    public boolean validUser=false;
     SharedPreferences pref;
 
     @Override
@@ -57,19 +57,13 @@ public class signup_userstats extends Fragment {
         status = view.findViewById(R.id.status);
         submit=view.findViewById(R.id.next);
         UsersDataModal dataModal=new UsersDataModal();
-
+        pref=getActivity().getSharedPreferences("user data",Context.MODE_PRIVATE);
         edit_usname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!view.hasFocus()){
                     if(!edit_usname.getText().toString().isEmpty()) {
                         validateUsername(edit_usname.getText().toString());
-                        if(validUser){
-                            status.setText("User name valid!");
-                        }else{
-                            status.setText("User name taken!");
-                        }
-                        status.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -81,7 +75,6 @@ public class signup_userstats extends Fragment {
                 if(view==submit) {
                     int fl1=0, fl2=0, fl3=0, fl4=0;
                     try {
-                        pref = getActivity().getSharedPreferences("user data", Context.MODE_PRIVATE);
                         preferences = pref.edit();
                         String username = edit_usname.getText().toString();
                         if (!username.isEmpty()) {
@@ -188,51 +181,72 @@ public class signup_userstats extends Fragment {
     }
 
     private void validateUsername(String username) {
-       Usernames usernames=new Usernames();
-       usernames.username=username;
-       usernames.execute();
-       validUser=usernames.rslt;
-    }
-}
-
-class Usernames extends AsyncTask<String,Void,Boolean> {
-
-    String username;
-    boolean rslt;
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected Boolean doInBackground(String... params) {
-        boolean rslt=false;
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        Request request = new Request.Builder()
-                .url(Constant.ServerUrl+"/selectwQuery?table=users&query=username&value="+username)
-                .method("GET", null)
-                .addHeader("key", "MyApiKEy")
-                .build();
         try {
-            Response response = client.newCall(request).execute();
-            String data=response.body().string();
-            JSONObject object=new JSONObject(data);
-            JSONArray array=object.getJSONArray("data");
-            if(array.length()>0){
-                rslt=false;
+            Usernames usernames = new Usernames();
+            usernames.username = username;
+            usernames.execute();
+            Log.i("valid user", "" + validUser);
+            if(validUser){
+                status.setText("User name valid!");
             }else{
-                rslt=true;
+                status.setText("User name taken!");
             }
-        } catch (IOException | JSONException e) {
+            status.setVisibility(View.VISIBLE);
+        }catch(Exception e){
             e.printStackTrace();
         }
-        return rslt;
     }
 
-    protected void onPostExecute(Boolean result) {
-        rslt=result;
+    private class Usernames extends AsyncTask<String,Void,Boolean> {
+
+        String username;
+        boolean rslt;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            boolean rslt=false;
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            MediaType mediaType = MediaType.parse("text/plain");
+            RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                    .addFormDataPart("username",username)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Constant.ServerUrl+"/checkUsername")
+                    .method("POST", body)
+                    .addHeader("key", "MyApiKEy")
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String data=response.body().string();
+                JSONObject object=new JSONObject(data);
+                String rs=object.getString("data");
+                if(rs.equals("true")){
+                    rslt=true;
+                }else{
+                    rslt=false;
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return rslt;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            try {
+                Log.i("rslt", "" + result);
+                validUser=result;
+                rslt = result;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 }
+
