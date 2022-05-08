@@ -77,6 +77,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -648,7 +649,10 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         if(Integer.parseInt(daily_steps)>=Integer.parseInt(target) &&!
                 pref.getString("last notified","").equalsIgnoreCase(LocalDate.now().toString()))
         {
-            creditCoins(10);
+            if(checkcoins())
+            {
+                creditCoins(10);
+            }
             sendNotification();
             preferences=pref.edit();
             preferences.putString("last notified",LocalDate.now().toString());
@@ -656,6 +660,44 @@ public class home_fragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private boolean checkcoins()
+    {
+        try {
+            String url = Constant.ServerUrl + "/select?table=coin_history";
+            OkHttpClient client = new OkHttpClient().newBuilder()
+                    .build();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .method("GET", null)
+                    .addHeader("Key", "MyApiKEy")
+                    .build();
+            Response response = client.newCall(request).execute();
+            String respo = response.body().string();
+            JSONObject Jobject = new JSONObject(respo);
+            JSONArray Jarray = Jobject.getJSONArray("data");
+            for (int i = 0; i < Jarray.length(); i++){
+                JSONObject object2 = Jarray.getJSONObject(i);
+                String uid = object2.getString("uid");
+                String src = object2.getString("source");
+                String date = (object2.getString("date")).toString().split(" ")[0];
+                LocalDate now = LocalDate.now();
+                if(uid.equals(pref.getString("id","")))
+                {
+                    if(date.equals(now.toString()))
+                    {
+                        if(src.equals("daily target"))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }catch (IOException | JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return true;
+    }
     private void creditCoins(int coins) {
         preferences=pref.edit();
         int c=Integer.parseInt(pref.getString("coins","0"))+coins;
